@@ -1,31 +1,44 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
+import { login } from '../../ApiHelpers';
 
 
 
 function Login() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { addToast } = useToasts();
 
-    const [user, setUser] = useState({
-        email: "",
-        password: ""
-    })
-    const { email, password } = user
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let email = e.target.email.value;
+        let password = e.target.password.value;
+        var validRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if(!validRegex.test(email) || !email){
+            addToast("Please provide a valid email", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        if(!password){
+            addToast("Please provide a password", {appearance: "error",autoDismiss: true});
+            return; 
+        }
+        try{
+            let result = await login({email,password});                        
+                let data = result.result;
+                localStorage.setItem('user',JSON.stringify(data.user));
+                localStorage.setItem('authToken',data.token);
+                addToast("You are logged in", {appearance: "success",autoDismiss: true}); 
+                navigate("/");            
+        }catch(err){  
+            console.log(err);
+            if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }   
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }
+        }
     }
-    // const [error, setError] = useState('');
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setUser({ ...user, [name]: value })
-    }
-
-    useEffect(() => {
-        // if (isAuthenticated) {
-        //     navigate("dashboard")
-        // }
-    }, [navigate])
 
     return (
         <>
@@ -46,14 +59,14 @@ function Login() {
                                         <h4 style={{ color: 'rgb(195 161 119)', marginBottom: '20px', textAlign: 'center', fontSize: "30px" }}>User Panel</h4>
                                         <form method="post" onSubmit={handleSubmit}>
                                             <div className="field-group wow fadeInUp" style={{ visibility: 'visible', animationName: 'fadeInUp' }}>
-                                                <input value={user.email} onChange={handleChange} type="text" name="email" placeholder="Enter Email" id="identity" style={{ borderRadius: 15, paddingLeft: 15, fontWeight: 'bold' }} />
+                                                <input  type="text" name="email" placeholder="Enter Email" id="identity" style={{ borderRadius: 15, paddingLeft: 15, fontWeight: 'bold' }} required/>
                                             </div>
 
                                             <div style={{ clear: 'both' }} />
 
 
                                             <div className="field-group wow fadeInUp" style={{ visibility: 'visible', animationName: 'fadeInUp', marginBottom: "2px" }}>
-                                                <input value={user.password} onChange={handleChange} name="password" id="password" type="password" placeholder="Enter Password" required style={{ borderRadius: 15, paddingLeft: 15, fontWeight: 'bold' }} />
+                                                <input   name="password" id="password" type="password" placeholder="Enter Password" required style={{ borderRadius: 15, paddingLeft: 15, fontWeight: 'bold' }} />
                                             </div>
 
                                             <p style={{ color: 'rgb(195 161 119)', cursor: 'pointer', textAlign: 'left', background: 'none', marginBottom: "9px" }}  >Forget Password</p>

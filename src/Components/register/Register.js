@@ -11,6 +11,8 @@ import {
     DialogTitle,
     TextField,
 } from "@mui/material";
+import { useToasts } from "react-toast-notifications";
+import { register } from "../../ApiHelpers";
 
 const Register = () => {
 
@@ -19,27 +21,62 @@ const Register = () => {
     const [sponsorId, setSponsorId] = useState('');
     const [sponsorName, setSponsorName] = useState('');
     const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [userName, setUserName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [password, setPassword] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
 
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
     const [otp, setOtp] = useState("");
+    const { addToast } = useToasts();
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let email = e.target.email.value;
+        let username = e.target.username.value;
+        let mobileNo = e.target.mobileNo.value;
+        let conpass = e.target.conpassword.value;
+        let password = e.target.password.value;
+        let refferalCode = e.target.refferalCode.value;
+        var validRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if(!validRegex.test(email) || !email){
+            addToast("Please provide a valid email", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        if(password !== conpass){
+            addToast("Password and confirm password not matched", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        if(!password){
+            addToast("Please provide a password", {appearance: "error",autoDismiss: true});
+            return; 
+        }
+        if(!username){
+            addToast("Please provide a username", {appearance: "error",autoDismiss: true});
+            return; 
+        }
+        if(!mobileNo){
+            addToast("Please provide a mobileNo", {appearance: "error",autoDismiss: true});
+            return; 
+        }
+        if(!refferalCode){
+            addToast("Please provide a sponsor id", {appearance: "error",autoDismiss: true});
+            return; 
+        }
 
-
-
- 
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
+        try{
+            let result = await register({email,password,refferalCode,mobileNo,username});                                                                        
+            navigate("/login");            
+        }catch(err){  
+            console.log(err);
+            if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }   
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }
+        }
     }
+
+
 
     
     const handleOpenDialog = () => {
@@ -87,16 +124,16 @@ const Register = () => {
                                         <form method="post" onSubmit={handleSubmit}>
                                             <div className="row">
                                                 <div className="col-lg-6 col-md-12 col-sm-12">
-                                                    <input type="text" className="input_box" placeholder="Sponsor ID" value={sponsorId} onChange={(e) => setSponsorId(e.target.value)}
+                                                    <input type="text" className="input_box" placeholder="Sponsor ID" name="refferalCode" required value={sponsorId} onChange={(e) => setSponsorId(e.target.value)}
                                                     />
                                                 </div>
                                                 <div className="col-lg-6 col-md-12 col-sm-12">
-                                                    <input type="text" className="input_box" placeholder="Sponsor Name" value={sponsorName} disabled />
+                                                    <input type="text" className="input_box" placeholder="Sponsor Name" name="refferalUsername" value={sponsorName} disabled />
                                                 </div>
 
                                                 <div className="col-lg-12 col-md-12 col-sm-12">
                                                     <div style={{ position: "relative" }}>
-                                                        <input type="text" className="input_box" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                                        <input type="text" className="input_box" placeholder="E-mail" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
                                                         <div className="col-lg-2 col-md-12 col-sm-12">
                                                             <button style={{ alignItems: 'center', width: '100px', backgroundColor: "#c3a177", padding: "10px", position: "absolute", right: "0", top: "0", height: "40px" }} onClick={handleOpenDialog} className="btn">Verify</button>
                                                         </div>
@@ -150,21 +187,21 @@ const Register = () => {
 
 
 
-                                                <div className="col-lg-6 col-md-12 col-sm-12">
+                                                {/* <div className="col-lg-6 col-md-12 col-sm-12">
                                                     <input type="text" className="input_box" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-                                                </div>
+                                                </div> */}
                                                 <div className="col-lg-6 col-md-12 col-sm-12">
-                                                    <input type="text" className="input_box" placeholder="User Name" value={userName} onChange={(e) => setUserName(e.target.value)} />
+                                                    <input type="text" className="input_box" placeholder="User Name" name="username"  required/>
                                                 </div>
 
                                                 <div className="col-lg-6 col-md-12 col-sm-12">
-                                                    <input type="password" className="input_box" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                                    <input type="password" className="input_box" placeholder="Password" name="password"  required/>
                                                 </div>
                                                 <div className="col-lg-6 col-md-12 col-sm-12">
-                                                    <input type="password" className="input_box" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                                                    <input type="password" className="input_box" placeholder="Confirm Password" name="conpassword" required/>
                                                 </div>
                                                 <div className="col-lg-6 col-md-12 col-sm-12">
-                                                    <input type="text" className="input_box" placeholder="Phone number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                                                    <input type="text" className="input_box" placeholder="Phone number" name="mobileNo" required />
                                                 </div>
 
                                                 <div className="col-lg-12 col-md-12 col-sm-12 forget_password terms_div">
