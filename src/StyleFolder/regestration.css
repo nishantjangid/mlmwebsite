@@ -1,0 +1,587 @@
+.text-purple {
+    color: #BD9DFF;
+}
+
+.bg-purple2 {
+    background-color: #80229f !important;
+}
+
+.bg-purple1 {
+    background-color: #521B64 !important;
+}
+
+.bg-purple {
+    background-color: #7639ef !important;
+}
+
+#main-bg {
+    background-image: url('/public/images/Desktop.png');
+    height: 100vh !important;
+    background-size: 100% !important;
+}
+
+/* index page */
+
+#index-container {
+    max-width: 550px !important;
+    height: 100vh !important;
+    background-color: black  !important;
+    overflow-y: auto !important;
+}
+
+#index-nav {
+    background-color: #222831;
+}
+
+#image-dice {
+    width: 47% !important;
+}
+
+#image-winner {
+    width: 30% !important;
+}
+
+#play-tag {
+    font-family: 'Playfair Display', serif;
+}
+
+#win-tag {
+    color: #BD9DFF;
+}
+
+/* register  login*/
+
+#register-container,
+#login-container {
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+background-image: url('/public/images/register-bg.png');
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#register .card,
+#login .card {
+    background-color: transparent;
+    border: 3px solid #521B64;
+    width: 356px;
+}
+
+#register .card h4,
+#login .card h4 {
+    background-color: #521B64;
+    color: #d8c5fd;
+}
+.spin-animation {
+ animation: spin 1s ease-in-out;
+  animation: spin 1s infinite linear; /* Stop the animation at the final position */
+}
+
+@keyframes spin {
+ 
+  to {
+    transform: rotate(360deg);
+  }
+}
+#register input,
+#login input {
+    background-color: #dbdbdb;
+    border: none;
+    outline: none;
+    padding: 3%;
+    border-radius: 5px;
+    width: 100%;
+    font-weight: 600;
+    color: rgb(14, 12, 12);
+}
+
+.create-battles-input{
+     background-color: #dbdbdb;
+    border: none;
+    outline: none;
+    padding: 3%;
+    border-radius: 5px;
+    width: 100%;
+    font-weight: 600;
+    color: rgb(14, 12, 12);
+}
+.text-orange {
+    color: #FD7014;
+}
+
+.bg-orange {
+    background-color: #FD7014 !important;
+    color: white !important;
+    width: 100%;
+    font-weight: 600 !important;
+}
+.bg-orange-create-battles-button {
+    right: 1;
+    background-color: #FD7014 !important;
+    color: white !important;
+    width: 40% !important;
+    font-weight: 600 !important;
+}
+.scroll-container {
+  max-height: 250px; /* Adjust this value as needed */
+  overflow-y: auto;
+  scrollbar-width: none; /* Hide scrollbar on Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar on IE and Edge */
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar on Chrome and Safari */
+}
+/* navbar */
+
+#navbar-container {
+    max-width: 550px;
+    background-color: #15022C;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+#nav-head {
+    background-image: url('/public/images/nav-bg.jpg');
+    background-size: 100%;
+    height: 35vh;
+    background-repeat: no-repeat;
+}
+
+#profile-img-bg {
+    position: relative;
+    z-index: 100;
+    background-color: #7918F5;
+    width: 27%;
+    margin-right: -25px;
+    padding: 1%;
+}
+
+#profile-info-bg {
+    width: 70%;
+    background-image: url('/public/images/Rectangle.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+#profile-id {
+    background-color: #7918F5 !important;
+    width: fit-content;
+    padding: 1% 3%;
+}
+
+.nav-item {
+    cursor: pointer;
+}
+
+.nav-item span {
+    font-size: 40px;
+}
+
+/* home page */
+
+#home-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+#guide-btn:hover {
+    background-color: #0D6EFD !important;
+}
+
+.prplbox {
+    background-color: #af5dd9 !important;
+}
+
+.kycbox {
+    background-color: #FFDBDB !important;
+}
+
+.gamecard {
+    background: transparent !important;
+    object-fit: contain !important;
+}
+
+.gamecard img {
+    border-radius: 10%;
+}
+
+.supportimg {
+    width: 20% !important;
+    border-radius: 50% !important;
+}
+
+/* wallet */
+
+#wallet-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.walletcard {
+    background-color: #521B64 !important;
+    width: 95% !important;
+}
+
+.info-ludo {
+    background-color: #923CFE !important;
+}
+
+.walletbody {
+    background-color: #15022C;
+}
+
+/* completekyc */
+
+#completekyc-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.text-yellow {
+    color: #FFE98A;
+}
+
+.details {
+    background-color: #7858A6;
+    border: none;
+    padding: 2%;
+    width: 100%;
+    color: white;
+    outline: none;
+    border-radius: 5px;
+}
+
+.details-1{
+    background-color: #7858A6;
+    border: none;
+    padding: 2%;
+    color: white;
+    outline: none;
+    border-radius: 5px;
+}
+/* challenge */
+
+#challenge-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+      scrollbar-width: none !important; /* Hide scrollbar on Firefox */
+  -ms-overflow-style: none !important; /* Hide scrollbar on IE and Edge */
+}
+.challenge-conatiner::-webkit-scrollbar {
+  width: 0 !important; /* Hide scrollbar on Chrome and Safari */
+}
+
+.cup-img {
+    width: 10%;
+}
+
+/* challengeset */
+
+#challengeset-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+#amount-input {
+    width: 75%;
+    border: none;
+    outline: none;
+    padding: 2%;
+    background-color: #8020d7;
+    border-radius: 5px 0px 0px 5px;
+}
+
+#amount-btn {
+    width: 25%;
+    border: none;
+    outline: none;
+    padding: 2%;
+    background-color: #540d95;
+    border-radius: 0px 5px 5px 0px;
+    cursor: pointer;
+}
+
+#amount-btn:hover {
+    background-color: #370862;
+}
+
+.slidecontainer {
+    width: 100%;
+}
+
+.slider {
+    /* -webkit-appearance: none; */
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #edcaf8;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #620494;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #7b06ba;
+    cursor: pointer;
+}
+
+/* profile */
+
+#profile-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.profile-category {
+    background-color: #7858A6 !important;
+}
+
+.profilecard {
+    background-color: #15022C !important;
+}
+
+#logout-btn {
+    width: 100%;
+}
+
+/* legeal terms */
+
+#legalterms-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+#card1,
+#card2,
+#card3,
+#card4,
+#card5 {
+    cursor: pointer;
+}
+
+#card-body1,
+#card-body2,
+#card-body3,
+#card-body4,
+#card-body5 {
+    display: none;
+}
+
+/* support */
+
+#support-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.instabtn {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border: none !important;
+}
+
+#support-img {
+    width: 65%;
+}
+
+/* refer and earn */
+
+#refer-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* language */
+
+#language-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+#language {
+    min-height: 100vh;
+}
+
+#language .card {
+    background-color: transparent;
+    border: 3px solid #521B64;
+    width: 356px;
+}
+
+#language .card h4 {
+    background-color: #521B64;
+    color: #d8c5fd;
+}
+
+#language label {
+    background-color: #7858A6 !important;
+    border: none;
+    outline: none;
+    padding: 3%;
+    border-radius: 0 5px 5px 0;
+    width: 80% !important;
+    font-weight: 600;
+    color: white;
+}
+
+#radio-div {
+    width: 15%;
+    background-color: #2d067a !important;
+    padding: 3% 5%;
+    border-radius: 5px 0 0 5px !important;
+}
+
+/* spin and win */
+
+#win-time {
+    font-size: x-small;
+}
+
+#spin-container {
+    background-color: #15022C;
+    max-width: 550px;
+    min-height: 100vh;
+}
+
+#spin-img {
+    width: 50%;
+}
+
+.btn-purple {
+    width: 100%;
+    color: white;
+    border: none;
+    outline: none;
+    padding: 2%;
+    background-color: #540d95;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-purple:hover {
+    background-color: #370862;
+}
+
+.spin-win-content {
+    background-color: #371B58 !important;
+    color: white !important;
+    font-weight: 600 !important;
+    border: 2px solid #370862 !important;
+}
+
+.spin-win-content span {
+    color: green;
+}
+
+/* history */
+
+.history-btn {
+    background-color: #FD7014;
+    padding: 1% 4%;
+    color: white;
+    font-weight: 600;
+    border: none !important;
+}
+
+.history-btn:hover {
+    background-color: #fa8735;
+}
+
+.history-date-info {
+    font-size: smaller;
+}
+
+.history-info-row {
+    font-size: small;
+}
+
+/* add chips */
+
+#buy-chips-input {
+    width: 85%;
+    border: none;
+    outline: none;
+    padding: 2%;
+    background-color: #8020d7;
+    border-radius: 0px 5px 5px 0px;
+}
+
+#buy-chips-btn {
+    width: 15%;
+    border: none;
+    outline: none;
+    padding: 2%;
+    background-color: #540d95;
+    border-radius: 5px 0px 0px 5px;
+    cursor: pointer;
+}
+
+/* play code */
+
+.table-bg {
+    background-color: #371B58 !important;
+    border: 2px solid #370862 !important;
+}
+
+.table-bg-body {
+    background-color: #4f277c !important;
+}
+
+/* otp verify */
+
+#verify-container {
+    background-color: #15022C;
+    max-width: 550px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+@media (max-width:530px) {
+    .nav-item span {
+        font-size: 30px;
+    }
+}
+
+.green-text {
+  color: green !important;
+}

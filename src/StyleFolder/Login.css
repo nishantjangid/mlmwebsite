@@ -1,0 +1,6 @@
+/* Style for empty input fields */
+.empty-input {
+   
+  border: 1px solid red !important;
+  box-shadow: 0 0 5px red !important;
+}

@@ -1,0 +1,936 @@
+.color_span {
+    color: #c3a177;
+    font-size: 26px;
+    font-weight: 600;
+}
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -7.5px;
+    margin-left: -7.5px;
+}
+@media (min-width: 992px){
+.col-lg-8 {
+    -ms-flex: 0 0 66.666667%;
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+}}
+/* @media (min-width: 768px){
+.col-md-8 {
+    -ms-flex: 0 0 66.666667%;
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+}}
+@media (min-width: 576px){
+.col-sm-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}} */
+
+.dash_para_details {
+    margin-left: auto;
+    text-align: right !important;
+    color: #747882;
+    font-weight: 500 !important;
+}
+.dash_para_details_mob {
+    display: none;
+}
+@media (min-width: 768px){
+body:not(.sidebar-mini-md) .content-wrapper {
+    transition: margin-left .3s ease-in-out;
+    margin-left: 25px;
+}}
+
+.light_border {
+    border-bottom: 1px solid rgba(177, 141, 95, .16862745098039217);
+}
+.dashboard_main_section {
+    padding: 20px 40px;
+}
+.welcome_heading {
+    font-size: 28px;
+    color: #fff;
+    font-weight: 600;
+}
+section {
+    display: block;
+}
+.container-fluid{
+        width: 100%;
+    padding-right: 7.5px;
+    padding-left: 7.5px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -7.5px;
+    margin-left: -7.5px;
+}
+@media (min-width: 992px){
+.col-lg-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}}
+.profile_main_section .nav-tabs {
+    display: flex;
+    justify-content: center;
+    border-bottom: none;
+    border-bottom: 1px solid rgba(177, 141, 95, .16862745098039217);
+    margin-bottom: 20px;
+}
+.nav-tabs .nav-item {
+    margin-bottom: -1px;
+}
+.profile_main_section .nav-item>.nav-link.active {
+    border: none;
+    color: #767676 !important;
+    border-bottom: 3px solid #c3a177;
+    background: transparent !important;
+    transition: 450ms;
+}
+#home-tab:hover{
+    border:'1px solid white '!important;
+    color: white !important;
+}
+#contact-tab:hover{
+    border:'1px solid white '!important;
+    color: white !important;
+}
+#Password-tab:hover{
+    border:'1px solid white '!important;
+    color: white !important;
+}
+.profile_main_section .nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    background: transparent;
+    padding: 15px;
+    display: block;
+    font-size: 16px;
+    color: #747882 !important;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: capitalize;
+    border: none;
+}
+.tab-content>.active {
+    display: block;
+}
+
+.fade {
+    transition: opacity .15s linear;
+}
+@media (min-width: 992px){
+.col-lg-8 {
+    -ms-flex: 0 0 66.666667%;
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+}}
+@media (min-width: 768px){
+.col-md-8 {
+    -ms-flex: 0 0 66.666667%;
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+}}
+.profile_main_section .dashboard_boxes_main_dark {
+    background: #161616;
+    border: 1px solid rgba(177, 141, 95, .6509803921568628);
+    border-radius: 0;
+    transition: all 0.3s ease-in-out;
+}
+.profile_section_tabs_inner_main {
+    padding: 20px;
+}
+.profile_update {
+    color: #721c24;
+    letter-spacing: .5px;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+    /* margin: 30px 20px 0!important; */
+    padding: 10px 0 !important;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+}
+.form_main_div {
+    margin-top: 20px;
+}
+input {
+    overflow: visible;
+}
+input {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+}
+@media (min-width: 992px){
+.col-lg-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}}
+.text-primary {
+    color: #007bff!important;
+}
+@media (min-width: 992px){
+.col-lg-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+}}
+
+
+.navbar-expand .navbar-nav .dropdown-menu {
+    position: absolute;
+}
+.drop_header_bg {
+    background: #c3a177;
+    padding: 15px !important;
+}
+.dropdown-header {
+    font-size: 15px;
+    color: #000;
+    margin-bottom: 0;
+    /* font-family: "RedHatDisplay ExtraBold"; */
+    font-weight: 700;
+    text-align: left;
+    padding: 0;
+}
+.drop_header_bg h2 {
+    color: #000;
+    font-size: 1rem;
+    /* color: #212529; */
+    text-align: left;
+    opacity: .5;
+    margin-top: 10px;
+}
+.tokens_count {
+    color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+.dropdown-menu-lg .dropdown-divider {
+    margin: 0;
+}
+.dropdown-divider {
+    height: 0;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    border-top: 1px solid #e9ecef;
+}
+
+.dropdown-menu-lg .dropdown-item {
+    padding: 0.5rem 1rem;
+}
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    transition: 150ms;
+}
+.dropdown-item:hover{
+    background-color: #000;
+}
+.dropdown-menu-lg {
+    max-width: 300px;
+    min-width: 280px;
+    padding: 0;
+}
+.drop_items span {
+    font-weight: 600;
+    font-size: 16px;
+    color: #747882 !important;
+    padding: 2px 15px 2px 5px;
+}
+.MuiDrawer-root>.MuiDrawer-modal{
+background: #c3a177 !important;
+}
+
+/* login css */
+
+.dflex {
+  background: center fixed;
+    background-size: cover;
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.dLeft {
+    
+    padding: 2rem;
+   
+    background: black;
+
+    width: 450px;
+    margin: auto;
+}
+.logo {
+    text-align: center;
+    max-width: 300px;
+    margin: auto;
+}
+.loginForm {
+    padding: 20px 0 !important;
+}
+.loginForm .field-group {
+    margin-bottom: 15px;
+}
+input[type="text"], input[type="password"] {
+    height: 46px;
+    border-radius: 8px;
+    border: 0;
+    border-bottom: 1px solid rgba(235, 237, 242, .8);
+    padding: 10px ;
+    /* color: #6c7293; */
+    color: #000000;
+    width: 100%;
+    margin-bottom: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+.btn-default {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FF2222;
+    border: 1px solid #FF2222;
+    color: #fff;
+    height: 46px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-weight: 500;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all ease-in-out 0.5s;
+}
+.mainDiv{
+   font-family: 'Red Hat Display', sans-serif !important;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    font-family: Poppins;
+    overflow-x: hidden;
+
+}
+.loginAction {
+    margin-top: 35px;
+    text-align: center;
+}
+
+/* signup */
+
+  .start-box {
+                position: fixed;
+                height: 100%;
+                left: 0;
+                width: 100%;
+                overflow: hidden;
+            }
+
+            #stars, #stars:after {
+                width: 1px;
+                height: 1px;
+                background: transparent;
+                box-shadow: 186px 1646px #c3a177, 544px 51px #c3a177, 593px 1716px #c3a177, 1197px 1608px #c3a177, 1715px 1111px #c3a177, 1728px 804px #c3a177, 154px 1935px #c3a177, 1543px 983px #c3a177, 1002px 1102px #c3a177, 27px 1522px #c3a177, 1271px 315px #c3a177, 62px 1127px #c3a177, 1916px 187px #c3a177, 366px 1734px #c3a177, 1234px 1783px #c3a177, 465px 593px #c3a177, 1004px 1728px #c3a177, 1326px 1991px #c3a177, 1011px 1363px #c3a177, 150px 1903px #c3a177, 336px 472px #c3a177, 1344px 1329px #c3a177, 1216px 1898px #c3a177, 1676px 692px #c3a177, 849px 1740px #c3a177, 548px 789px #c3a177, 1355px 1828px #c3a177, 1636px 409px #c3a177, 596px 1049px #c3a177, 58px 608px #c3a177, 981px 1933px #c3a177, 309px 1484px #c3a177, 1916px 890px #c3a177, 1213px 284px #c3a177, 474px 1619px #c3a177, 1613px 379px #c3a177, 1366px 722px #c3a177, 1874px 1682px #c3a177, 1227px 1841px #c3a177, 1253px 635px #c3a177, 1585px 1261px #c3a177, 563px 1605px #c3a177, 1502px 461px #c3a177, 999px 735px #c3a177, 724px 449px #c3a177, 698px 414px #c3a177, 1729px 370px #c3a177, 539px 657px #c3a177, 1123px 153px #c3a177, 1252px 1566px #c3a177, 1454px 1424px #c3a177, 984px 1811px #c3a177, 637px 282px #c3a177, 1650px 1565px #c3a177, 1786px 1878px #c3a177, 259px 1487px #c3a177, 363px 1120px #c3a177, 842px 1961px #c3a177, 1750px 1896px #c3a177, 389px 1369px #c3a177, 488px 1257px #c3a177, 767px 543px #c3a177, 1882px 546px #c3a177, 883px 218px #c3a177, 955px 1175px #c3a177, 501px 1647px #c3a177, 584px 242px #c3a177, 1956px 536px #c3a177, 1640px 1222px #c3a177, 1926px 1958px #c3a177, 348px 1428px #c3a177, 133px 1085px #c3a177, 1093px 1067px #c3a177, 1007px 1171px #c3a177, 432px 1098px #c3a177, 610px 205px #c3a177, 1942px 376px #c3a177, 96px 1504px #c3a177, 1323px 1377px #c3a177, 215px 99px #c3a177, 1065px 638px #c3a177, 1957px 807px #c3a177, 583px 220px #c3a177, 1320px 241px #c3a177, 1219px 1740px #c3a177, 1546px 1083px #c3a177, 1775px 972px #c3a177, 477px 39px #c3a177, 1450px 1038px #c3a177, 1266px 1067px #c3a177, 1435px 1287px #c3a177, 1284px 555px #c3a177, 470px 1892px #c3a177, 485px 1743px #c3a177, 589px 1423px #c3a177, 1257px 1636px #c3a177, 51px 1722px #c3a177, 329px 21px #c3a177, 1603px 1389px #c3a177, 481px 220px #c3a177, 531px 448px #c3a177, 519px 1129px #c3a177, 896px 905px #c3a177, 214px 529px #c3a177, 1998px 1351px #c3a177, 980px 1718px #c3a177, 1741px 1330px #c3a177, 1706px 375px #c3a177, 1923px 1880px #c3a177, 260px 799px #c3a177, 108px 1084px #c3a177, 1355px 804px #c3a177, 611px 1847px #c3a177, 1660px 1710px #c3a177, 1610px 1679px #c3a177, 689px 646px #c3a177, 1089px 904px #c3a177, 173px 1728px #c3a177, 1933px 1580px #c3a177, 1109px 188px #c3a177, 176px 404px #c3a177, 243px 1263px #c3a177, 1602px 1975px #c3a177, 166px 1776px #c3a177, 599px 1474px #c3a177, 907px 535px #c3a177, 1552px 1467px #c3a177, 1425px 1396px #c3a177, 387px 977px #c3a177, 1799px 81px #c3a177, 1952px 1907px #c3a177, 894px 593px #c3a177, 183px 870px #c3a177, 744px 1155px #c3a177, 1946px 1490px #c3a177, 1622px 317px #c3a177, 163px 734px #c3a177, 1926px 1586px #c3a177, 1405px 443px #c3a177, 103px 1337px #c3a177, 1021px 104px #c3a177, 1409px 1235px #c3a177, 671px 711px #c3a177, 1779px 1063px #c3a177, 534px 1741px #c3a177, 83px 578px #c3a177, 1240px 100px #c3a177, 328px 182px #c3a177, 726px 1822px #c3a177, 367px 1524px #c3a177, 598px 389px #c3a177, 397px 35px #c3a177, 1985px 771px #c3a177, 658px 798px #c3a177, 1718px 1161px #c3a177, 806px 745px #c3a177, 1189px 276px #c3a177, 1770px 4px #c3a177, 624px 1259px #c3a177, 639px 990px #c3a177, 1869px 251px #c3a177, 274px 246px #c3a177, 522px 1701px #c3a177, 71px 31px #c3a177, 896px 39px #c3a177, 192px 399px #c3a177, 1606px 182px #c3a177, 372px 20px #c3a177, 1695px 1953px #c3a177, 260px 1991px #c3a177, 1014px 155px #c3a177, 124px 564px #c3a177, 660px 1628px #c3a177, 317px 1336px #c3a177, 1534px 1681px #c3a177, 898px 114px #c3a177, 1809px 943px #c3a177, 248px 837px #c3a177, 601px 886px #c3a177, 927px 1345px #c3a177, 1029px 1444px #c3a177, 1062px 320px #c3a177, 1653px 1281px #c3a177, 1760px 491px #c3a177, 64px 553px #c3a177, 205px 565px #c3a177, 4px 496px #c3a177, 1589px 685px #c3a177, 1843px 417px #c3a177, 103px 298px #c3a177, 1368px 510px #c3a177, 1696px 1171px #c3a177, 1175px 1934px #c3a177, 305px 350px #c3a177, 1429px 108px #c3a177, 1043px 616px #c3a177, 49px 17px #c3a177, 1404px 426px #c3a177, 1586px 660px #c3a177, 815px 1467px #c3a177, 584px 779px #c3a177, 1457px 426px #c3a177, 511px 1329px #c3a177, 1342px 1202px #c3a177, 1845px 1622px #c3a177, 1091px 1518px #c3a177, 1440px 1886px #c3a177, 1129px 735px #c3a177, 1978px 936px #c3a177, 646px 1737px #c3a177, 1117px 591px #c3a177, 506px 94px #c3a177, 1413px 408px #c3a177, 1777px 767px #c3a177, 1243px 558px #c3a177, 1953px 770px #c3a177, 1356px 1090px #c3a177, 1938px 1671px #c3a177, 1792px 1770px #c3a177, 1749px 47px #c3a177, 754px 1834px #c3a177, 290px 761px #c3a177, 556px 213px #c3a177, 1893px 601px #c3a177, 809px 514px #c3a177, 1926px 28px #c3a177, 20px 24px #c3a177, 1270px 1841px #c3a177, 350px 1970px #c3a177, 650px 1920px #c3a177, 1420px 547px #c3a177, 1358px 1320px #c3a177, 489px 239px #c3a177, 1787px 483px #c3a177, 400px 945px #c3a177, 1909px 601px #c3a177, 1891px 656px #c3a177, 1743px 1981px #c3a177, 440px 1220px #c3a177, 1425px 52px #c3a177, 971px 1576px #c3a177, 1595px 295px #c3a177, 611px 1579px #c3a177, 176px 1586px #c3a177, 554px 1965px #c3a177, 1436px 833px #c3a177, 750px 1221px #c3a177, 1380px 634px #c3a177, 712px 1612px #c3a177, 885px 1521px #c3a177, 1678px 770px #c3a177, 3px 1109px #c3a177, 786px 906px #c3a177, 823px 1553px #c3a177, 1382px 575px #c3a177, 1157px 783px #c3a177, 1842px 1203px #c3a177, 1592px 383px #c3a177, 1597px 1674px #c3a177, 591px 253px #c3a177, 1342px 333px #c3a177, 502px 1463px #c3a177, 1087px 1801px #c3a177, 36px 1908px #c3a177, 225px 602px #c3a177, 1358px 182px #c3a177, 285px 485px #c3a177, 730px 250px #c3a177, 1561px 1666px #c3a177, 466px 168px #c3a177, 1109px 208px #c3a177, 1787px 1910px #c3a177, 966px 943px #c3a177, 1484px 303px #c3a177, 265px 1795px #c3a177, 1586px 277px #c3a177, 418px 536px #c3a177, 249px 430px #c3a177, 1429px 759px #c3a177, 1280px 30px #c3a177, 711px 899px #c3a177, 508px 514px #c3a177, 1964px 1016px #c3a177, 1143px 1207px #c3a177, 1805px 630px #c3a177, 659px 1999px #c3a177, 510px 751px #c3a177, 562px 1770px #c3a177, 79px 1955px #c3a177, 1879px 1277px #c3a177, 1760px 1497px #c3a177, 1886px 1869px #c3a177, 526px 538px #c3a177, 993px 712px #c3a177, 1567px 1695px #c3a177, 1553px 125px #c3a177, 60px 48px #c3a177, 1590px 25px #c3a177, 691px 330px #c3a177, 96px 1563px #c3a177, 1282px 1386px #c3a177, 327px 1866px #c3a177, 869px 1479px #c3a177, 1079px 1852px #c3a177, 1963px 179px #c3a177, 1634px 176px #c3a177, 197px 1550px #c3a177, 1621px 967px #c3a177, 1633px 1978px #c3a177, 1181px 1849px #c3a177, 1511px 1396px #c3a177, 698px 1524px #c3a177, 1031px 374px #c3a177, 1443px 1564px #c3a177, 29px 403px #c3a177, 1058px 686px #c3a177, 421px 1523px #c3a177, 726px 7px #c3a177, 254px 233px #c3a177, 102px 369px #c3a177, 1768px 969px #c3a177, 1761px 159px #c3a177, 6px 89px #c3a177, 669px 624px #c3a177, 289px 157px #c3a177, 295px 51px #c3a177, 1031px 1603px #c3a177, 81px 469px #c3a177, 1234px 824px #c3a177, 206px 1345px #c3a177, 32px 127px #c3a177, 611px 906px #c3a177, 980px 882px #c3a177, 585px 1608px #c3a177, 1450px 53px #c3a177, 1601px 201px #c3a177, 1884px 723px #c3a177, 1190px 650px #c3a177, 1266px 864px #c3a177, 563px 1353px #c3a177, 1832px 1688px #c3a177, 814px 1985px #c3a177, 1184px 1150px #c3a177, 1018px 1px #c3a177, 1607px 895px #c3a177, 575px 179px #c3a177, 1445px 117px #c3a177, 86px 524px #c3a177, 345px 1324px #c3a177, 1111px 696px #c3a177, 1465px 391px #c3a177, 1586px 1516px #c3a177, 1531px 540px #c3a177, 89px 1862px #c3a177, 313px 1041px #c3a177, 351px 903px #c3a177, 538px 1554px #c3a177, 970px 1264px #c3a177, 17px 752px #c3a177, 887px 1054px #c3a177, 221px 1121px #c3a177, 1890px 1904px #c3a177, 1687px 288px #c3a177, 415px 1899px #c3a177, 1979px 1737px #c3a177, 566px 253px #c3a177, 606px 616px #c3a177, 1453px 805px #c3a177, 1116px 1084px #c3a177, 237px 696px #c3a177, 1279px 241px #c3a177, 265px 653px #c3a177, 1087px 1675px #c3a177, 1924px 607px #c3a177, 74px 1614px #c3a177, 10px 1758px #c3a177, 211px 1984px #c3a177, 1752px 1946px #c3a177, 570px 693px #c3a177, 586px 231px #c3a177, 373px 180px #c3a177, 45px 1410px #c3a177, 1767px 1475px #c3a177, 1870px 1655px #c3a177, 1014px 553px #c3a177, 1385px 1211px #c3a177, 1975px 1741px #c3a177, 1591px 1515px #c3a177, 617px 360px #c3a177, 1878px 359px #c3a177, 726px 1539px #c3a177, 1478px 1553px #c3a177, 810px 189px #c3a177, 1756px 859px #c3a177, 624px 902px #c3a177, 1265px 610px #c3a177, 1952px 811px #c3a177, 133px 382px #c3a177, 1475px 168px #c3a177, 559px 69px #c3a177, 507px 306px #c3a177, 1421px 704px #c3a177, 1782px 1358px #c3a177, 1408px 1813px #c3a177, 2px 1146px #c3a177, 1761px 661px #c3a177, 1397px 706px #c3a177, 61px 1564px #c3a177, 520px 1363px #c3a177, 1997px 563px #c3a177, 664px 682px #c3a177, 1827px 1677px #c3a177, 230px 526px #c3a177, 1625px 298px #c3a177, 653px 194px #c3a177, 1290px 1512px #c3a177, 1090px 1269px #c3a177, 1770px 954px #c3a177, 604px 200px #c3a177, 1498px 1483px #c3a177, 1282px 1665px #c3a177, 34px 891px #c3a177, 1950px 267px #c3a177, 517px 1788px #c3a177, 245px 1514px #c3a177, 213px 230px #c3a177, 314px 179px #c3a177, 1855px 997px #c3a177, 250px 1058px #c3a177, 1516px 92px #c3a177, 23px 47px #c3a177, 1730px 1266px #c3a177, 215px 39px #c3a177, 1246px 1427px #c3a177, 377px 685px #c3a177, 1165px 1654px #c3a177, 1834px 1124px #c3a177, 1206px 364px #c3a177, 1211px 71px #c3a177, 828px 1163px #c3a177, 1021px 900px #c3a177, 662px 53px #c3a177, 1483px 654px #c3a177, 899px 588px #c3a177, 288px 1688px #c3a177, 1449px 521px #c3a177, 1393px 1637px #c3a177, 146px 1239px #c3a177, 678px 1244px #c3a177, 1944px 549px #c3a177, 1960px 1315px #c3a177, 560px 1390px #c3a177, 1610px 990px #c3a177, 660px 673px #c3a177, 993px 153px #c3a177, 1809px 1669px #c3a177, 1677px 1349px #c3a177, 280px 52px #c3a177, 1892px 909px #c3a177, 169px 353px #c3a177, 96px 1401px #c3a177, 330px 97px #c3a177, 909px 854px #c3a177, 1089px 216px #c3a177, 633px 100px #c3a177, 75px 156px #c3a177, 312px 1988px #c3a177, 718px 331px #c3a177, 2px 1254px #c3a177, 1108px 420px #c3a177, 1176px 1815px #c3a177, 1737px 1423px #c3a177, 1397px 1946px #c3a177, 1187px 962px #c3a177, 451px 1844px #c3a177, 728px 1955px #c3a177, 756px 302px #c3a177, 968px 845px #c3a177, 423px 650px #c3a177, 1836px 1576px #c3a177, 1580px 566px #c3a177, 1754px 890px #c3a177, 301px 583px #c3a177, 667px 1139px #c3a177, 478px 1282px #c3a177, 688px 641px #c3a177, 1597px 1904px #c3a177, 106px 1927px #c3a177, 885px 1573px #c3a177, 797px 73px #c3a177, 1551px 1009px #c3a177, 1477px 278px #c3a177, 939px 134px #c3a177, 1948px 396px #c3a177, 1995px 790px #c3a177, 1176px 1849px #c3a177, 493px 682px #c3a177, 859px 265px #c3a177, 725px 1394px #c3a177, 643px 1138px #c3a177, 1054px 1310px #c3a177, 1838px 264px #c3a177, 1963px 1589px #c3a177, 706px 487px #c3a177, 1349px 1604px #c3a177, 1429px 1455px #c3a177, 1204px 1613px #c3a177, 93px 1700px #c3a177, 375px 49px #c3a177, 1487px 975px #c3a177, 373px 555px #c3a177, 224px 1853px #c3a177, 913px 148px #c3a177, 716px 982px #c3a177, 1718px 8px #c3a177, 715px 1442px #c3a177, 463px 181px #c3a177, 93px 463px #c3a177, 919px 1668px #c3a177, 837px 78px #c3a177, 1187px 178px #c3a177, 966px 1215px #c3a177, 258px 940px #c3a177, 1544px 1937px #c3a177, 1473px 944px #c3a177, 133px 169px #c3a177, 1767px 1630px #c3a177, 1768px 1292px #c3a177, 365px 485px #c3a177, 1089px 33px #c3a177, 1776px 725px #c3a177, 937px 1404px #c3a177, 1766px 795px #c3a177, 179px 695px #c3a177, 549px 145px #c3a177, 68px 220px #c3a177, 1889px 1887px #c3a177, 1660px 1450px #c3a177, 1115px 275px #c3a177, 297px 890px #c3a177, 1507px 1220px #c3a177, 308px 491px #c3a177, 615px 986px #c3a177, 909px 1231px #c3a177, 248px 1600px #c3a177, 1518px 1183px #c3a177, 950px 1191px #c3a177, 1293px 330px #c3a177, 1476px 1440px #c3a177, 1060px 624px #c3a177, 130px 1910px #c3a177, 100px 1737px #c3a177, 1563px 1107px #c3a177, 1166px 1867px #c3a177, 973px 1396px #c3a177, 1688px 160px #c3a177, 631px 765px #c3a177, 1111px 1881px #c3a177, 1767px 302px #c3a177, 410px 694px #c3a177, 1964px 167px #c3a177, 1694px 420px #c3a177, 1701px 709px #c3a177, 649px 1019px #c3a177, 1192px 1181px #c3a177, 847px 580px #c3a177, 371px 1893px #c3a177, 1682px 927px #c3a177, 189px 663px #c3a177, 1117px 251px #c3a177, 187px 751px #c3a177, 568px 1448px #c3a177, 507px 1515px #c3a177, 416px 29px #c3a177, 1234px 1235px #c3a177, 460px 466px #c3a177, 1573px 1082px #c3a177, 1421px 591px #c3a177, 1563px 574px #c3a177, 1009px 1895px #c3a177, 1817px 1362px #c3a177, 1412px 1865px #c3a177, 1715px 52px #c3a177, 431px 926px #c3a177, 451px 319px #c3a177, 1207px 280px #c3a177, 1119px 162px #c3a177, 1273px 1453px #c3a177, 349px 1693px #c3a177, 1446px 1200px #c3a177, 315px 1045px #c3a177, 1546px 1179px #c3a177, 1971px 254px #c3a177, 1046px 894px #c3a177, 272px 1201px #c3a177, 97px 237px #c3a177, 1062px 1881px #c3a177, 683px 1668px #c3a177, 23px 1821px #c3a177, 499px 73px #c3a177, 1605px 1881px #c3a177, 765px 232px #c3a177, 1310px 1577px #c3a177, 21px 1354px #c3a177, 569px 1276px #c3a177, 234px 258px #c3a177, 659px 259px #c3a177, 588px 114px #c3a177, 614px 1787px #c3a177, 1485px 929px #c3a177, 1508px 778px #c3a177, 1367px 852px #c3a177, 1917px 230px #c3a177, 1236px 934px #c3a177, 1208px 1807px #c3a177, 1491px 742px #c3a177, 1986px 446px #c3a177, 1830px 1056px #c3a177, 911px 177px #c3a177, 886px 117px #c3a177, 546px 568px #c3a177, 457px 448px #c3a177, 614px 264px #c3a177, 37px 1851px #c3a177, 400px 416px #c3a177, 1740px 799px #c3a177, 1658px 1880px #c3a177, 936px 1225px #c3a177, 858px 1740px #c3a177, 1473px 1198px #c3a177, 139px 1855px #c3a177, 1085px 1624px #c3a177, 1163px 1210px #c3a177, 767px 34px #c3a177, 1815px 481px #c3a177, 1570px 1207px #c3a177, 684px 467px #c3a177, 85px 168px #c3a177, 580px 24px #c3a177, 1507px 1542px #c3a177, 613px 784px #c3a177, 1524px 1750px #c3a177, 870px 1295px #c3a177, 1984px 869px #c3a177, 1961px 1913px #c3a177, 72px 774px #c3a177, 1062px 739px #c3a177, 72px 1270px #c3a177, 934px 1640px #c3a177, 138px 1935px #c3a177, 1482px 284px #c3a177, 124px 1402px #c3a177, 973px 1117px #c3a177, 1102px 279px #c3a177, 491px 197px #c3a177, 1890px 32px #c3a177, 846px 1493px #c3a177, 382px 1962px #c3a177, 1574px 483px #c3a177, 1013px 589px #c3a177, 433px 751px #c3a177, 1219px 1189px #c3a177, 4px 1690px #c3a177, 1033px 1258px #c3a177, 874px 838px #c3a177, 1044px 208px #c3a177, 1959px 433px #c3a177, 1157px 520px #c3a177, 1870px 1544px #c3a177, 1816px 1278px #c3a177, 458px 862px #c3a177, 1113px 841px #c3a177, 283px 905px #c3a177, 815px 1788px #c3a177, 1852px 200px #c3a177, 519px 1397px #c3a177, 1981px 700px #c3a177, 905px 729px #c3a177, 1610px 929px #c3a177, 1921px 1656px #c3a177, 1205px 1867px #c3a177, 776px 478px #c3a177, 75px 335px #c3a177, 1493px 730px #c3a177, 357px 1948px #c3a177, 1723px 1972px #c3a177, 540px 1737px #c3a177, 1566px 1269px #c3a177, 1828px 977px #c3a177, 103px 1753px #c3a177, 1819px 270px #c3a177, 1668px 305px #c3a177, 651px 779px #c3a177, 1577px 1296px #c3a177, 996px 1554px #c3a177, 1197px 1665px #c3a177, 774px 792px #c3a177, 343px 1539px #c3a177, 64px 1472px #c3a177, 60px 1677px #c3a177;
+            }
+
+            #stars {
+                -webkit-animation: animStar 50s linear infinite;
+                animation: animStar 50s linear infinite;
+            }
+
+            #stars2, #stars2:after {
+                width: 2px;
+                height: 2px;
+                background: transparent;
+                box-shadow: 159px 1649px #c3a177, 40px 1381px #c3a177, 130px 808px #c3a177, 1407px 278px #c3a177, 1434px 1226px #c3a177, 413px 1664px #c3a177, 310px 1349px #c3a177, 953px 782px #c3a177, 500px 1179px #c3a177, 487px 1980px #c3a177, 1581px 997px #c3a177, 755px 973px #c3a177, 1010px 1984px #c3a177, 247px 1377px #c3a177, 653px 200px #c3a177, 584px 1994px #c3a177, 582px 1637px #c3a177, 931px 1472px #c3a177, 1311px 954px #c3a177, 263px 168px #c3a177, 675px 694px #c3a177, 295px 170px #c3a177, 320px 1863px #c3a177, 1963px 1895px #c3a177, 1766px 317px #c3a177, 77px 62px #c3a177, 432px 561px #c3a177, 448px 246px #c3a177, 1846px 1963px #c3a177, 521px 866px #c3a177, 211px 1044px #c3a177, 1188px 1160px #c3a177, 887px 1381px #c3a177, 1170px 798px #c3a177, 710px 1685px #c3a177, 405px 1770px #c3a177, 917px 1965px #c3a177, 972px 473px #c3a177, 1181px 702px #c3a177, 825px 1869px #c3a177, 1826px 1276px #c3a177, 299px 524px #c3a177, 917px 677px #c3a177, 1454px 1368px #c3a177, 400px 1053px #c3a177, 400px 1404px #c3a177, 191px 602px #c3a177, 940px 1359px #c3a177, 1736px 1474px #c3a177, 1795px 1658px #c3a177, 1861px 742px #c3a177, 636px 1481px #c3a177, 114px 1614px #c3a177, 1746px 285px #c3a177, 207px 1244px #c3a177, 1431px 1526px #c3a177, 499px 175px #c3a177, 153px 1367px #c3a177, 823px 948px #c3a177, 1273px 1594px #c3a177, 146px 204px #c3a177, 254px 725px #c3a177, 1296px 1135px #c3a177, 266px 1515px #c3a177, 102px 453px #c3a177, 1212px 1294px #c3a177, 424px 738px #c3a177, 577px 304px #c3a177, 211px 162px #c3a177, 1654px 721px #c3a177, 1818px 1340px #c3a177, 1547px 1563px #c3a177, 716px 249px #c3a177, 919px 1717px #c3a177, 965px 1588px #c3a177, 649px 1067px #c3a177, 166px 1621px #c3a177, 1221px 861px #c3a177, 287px 262px #c3a177, 1477px 52px #c3a177, 326px 284px #c3a177, 1115px 1064px #c3a177, 220px 309px #c3a177, 1518px 280px #c3a177, 1381px 923px #c3a177, 527px 1234px #c3a177, 1075px 1607px #c3a177, 150px 176px #c3a177, 1319px 1721px #c3a177, 1515px 785px #c3a177, 389px 616px #c3a177, 1292px 1904px #c3a177, 900px 392px #c3a177, 660px 298px #c3a177, 1503px 1802px #c3a177, 8px 271px #c3a177, 675px 456px #c3a177, 942px 1069px #c3a177, 1418px 1473px #c3a177, 1282px 628px #c3a177, 1541px 640px #c3a177, 680px 1465px #c3a177, 1681px 1224px #c3a177, 1896px 118px #c3a177, 821px 1679px #c3a177, 530px 1977px #c3a177, 1901px 755px #c3a177, 420px 1571px #c3a177, 783px 1624px #c3a177, 724px 1385px #c3a177, 922px 1490px #c3a177, 1869px 1549px #c3a177, 1925px 1738px #c3a177, 1326px 271px #c3a177, 1470px 685px #c3a177, 1586px 1816px #c3a177, 1360px 1479px #c3a177, 106px 200px #c3a177, 1488px 1151px #c3a177, 487px 1779px #c3a177, 584px 252px #c3a177, 1691px 777px #c3a177, 1513px 447px #c3a177, 999px 1301px #c3a177, 656px 1258px #c3a177, 744px 1229px #c3a177, 15px 941px #c3a177, 1241px 657px #c3a177, 1720px 1318px #c3a177, 979px 1125px #c3a177, 1080px 1234px #c3a177, 717px 123px #c3a177, 516px 150px #c3a177, 1587px 649px #c3a177, 369px 1559px #c3a177, 484px 165px #c3a177, 984px 1619px #c3a177, 1662px 640px #c3a177, 1955px 1691px #c3a177, 702px 939px #c3a177, 360px 906px #c3a177, 1052px 250px #c3a177, 1020px 67px #c3a177, 1154px 1469px #c3a177, 342px 1317px #c3a177, 113px 1402px #c3a177, 1533px 746px #c3a177, 249px 1945px #c3a177, 1178px 1334px #c3a177, 79px 1273px #c3a177, 1590px 171px #c3a177, 1104px 331px #c3a177, 1432px 131px #c3a177, 873px 402px #c3a177, 139px 241px #c3a177, 1379px 1087px #c3a177, 495px 1036px #c3a177, 1565px 1454px #c3a177, 1472px 1538px #c3a177, 1808px 254px #c3a177, 544px 684px #c3a177, 1007px 1225px #c3a177, 1080px 457px #c3a177, 519px 1800px #c3a177, 1719px 253px #c3a177, 329px 846px #c3a177, 1081px 516px #c3a177, 1538px 767px #c3a177, 979px 660px #c3a177, 1205px 1230px #c3a177, 337px 1705px #c3a177, 1416px 1155px #c3a177, 1183px 728px #c3a177, 211px 23px #c3a177, 1151px 1636px #c3a177, 1928px 568px #c3a177, 1015px 428px #c3a177, 42px 1927px #c3a177, 756px 829px #c3a177, 947px 692px #c3a177, 842px 1866px #c3a177, 905px 1730px #c3a177, 1042px 1140px #c3a177, 166px 459px #c3a177, 1053px 11px #c3a177, 1117px 925px #c3a177, 1939px 1495px #c3a177, 289px 495px #c3a177, 335px 970px #c3a177, 1036px 1549px #c3a177, 355px 1522px #c3a177, 1268px 1822px #c3a177, 947px 428px #c3a177, 1179px 122px #c3a177, 1639px 1226px #c3a177, 1660px 1221px #c3a177, 426px 872px #c3a177, 603px 1686px #c3a177, 1352px 800px #c3a177, 662px 1109px #c3a177;
+            }
+
+            #stars2 {
+                -webkit-animation: animStar 100s linear infinite;
+                animation: animStar 100s linear infinite;
+            }
+
+            #stars3, #stars3:after {
+                width: 3px;
+                height: 3px;
+                background: transparent;
+                box-shadow: 294px 946px #c3a177, 1938px 938px #c3a177, 468px 462px #c3a177, 1661px 767px #c3a177, 1269px 737px #c3a177, 1088px 210px #c3a177, 1459px 654px #c3a177, 1439px 1122px #c3a177, 1938px 1933px #c3a177, 989px 646px #c3a177, 1220px 128px #c3a177, 1081px 217px #c3a177, 1265px 976px #c3a177, 1097px 1930px #c3a177, 1621px 862px #c3a177, 443px 779px #c3a177, 1570px 1281px #c3a177, 671px 813px #c3a177, 1282px 678px #c3a177, 624px 1719px #c3a177, 334px 655px #c3a177, 1722px 753px #c3a177, 824px 1703px #c3a177, 303px 1242px #c3a177, 1332px 138px #c3a177, 1749px 1013px #c3a177, 23px 1718px #c3a177, 1523px 896px #c3a177, 1731px 1980px #c3a177, 553px 886px #c3a177, 429px 1556px #c3a177, 1295px 1188px #c3a177, 1578px 767px #c3a177, 1121px 1771px #c3a177, 1077px 472px #c3a177, 1538px 102px #c3a177, 1457px 784px #c3a177, 1818px 1476px #c3a177, 792px 1901px #c3a177, 1043px 20px #c3a177, 1385px 1496px #c3a177, 1202px 667px #c3a177, 1813px 1237px #c3a177, 719px 1196px #c3a177, 557px 520px #c3a177, 927px 824px #c3a177, 868px 1098px #c3a177, 833px 1599px #c3a177, 1675px 379px #c3a177, 710px 1463px #c3a177, 573px 100px #c3a177, 1934px 1074px #c3a177, 1390px 836px #c3a177, 136px 1870px #c3a177, 1330px 17px #c3a177, 1341px 1654px #c3a177, 704px 675px #c3a177, 539px 355px #c3a177, 1018px 908px #c3a177, 274px 1344px #c3a177, 1989px 98px #c3a177, 1102px 1375px #c3a177, 953px 49px #c3a177, 181px 1056px #c3a177, 1895px 957px #c3a177, 1838px 1130px #c3a177, 1510px 787px #c3a177, 584px 2000px #c3a177, 1768px 303px #c3a177, 305px 1494px #c3a177, 1810px 1416px #c3a177, 958px 1613px #c3a177, 323px 344px #c3a177, 1830px 1585px #c3a177, 142px 292px #c3a177, 954px 1101px #c3a177, 438px 103px #c3a177, 110px 1250px #c3a177, 1263px 1869px #c3a177, 197px 463px #c3a177, 169px 744px #c3a177, 829px 1395px #c3a177, 475px 1437px #c3a177, 510px 144px #c3a177, 1167px 86px #c3a177, 223px 1522px #c3a177, 1107px 446px #c3a177, 1452px 695px #c3a177, 123px 670px #c3a177, 411px 192px #c3a177, 1914px 479px #c3a177, 439px 433px #c3a177, 782px 1197px #c3a177, 561px 1147px #c3a177, 1972px 1523px #c3a177, 915px 955px #c3a177, 1085px 1119px #c3a177, 923px 883px #c3a177, 392px 1659px #c3a177, 485px 1511px #c3a177;
+            }
+
+            #stars3 {
+                -webkit-animation: animStar 150s linear infinite;
+                animation: animStar 150s linear infinite;
+            }
+
+            @keyframes animStar {
+                0% {
+                    -webkit-transform: translateY(0);
+                    transform: translateY(0);
+                }
+
+                100% {
+                    -webkit-transform: translateY(-2000px);
+                    transform: translateY(-2000px);
+                }
+            }
+
+            #stars3:after {
+                content: " ";
+                position: absolute;
+                top: 2000px;
+            }
+
+            #stars:after {
+                content: " ";
+                position: absolute;
+                top: 2000px;
+            }
+
+            #stars3, #stars3:after {
+                width: 3px;
+                height: 3px;
+                background: transparent;
+                box-shadow: 294px 946px #c3a177, 1938px 938px #c3a177, 468px 462px #c3a177, 1661px 767px #c3a177, 1269px 737px #c3a177, 1088px 210px #c3a177, 1459px 654px #c3a177, 1439px 1122px #c3a177, 1938px 1933px #c3a177, 989px 646px #c3a177, 1220px 128px #c3a177, 1081px 217px #c3a177, 1265px 976px #c3a177, 1097px 1930px #c3a177, 1621px 862px #c3a177, 443px 779px #c3a177, 1570px 1281px #c3a177, 671px 813px #c3a177, 1282px 678px #c3a177, 624px 1719px #c3a177, 334px 655px #c3a177, 1722px 753px #c3a177, 824px 1703px #c3a177, 303px 1242px #c3a177, 1332px 138px #c3a177, 1749px 1013px #c3a177, 23px 1718px #c3a177, 1523px 896px #c3a177, 1731px 1980px #c3a177, 553px 886px #c3a177, 429px 1556px #c3a177, 1295px 1188px #c3a177, 1578px 767px #c3a177, 1121px 1771px #c3a177, 1077px 472px #c3a177, 1538px 102px #c3a177, 1457px 784px #c3a177, 1818px 1476px #c3a177, 792px 1901px #c3a177, 1043px 20px #c3a177, 1385px 1496px #c3a177, 1202px 667px #c3a177, 1813px 1237px #c3a177, 719px 1196px #c3a177, 557px 520px #c3a177, 927px 824px #c3a177, 868px 1098px #c3a177, 833px 1599px #c3a177, 1675px 379px #c3a177, 710px 1463px #c3a177, 573px 100px #c3a177, 1934px 1074px #c3a177, 1390px 836px #c3a177, 136px 1870px #c3a177, 1330px 17px #c3a177, 1341px 1654px #c3a177, 704px 675px #c3a177, 539px 355px #c3a177, 1018px 908px #c3a177, 274px 1344px #c3a177, 1989px 98px #c3a177, 1102px 1375px #c3a177, 953px 49px #c3a177, 181px 1056px #c3a177, 1895px 957px #c3a177, 1838px 1130px #c3a177, 1510px 787px #c3a177, 584px 2000px #c3a177, 1768px 303px #c3a177, 305px 1494px #c3a177, 1810px 1416px #c3a177, 958px 1613px #c3a177, 323px 344px #c3a177, 1830px 1585px #c3a177, 142px 292px #c3a177, 954px 1101px #c3a177, 438px 103px #c3a177, 110px 1250px #c3a177, 1263px 1869px #c3a177, 197px 463px #c3a177, 169px 744px #c3a177, 829px 1395px #c3a177, 475px 1437px #c3a177, 510px 144px #c3a177, 1167px 86px #c3a177, 223px 1522px #c3a177, 1107px 446px #c3a177, 1452px 695px #c3a177, 123px 670px #c3a177, 411px 192px #c3a177, 1914px 479px #c3a177, 439px 433px #c3a177, 782px 1197px #c3a177, 561px 1147px #c3a177, 1972px 1523px #c3a177, 915px 955px #c3a177, 1085px 1119px #c3a177, 923px 883px #c3a177, 392px 1659px #c3a177, 485px 1511px #c3a177;
+            }
+
+            ::-webkit-scrollbar {
+                width: 4px !important;
+                height: 7px !important;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                -webkit-border-radius: 10px !important;
+                border-radius: 10px !important;
+                background: #d8af72 !important;
+                -webkit-box-shadow: inset 0 0 6px rgb(216 175 114) !important;
+            }
+
+            ::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px rgb(216 175 114) !important;
+                -webkit-border-radius: 10px !important;
+                border-radius: 10px !important;
+            }
+
+            @media (min-width: 1200px){
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1140px;
+}}
+
+
+
+.signup_content_col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* margin: 40px auto 0; */
+}
+@media (min-width: 992px){
+.col-lg-6 {
+    flex: 0 0 auto;
+    width: 50%;
+}}
+.signup_content_col h1 {
+    font-size: 42px;
+    color: #fff;
+    font-weight: 500;
+}
+.signup_content_col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.signup_content_col ul li {
+    font-size: 20px;
+    margin: 5px 0 0 0;
+    color: #fff;
+    font-weight: 500;
+}
+
+.register_div{
+    scroll-behavior: smooth;
+    font-family: 'Red Hat Display', sans-serif !important;
+    background-color: #000;
+    height: 131vh;
+}
+@media (max-width: 707px){
+.register_div{
+    scroll-behavior: smooth;
+    font-family: 'Red Hat Display', sans-serif !important;
+    background-color: #000;
+    height: 209vh;
+}
+
+
+}
+@media (max-width: 967px){
+.register_div{
+    scroll-behavior: smooth;
+        height: 194vh;
+    font-family: 'Red Hat Display', sans-serif !important;
+    background-color: #000;
+    
+}
+
+
+}
+.Contract_Address {
+    margin-top: 40px;
+}
+.Contract_Address h5 {
+    font-size: 20px;
+    margin: 5px 0 0 0;
+    color: #fff;
+    font-weight: 500;
+}
+.Contract_Address a {
+    text-decoration: none!important;
+    font-size: 20px;
+    margin: 10px 0 0 0;
+    font-weight: 500;
+    color: #c3a177;
+    word-wrap: break-word;
+}
+@media (min-width: 992px){
+.col-lg-6 {
+        padding: 8px !important;
+    flex: 0 0 auto;
+    width: 50%;
+}}
+.signup_section .form_box {
+    max-width: 100% !important;
+}
+.form_box {
+    max-width: 450px;
+    padding: 30px 40px;
+    background: #000000;
+    border-radius: 0;
+    border: 1px solid rgba(195, 161, 119, .5490196078431373);
+    position: relative;
+    z-index: 1;
+    margin: 40px auto 0;
+    box-shadow: 0 0 15px #c3a177;
+}
+.form_box .logo_img {
+    margin: auto;
+}
+.logo_img {
+    max-width: 120px;
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+img {
+    vertical-align: middle;
+}
+
+.form_box h3 {
+    text-align: center;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+label {
+    color: white;
+}
+.form_box .input_box {
+    width: 100%;
+    margin-bottom: 13px;
+    height: 42px;
+    line-height: 42px;
+    padding: 0 15px;
+    color: #fff;
+    background: #272727;
+    border-radius: 0;
+    border: 1px solid rgba(177, 141, 95, .16862745098039217);
+}
+.signup_section_section {
+    padding-top: 0px;
+    margin-bottom: 30px;
+}
+.mt-5 {
+    margin-top: 3rem!important;
+}
+   .footer {
+    text-align: center;
+    margin-top: 50px;
+}
+.footer h3 {
+    font-size: 20px;
+    color: #fff;
+    font-weight: 400;
+    margin-top: 30px;
+    margin-bottom: 0px;
+}
+.footer_social_div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.footer_social_div a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin: 10px;
+    color: #fff !important;
+    font-size: 25px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    max-height: 45px;
+    height: 45px;
+    width: 45px;
+    transition: 0.3s all ease-in-out;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.terms_div {
+    display: flex;
+    align-items: flex-start;
+}
+.forget_password {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.terms_div input {
+    margin-top: 7px;
+}
+.terms_div label {
+    color: #fff;
+    text-align: left;
+    margin-left: 10px;
+}
+.signup_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+@media (min-width: 992px){
+.col-lg-12 {
+    flex: 0 0 auto;
+    width: 100%;
+}}
+.signup_section .form_submit_btn {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.form_submit_btn {
+    width: 100%;
+    margin-bottom: 13px;
+    height: 42px;
+    font-weight: 500;
+    line-height: 42px;
+    padding: 0 15px;
+    color: #000;
+    background: #c3a177;
+    border-radius: 0;
+    border: 1px solid rgba(177, 141, 95, .16862745098039217);
+}
+.signup_btn span {
+    font-size: 15px;
+    color: #c3a177;
+}
+.signup_btn p {
+    font-size: 15px;
+    color: #fff;
+    margin: 0;
+    margin-right: 5px;
+}
+.form_bottom_links {
+    padding-top: 20px;
+}
+.form_bottom_links p {
+    text-decoration: none;
+    color: rgb(173, 173, 173);
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+.form_bottom_links span {
+    text-decoration: none;
+    color: #c3a177;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.footer_social_div span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin: 10px;
+    color: #fff;
+    font-size: 25px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    max-height: 45px;
+    height: 45px;
+    width: 45px;
+    transition: 0.3s all ease-in-out;
+}
+
+    @media (min-width: 992px) {
+    .col-md-6 {
+        width: 50% !important;
+        float: left !important;
+    }
+    }
+
+    /* Medium screens */
+    @media (min-width: 768px) and (max-width: 991px) {
+    .col-md-6 {
+        width: 100% !important;
+        float: none !important;
+    }
+    }
+
+    /* Small screens */
+    @media (max-width: 767px) {
+    .col-md-6 {
+        width: 100% !important;
+        float: none !important;
+    }
+    }
+@media (min-width: 936px){
+.col-md-6 {
+    flex: 0 0 100% !important;
+    max-width: 99% !important;
+}}
+
+/* Style for empty input fields */
+.empty-input {
+ border: 2px solid red !important;
+  box-shadow: 0 0 10px -1px red !important;
+  animation: blink 1s infinite alternate !important; /* Blinking animation */
+}
+
+/* Blinking animation keyframes */
+@keyframes blink {
+  0% {
+    box-shadow: 0 0 0px red !important;
+  }
+  100% {
+    box-shadow: 0 0 10px red !important;
+  }
+}
+
+/* /* <<<<<<< Updated upstream */
+ @media (max-width: 767px) {
+    .refer_link_main p {
+    font-size: 8px;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 0;
+}
+
+.fa-copy:before {
+    content: "\f0c5";
+    font-size: 12px;
+}
+
+.profile_main_section{
+    padding: 0px !important;
+}
+.container{
+    padding: 0px !important;
+}
+    }
+
+
+     @media (max-width: 767px) {
+   .css-1ihnh93 {
+    width: 100%;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    min-height: 100vh;
+    padding: 0px;
+}
+    }
+
+
+    .css-cveggr-MuiListItemIcon-root {
+    min-width: 25px !important;
+    color: rgba(0, 0, 0, 0.54);
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+}
+
+
+@media (max-width:768px){
+    .css-1ihnh93 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    min-height: 100vh;
+    padding: 0px !important;
+}
+}
+
+.pay{
+    font-size: 13px !important;
+    transition: 150ms;
+}
+.pay:hover{
+    transform: scale(1.08);
+  box-shadow: 0px 0px 20px -6px  #d8af72;
+}
+
+
+
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; 
+}
+
+.loader {
+  color: orange; 
+}
+@media (min-width: 936px){
+    .css-1ihnh93{
+        width: 100%;
+    }
+}
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.87);
+    -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-radius: 4px;
+    box-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12);
+    margin: 32px;
+    position: relative;
+    overflow-y: auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    max-height: calc(100% - 64px);
+    max-width: 542px;
+    width: 105% !important;
+}
+.css-hz1bth-MuiDialog-container {
+    height: 100%;
+    width: 100%;
+    outline: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.css-17zj2dt-MuiPaper-root-MuiCard-root {
+    background-color: #0e0e0e !important;
+    color: rgb(240 207 102 / 87%) !important;
+    -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-radius: 4px;
+    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+    overflow: hidden;
+    padding: 10px;
+    max-width: 445px;
+    margin-top: 12px;
+}
+
+.css-5xe99f-MuiLinearProgress-bar1 {
+    width: 100%;
+    position: absolute;
+    left: 0;
+
+    bottom: 0;
+    top: 0;
+    -webkit-transition: -webkit-transform .4s linear;
+    transition: transform .4s linear;
+    transform-origin: left;
+    background-color: #c3a177 !important;
+}
+.css-1e95psg-MuiLinearProgress-root {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    height: 4px;
+    border-radius: 50px;
+    padding: 3px;
+    z-index: 0;
+    background-color: rgb(94 74 30) !important;
+    margin-top: 14px;
+    color: rgb(240 207 102 / 87%) !important;
+}
+
+.dialog-container {
+  position: relative;
+}
+
+.snackbar-container {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px; /* Adjust the width as needed */
+}

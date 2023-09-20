@@ -1,0 +1,74 @@
+/* Default styles for larger screens */
+.col-md-6 {
+  width: 50% !important;
+  float: left !important;
+  box-sizing: border-box !important;
+}
+
+/* Media query for screens with a maximum width of 768px (typical mobile devices) */
+@media (max-width: 768px) {
+  .col-md-6 {
+    width: 100% !important;
+    float: none !important;
+  }
+}
+/* Add responsive styles for the table container */
+.table-container {
+  overflow-x: auto !important;
+  max-width: 100% !important;
+}
+/* Adjust table width for smaller screens */
+@media (max-width: 768px) {
+  .table-container table {
+    width: 100% !important;
+    font-size: 14px !important; /* Decrease font size for smaller screens */
+  }
+}
+
+/* Increase the size of input elements */
+.form-control {
+  font-size: 16px !important; /* Increase font size for input elements */
+  padding: 10px !important; /* Increase padding for input elements */
+}
+
+/* Add spacing between buttons */
+.btn {
+  margin-right: 10px; /* Add spacing between buttons */
+}
+
+/* Example: Make buttons more attractive using Bootstrap classes */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+/* Increase the size of input elements */
+.form-control {
+  font-size: 16px; /* Increase font size for input elements */
+  padding: 10px; /* Increase padding for input elements */
+}
+
+/* Add spacing between buttons */
+.btn {
+  margin-right: 10px; /* Add spacing between buttons */
+}
+/* .inputResponsive-cont{
+  width: 100%;
+  
+} */
+
+/* .inputResponsive{
+  width:50% !important
+}
+@media screen and (max-width:750px){
+.inputResponsive{
+  width: 100% !important
+}
+.inputResponsive-cont{
+  display: block;
+}
+} */
