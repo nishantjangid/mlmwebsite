@@ -61,6 +61,27 @@ export const fundTransfer = async (obj) => {
     })    
 }
 
+// FUND TRANSACTIONS
+export const fundTransferHistory = async () => {
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let accesstoken = localStorage.getItem('authToken');
+            let result = await axios.get(`${BASEURL}/users/fundTrnasferHistory`,{headers:{
+                'Content-Type':"application/json",
+                'x-access-token': `${accesstoken}`,
+            }});
+            console.log(result," result");
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    }) 
+}
+
 // Send OTP
 export const sendOtp = async (obj) => {
     return new Promise(async (resolve,reject)=>{
@@ -224,4 +245,5 @@ export const investment = async(obj)=>{
         }
     }) 
 }
+
 

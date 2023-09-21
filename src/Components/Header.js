@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -28,10 +28,12 @@ import { fetchamount } from './fetchamount';
 import DepositFunds from './DepositFunds';
 import ActivateId from './ActivateID';
 import Investment from './Investment';
+import { AuthContext } from '../Context/AuthContext';
 const drawerWidth = 240;
 
 function Header(props) {
     const { window } = props;
+    const {userDetail} = useContext(AuthContext);    
     const [mobileOpen, setMobileOpen] = useState(false); // Initialize as false
     const drawerRef = useRef(null);
     const [address, setAddress] = useState(false);
@@ -210,7 +212,7 @@ function Header(props) {
                         </span>
                         <div className='items-center' style={{ display: "flex", width: '100px', marginLeft: '10px', color: '#d8af72', padding: '5px', borderRadius: '5px', border: '1px solid #d8af72' }} onClick={handleOpenDialog}>
                             <AccountBalanceWalletIcon sx={{ color: '#d8af72', marginRight: "4px" }} />
-                            <p>0</p>
+                            <p>{userDetail.mainWallet}</p>
 
                         </div>
                     </div>
@@ -220,7 +222,7 @@ function Header(props) {
                         </span>
                         <div className='items-center' style={{ display: "flex", width: '100px', marginLeft: '10px', color: '#d8af72', padding: '5px', borderRadius: '5px', border: '1px solid #d8af72' }} onClick={handleOpenDialog}>
                             <AccountBalanceWalletIcon sx={{ color: '#d8af72', marginRight: "4px" }} />
-                            <p>100</p>
+                            <p>{userDetail.investmentWallet}</p>
 
                         </div>
                     </div>

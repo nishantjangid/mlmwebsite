@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import { AuthContext } from '../Context/AuthContext';
+import { fundTransferHistory } from '../ApiHelpers';
+import { useToasts } from 'react-toast-notifications';
 
 function UserTransferHistory() {
+    const {userDetail} = useContext(AuthContext);
+    const {addToast} = useToasts();
     const [activeTab, setActiveTab] = useState('transfer');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
-
+    const [transactions,setTransactions] = useState([]);
+    const [load,setLoad] = useState(false);
     const transferHistoryData = [
         {
             id: 1,
@@ -48,6 +54,31 @@ function UserTransferHistory() {
         },
         // Add more data entries as needed
     ];
+
+    const getFundHistory = async () => {
+        let token = localStorage.getItem('authToken');
+        if(!token) return;
+        setLoad(true);
+        try{
+            setTransactions([]);
+            let result = await fundTransferHistory();                        
+            let data = result;
+            setTransactions(data.result);
+            setLoad(false);
+        }catch(err){       
+            setLoad(false);       
+            if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }                
+            else if(err.code == "ERR_BAD_REQUEST"){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
+            }  
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }
+        }
+    }
+
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
@@ -90,6 +121,10 @@ function UserTransferHistory() {
         return filtered;
     };
 
+    useEffect(()=>{
+        if(load) return;
+        getFundHistory();
+    },[]);
 
     return (
         <>
@@ -199,10 +234,10 @@ function UserTransferHistory() {
                                                                     <span style={{ cursor: 'pointer' }} className={`nav-link ${activeTab === 'transfer' ? 'active' : ''}`}
                                                                         onClick={() => handleTabClick('transfer')}><i className="icon-user" /> <span className="hidden-xs text-white">Transfer History</span></span>
                                                                 </li>
-                                                                <li className="nav-item">
+                                                                {/* <li className="nav-item">
                                                                     <span style={{ cursor: 'pointer' }} className={`nav-link ${activeTab === 'receive' ? 'active' : ''}`}
                                                                         onClick={() => handleTabClick('receive')}><i className="icon-user" /> <span className="hidden-xs text-white">Recieve History</span></span>
-                                                                </li>
+                                                                </li> */}
                                                             </ul>
 
                                                             <div className="tab-content">
@@ -216,16 +251,15 @@ function UserTransferHistory() {
                                                                                 <thead className="text-capitalize">
                                                                                     <tr>
                                                                                         <th>Sr No.</th>
-                                                                                        <th>From</th>
-                                                                                        <th>To User Name</th>
+                                                                                        <th>From</th>                                                                                        
                                                                                         <th>To User ID</th>
                                                                                         <th>Amount</th>
-
+                                                                                        <th>Status</th>
                                                                                         <th>Date</th>
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    {filteredData
+                                                                                    {/* {filteredData
                                                                                         .filter((item) => {
                                                                                             if (!fromDate && !toDate) {
                                                                                                 // If no dates are selected, display all data
@@ -252,7 +286,25 @@ function UserTransferHistory() {
                                                                                                 <td>{item.amount}</td>
                                                                                                 <td>{item.date}</td>
                                                                                             </tr>
-                                                                                        ))}
+                                                                                        ))} */}
+                                                                                        {
+                                                                                            transactions.length == 0 ?
+                                                                                            <tr style={{textAlign:'center'}}>
+                                                                                                <td colSpan={6} >No Data Found!</td>
+                                                                                            </tr>
+                                                                                             :
+                                                                                             transactions.map((ele,idx)=>(
+                                                                                                <tr key={idx}>
+                                                                                                    <td>{++idx}</td>
+                                                                                                    <td>{ele.fromUserId}</td>
+                                                                                                    <td>{ele.toUserId}</td>
+                                                                                                    <td>{ele.amount}</td>
+                                                                                                    <td>{(ele.fromUserId == userDetail?.userId) ? <p style={{color:'red'}}>Send</p> : <p style={{color:'green'}}>Receive</p>}</td>
+                                                                                                    <td>{ele.createdAt}</td>
+                                                                                                </tr>
+                                                                                             ))
+
+                                                                                        }
                                                                                 </tbody>
                                                                             </table>
                                                                             <br /><br />

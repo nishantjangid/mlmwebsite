@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Button from '@mui/material/Button'; // Assuming you are using Material-UI for buttons
 import { TextField } from '@mui/material';
 
@@ -10,10 +10,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useToasts } from 'react-toast-notifications';
 import { fundTransfer, sendOtp, verifyOtp } from '../ApiHelpers';
+import { AuthContext } from '../Context/AuthContext';
 
 
 function FundsTransfer() {
     const {addToast} = useToasts();
+    const {userDetail,getUserDetails} = useContext(AuthContext);
     const [balance, setBalance] = useState(0);
     const [wallet, setWallet] = useState("");   //username
     const [message, setMessage] = useState("");
@@ -155,7 +157,8 @@ function FundsTransfer() {
         try{
             let result = await fundTransfer({userId:wallet,amount});                        
             let data = result;    
-            addToast(data.message,{appearance: "success",autoDismiss: true})   
+            addToast(data.message,{appearance: "success",autoDismiss: true});
+            getUserDetails();
             setWallet('');
             setAmount('');
         }catch(err){              
@@ -207,7 +210,7 @@ function FundsTransfer() {
                                                 <div className="col-md-12 mb-3">
                                                     <label htmlFor="validationCustomUsername" className="text-white">Available Balance</label>
                                                     <div className="input-group">
-                                                        <input type="text" className="form-control input_box" value={balance} id="validationCustomUsername" placeholder="Available Balance" aria-describedby="inputGroupPrepend" required disabled />
+                                                        <input type="text" className="form-control input_box" value={userDetail?.mainWallet} id="validationCustomUsername" placeholder="Available Balance" aria-describedby="inputGroupPrepend" required disabled />
                                                     </div>
                                                 </div>
                                                 <div style={{ clear: 'both' }} />
@@ -216,7 +219,7 @@ function FundsTransfer() {
                                                     {/* <label htmlFor="validationCustomUsername" className="text-white">Wallet Address/Username</label> */}
                                                     <label htmlFor="validationCustomUsername" className="text-white">UserID</label>
                                                     <div className="position-relative has-icon-right">
-                                                        <input style={{ background: 'white' }} type="text" id="username" className="form-control input-shadow input_box" placeholder="Enter Your Wallet Address or Username" name="username" required="reqired" autoComplete="none" onChange={(e) => {
+                                                        <input style={{ background: 'white' }} type="text" id="username" className="form-control input-shadow input_box" placeholder="Enter UserID" name="username" required="reqired" autoComplete="none" onChange={(e) => {
                                                             setMessage("");
                                                             setWallet(e.target.value);
                                                         }} value={wallet} />
