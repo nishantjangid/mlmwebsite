@@ -90,6 +90,7 @@ function DashBoard({ userData }) {
         try{
             let result = await requestDesposit({amount,message,attachment});
             console.log(result,'result');
+            addToast('Deposite successfully!', { appearance: 'success' ,autoDismiss: true});
                        
         }catch(err){  
             console.log(err,'err');
