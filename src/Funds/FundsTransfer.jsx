@@ -8,9 +8,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useToasts } from 'react-toast-notifications';
+import { fundTransfer, sendOtp, verifyOtp } from '../ApiHelpers';
 
 
 function FundsTransfer() {
+    const {addToast} = useToasts();
     const [balance, setBalance] = useState(0);
     const [wallet, setWallet] = useState("");   //username
     const [message, setMessage] = useState("");
@@ -48,6 +51,14 @@ function FundsTransfer() {
     const handleFundTransfer = async (e) => {
         setMessage("");
         e.preventDefault();
+        if(!wallet) {
+            addToast("Please provide a userId", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        if(!amount || Number(amount)<=0) {
+            addToast("Please provide enter a valid amount", {appearance: "error",autoDismiss: true});
+            return;
+        }
         // {
         //     !emailverify &&
         //         setOpenDialog(true)
@@ -70,7 +81,7 @@ function FundsTransfer() {
         setUpperInputDisabled(false);
     };
 
-    const handleGetOtp = () => {
+    const handleGetOtp = async () => {
         setMessage("");
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (!email || !emailPattern.test(email)) {
@@ -78,11 +89,28 @@ function FundsTransfer() {
             return;
         }
 
-        setUpperInputDisabled(true);
+        try{
+            let result = await sendOtp({email});                        
+            let data = result;
+            setEmailError(data.message);              
+            // addToast(data.message, {appearance: "error",autoDismiss: true});
+            setUpperInputDisabled(true);
 
-        // Show the OTP input field
-        setShowOtpInput(true);
-        handleSendOtp();
+            // Show the OTP input field
+            setShowOtpInput(true);
+            handleSendOtp(); 
+        }catch(err){              
+            if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }                
+            else if(err.code == "ERR_BAD_REQUEST"){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
+            }  
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }
+        }
+
     };
 
     const handleSendOtp = async () => {
@@ -94,9 +122,51 @@ function FundsTransfer() {
     const handleVerifyOtp = async (event) => {
         event.preventDefault();
         // setStep(3)
-        setMessage("");
+        setEmailError("");
+        try{
+            let result = await verifyOtp({email,otp});                        
+            let data = result;                      
+            tranferFund();
+        }catch(err){     
+            console.log(err);         
+            if(err.code == "ERR_NETWORK"){
+                setEmailError(err.message);
+            }   
+            else if(err.code == "ERR_BAD_REQUEST"){
+                setEmailError(err.response.data.error);
+            }
+            else if(err.response.status){
+                setEmailError(err.response.data.error);
+            }
+        }        
         
     };
+
+    const tranferFund = async () => {
+        if(!wallet) {
+            addToast("Please provide a userId", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        if(!amount || Number(amount)<=0) {
+            addToast("Please provide enter a valid amount", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        handleCloseDialog();
+        try{
+            let result = await fundTransfer({userId:wallet,amount});                        
+            let data = result;    
+            addToast(data.message,{appearance: "success",autoDismiss: true})   
+            setWallet('');
+            setAmount('');
+        }catch(err){              
+            if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }   
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }
+        }  
+    }
 
     const fetchcurrentamount = async () => {
         setMessage("");
@@ -131,7 +201,7 @@ function FundsTransfer() {
                                     <div className="card-body" style={{ backgroundColor: '#000000' }}>
                                         <hr />
                                         <br />
-                                        <form role="form" action="https://hammertradex.com/Fund-Transfer-insert" id="mypassform" method="post" encType="multipart/form-data">
+                                        <form role="form"  id="mypassform" method="post" encType="application/json">
                                             <input type="hidden" name="_token" defaultValue="1nP1Eivu6Q7kjHazoDkNoRSz830zT2SDmcSnZmAy" />
                                             <div className="form-row">
                                                 <div className="col-md-12 mb-3">
@@ -143,7 +213,8 @@ function FundsTransfer() {
                                                 <div style={{ clear: 'both' }} />
                                                 <p id="msg" style={{ fontSize: 14, fontWeight: 'bold' }} />
                                                 <div className="col-md-12 mb-3">
-                                                    <label htmlFor="validationCustomUsername" className="text-white">Wallet Address/Username</label>
+                                                    {/* <label htmlFor="validationCustomUsername" className="text-white">Wallet Address/Username</label> */}
+                                                    <label htmlFor="validationCustomUsername" className="text-white">UserID</label>
                                                     <div className="position-relative has-icon-right">
                                                         <input style={{ background: 'white' }} type="text" id="username" className="form-control input-shadow input_box" placeholder="Enter Your Wallet Address or Username" name="username" required="reqired" autoComplete="none" onChange={(e) => {
                                                             setMessage("");
@@ -206,11 +277,12 @@ function FundsTransfer() {
                                                                     type="text"
                                                                     margin='dense'
                                                                     label="Enter Email Address"
-                                                                    value={email}
-                                                                    disabled
+                                                                    value={email}   
+                                                                    disabled={upperInputDisabled}                                                                 
                                                                     fullWidth
                                                                     onChange={(e) => {
                                                                         setEmailError(""); // Clear the error message
+                                                                        setEmail(e.target.value);
                                                                     }}
                                                                     InputProps={{ sx: { height: '60px', padding: '15px' } }}
                                                                 />
@@ -234,7 +306,10 @@ function FundsTransfer() {
                                                                             type="text"
                                                                             placeholder="Enter OTP"
                                                                             value={otp}
-                                                                            onChange={(e) => setOtp(e.target.value)}
+                                                                            onChange={(e) => {
+                                                                                setEmailError('');
+                                                                                setOtp(e.target.value)
+                                                                            }}
                                                                             InputProps={{ sx: { height: '60px', padding: '15px' } }}
                                                                         />
                                                                     </DialogContent>

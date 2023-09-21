@@ -45,8 +45,10 @@ export const register = async (obj) => {
 export const fundTransfer = async (obj) => {
     return new Promise(async (resolve,reject)=>{
         try{
+            let accesstoken = localStorage.getItem('authToken');
             let result = await axios.post(`${BASEURL}/users/fundTrnasfer`,obj,{headers:{
-                'Content-Type':"application/json"
+                'Content-Type':"application/json",
+                'x-access-token': `${accesstoken}`,
             }});
             if(result.status == 200 || result.status == 201){
                 resolve(result.data);
