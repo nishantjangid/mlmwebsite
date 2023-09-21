@@ -163,3 +163,65 @@ export const getuserDetail = async () => {
         }
     })
 }
+
+//approve deposite 
+export const approvedeposite = async (obj) => {
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let accesstoken = localStorage.getItem('authToken');
+            let result = await axios.post(`${BASEURL}/users/approveDeposite`,obj ,{headers:{
+                'x-access-token': `${accesstoken}`,
+                'Content-Type':"application/json"
+            }});
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    })
+}
+
+//reject deposite 
+export const rejectDeposite = async (obj) => {
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let accesstoken = localStorage.getItem('authToken');
+            let result = await axios.post(`${BASEURL}/users/rejectDeposite`,obj ,{headers:{
+                'x-access-token': `${accesstoken}`,
+                'Content-Type':"application/json"
+            }});
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    })
+}
+
+//user investment 
+export const investment = async(obj)=>{
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let accesstoken = localStorage.getItem('authToken'); 
+            let result = await axios.post(`${BASEURL}/users/investment`,obj,{headers: {
+                'x-access-token': `${accesstoken}`,
+                'Content-Type':'multipart/form-data'
+              },});
+
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    }) 
+}
+
