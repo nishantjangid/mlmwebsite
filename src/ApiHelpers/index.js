@@ -41,6 +41,60 @@ export const register = async (obj) => {
     })    
 }
 
+// FUND TRANSFER 
+export const fundTransfer = async (obj) => {
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let result = await axios.post(`${BASEURL}/users/fundTrnasfer`,obj,{headers:{
+                'Content-Type':"application/json"
+            }});
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    })    
+}
+
+// Send OTP
+export const sendOtp = async (obj) => {
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let result = await axios.post(`${BASEURL}/users/sendotp`,obj,{headers:{
+                'Content-Type':"application/json"
+            }});
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    })    
+}
+
+// Verify Otp
+export const verifyOtp = async (obj) => {
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let result = await axios.post(`${BASEURL}/users/verifyotp`,obj,{headers:{
+                'Content-Type':"application/json"
+            }});
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    })    
+}
+
 //Request Deposite
 export const requestDesposit = async(obj)=>{
     return new Promise(async (resolve,reject)=>{
