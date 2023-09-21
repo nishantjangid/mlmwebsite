@@ -19,10 +19,13 @@ import LinearProgress from '@mui/material/LinearProgress';
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { useToasts } from "react-toast-notifications";
+import {requestDesposit} from "../ApiHelpers";
 
 import { Try } from '@mui/icons-material';
 
 function DashBoard({ userData }) {
+    const { addToast } = useToasts();
     const [loading, setLoading] = useState(true);
     const [memberwithdrawDetails, setMemberWithdrawdetails] = useState([]);
     // const [withdrawDetails, setWithdrawdetails] = useState([]);
@@ -73,8 +76,31 @@ function DashBoard({ userData }) {
     };
 
     const handlePay = async () => {
-       
-      
+        let attachment = fileInput;
+        let message = "Pay the amount";
+        if(!amount){
+            addToast("Please provide a amount", {appearance: "error",autoDismiss: true});
+            return; 
+        }
+        if(!fileInput){
+            addToast("Please provide a Image", {appearance: "error",autoDismiss: true});
+            return; 
+        }
+
+        try{
+            let result = await requestDesposit({amount,message,attachment});
+            console.log(result,'result');
+                       
+        }catch(err){  
+            console.log(err,'err');
+            if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }   
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }
+        }
+        handleCloseDialog();
     };
    
 

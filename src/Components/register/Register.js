@@ -63,10 +63,11 @@ const Register = () => {
         }
 
         try{
-            let result = await register({email,password,refferalCode,mobileNo,username});                                                                        
+            let result = await register({email,password,refferalCode,mobileNo,username});
+            console.log(result,'result')                                                                     
             navigate("/login");            
         }catch(err){  
-            console.log(err);
+            console.log(err,'err');
             if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
                 addToast(err.message, {appearance: "error",autoDismiss: true});
             }   

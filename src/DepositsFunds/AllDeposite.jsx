@@ -8,6 +8,8 @@ import "../StyleFolder/style.css"
 import LockOpenIcon from '@mui/icons-material/LockOpen'; // Import the LockOpenIcon
 import BlockIcon from '@mui/icons-material/Block';
 import CircularProgress from '@mui/material/CircularProgress';
+import {getdepositedata} from "../ApiHelpers";
+import { useToasts } from "react-toast-notifications";
 
 import {
     IconButton,
@@ -17,6 +19,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 function AllDeposite() {
+    
+    const { addToast } = useToasts();
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [searchUserInput, setSearchUserInput] = useState('');
@@ -146,9 +150,25 @@ function AllDeposite() {
     ];
 
 
+    const handlegetdata = async()=>{
+        try{
+            let result = await getdepositedata();
+            console.log(result.result,'result');
+            setTableData(result.result);
+        }catch(err){
+            console.log(err,'err');
+            if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }   
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }
+        }
+        
+    }
 
     useEffect(() => {
-        setTableData(dummyData);
+        handlegetdata()
     }, []);
 
     
@@ -290,21 +310,18 @@ function AllDeposite() {
                                                                 </tr>
                                                             ) :
                                                                 tableData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                                                                    console.log("time", row?.data?.createdAt);
-                                                                    const createdAt = new Date(row?.data?.createdAt);
+                                                                    console.log("time", row?.createdAt);
+                                                                    const createdAt = new Date(row?.createdAt);
                                                                     console.log("created", createdAt);
                                                                     const formattedDate = createdAt.toLocaleDateString();
                                                                     const formattedTime = createdAt.toLocaleTimeString();
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
-                                                                            <td style={{ cursor: "pointer" }} onClick={() => handlerenew(row?.data?.id)}>{row?.data?.amount}</td>
-                                                                            <td>{row?.data?.images}</td>
-
-
-
-                                                                            <td>{row?.data?.status}</td>
-                                                                            <td>{row?.data?.massage}</td>
+                                                                            <td style={{ cursor: "pointer" }} onClick={() => handlerenew(row?.id)}>{row?.amount}</td>
+                                                                            <td>{row?.image}</td>
+                                                                            <td>{row?.status}</td>
+                                                                            <td>{row?.message}</td>
                                                                             <td>{formattedDate}</td>
                                                                             <td>{formattedTime}</td>
                                                                             {/* <td>{row?.data?.type}</td> */}
