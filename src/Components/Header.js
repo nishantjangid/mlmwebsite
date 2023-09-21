@@ -28,7 +28,6 @@ import { fetchamount } from './fetchamount';
 import DepositFunds from './DepositFunds';
 import ActivateId from './ActivateID';
 import Investment from './Investment';
-import {getuserDetail} from "../ApiHelpers";
 const drawerWidth = 240;
 
 function Header(props) {
@@ -176,17 +175,7 @@ function Header(props) {
         setDialogOpen(false);
     };
 
-    const getdata = async()=>{
-            try{
-                let result = await getuserDetail();   
-                console.log(result,'resultgethaeder')   
-            }catch(err){
-                console.log(err,'err');
-            }   
-    }
-    useEffect(()=>{
-        getdata();
-    },[])
+
 
     return (
         <Box ref={drawerRef} sx={{ background: '#272727', display: 'flex' }}>

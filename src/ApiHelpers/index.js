@@ -141,23 +141,3 @@ export const getdepositedata = async () => {
         }
     })
 }
-
-//get userdeatils
-export const getuserDetail = async () => {
-    return new Promise(async (resolve,reject)=>{
-        try{
-            let accesstoken = localStorage.getItem('authToken');
-            let result = await axios.get(`${BASEURL}/users/userDetail`,{headers:{
-                'x-access-token': `${accesstoken}`,
-                'Content-Type':"application/json"
-            }});
-            if(result.status == 200 || result.status == 201){
-                resolve(result.data);
-            }else{
-                reject(result.data);
-            }
-        }catch(err){
-            reject(err);
-        }
-    })
-}
