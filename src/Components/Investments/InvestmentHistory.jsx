@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import {investmentHistory} from "../../ApiHelpers";
+import { useToasts } from 'react-toast-notifications';
+import { AuthContext } from '../../Context/AuthContext';
 
 function InvestmentHistory() {
+    const {addToast} = useToasts(); 
+    const {userDetail} = useContext(AuthContext);
     const [activeTab, setActiveTab] = useState('transfer');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+    const [investhistory,setinvestmenthistory] =([]);
 
     const transferHistoryData = [
         {
@@ -49,7 +54,29 @@ function InvestmentHistory() {
         },
         // Add more data entries as needed
     ];
-    
+    const investmenthistory =async()=>{
+        let token = localStorage.getItem('authToken');
+        if(!token) return;
+        try{
+            setinvestmenthistory([]);
+            let result = await investmentHistory();                        
+            let data = result;
+            console.log(data.result ,data.result)
+            setinvestmenthistory(data.result);
+        
+        }catch(err){       
+                
+            if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }                
+            else if(err.code == "ERR_BAD_REQUEST"){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
+            }  
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }
+        }
+    }
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
@@ -92,6 +119,9 @@ function InvestmentHistory() {
         return filtered;
     };
 
+    useEffect(()=>{
+        investmenthistory();
+    },[])
 
     return (
         <>
@@ -227,7 +257,7 @@ function InvestmentHistory() {
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    {filteredData
+                                                                                    {/* {filteredData
                                                                                         .filter((item) => {
                                                                                             if (!fromDate && !toDate) {
                                                                                                 // If no dates are selected, display all data
@@ -254,7 +284,26 @@ function InvestmentHistory() {
                                                                                                 <td>{item.amount}</td>
                                                                                                 <td>{item.date}</td>
                                                                                             </tr>
-                                                                                        ))}
+                                                                                        ))} */}
+
+                                                                                        {
+                                                                                           investhistory.length == 0 ?
+                                                                                            <tr style={{textAlign:'center'}}>
+                                                                                                <td colSpan={6} >No Data Found!</td>
+                                                                                            </tr>
+                                                                                             :
+                                                                                             investhistory.map((ele,idx)=>(
+                                                                                                <tr key={idx}>
+                                                                                                    <td>{++idx}</td>
+                                                                                                    <td>{ele.fromUsername}</td>
+                                                                                                    <td>{ele.toUsername}</td>
+                                                                                                    <td>{ele.userId}</td>
+                                                                                                    <td>{ele.amount}</td>
+                                                                                                    <td>{ele.createdAt}</td>
+                                                                                                </tr>
+                                                                                             ))
+
+                                                                                        }
                                                                                 </tbody>
                                                                             </table>
                                                                             <br /><br />
