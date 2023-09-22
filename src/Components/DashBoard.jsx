@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "../StyleFolder/dashboards.css"
 import { token, baseURL } from '../token';
 import {
@@ -23,9 +23,11 @@ import { useToasts } from "react-toast-notifications";
 import {requestDesposit} from "../ApiHelpers";
 
 import { Try } from '@mui/icons-material';
+import { AuthContext } from '../Context/AuthContext';
 
 function DashBoard({ userData }) {
     const { addToast } = useToasts();
+    const {userDetail} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [memberwithdrawDetails, setMemberWithdrawdetails] = useState([]);
     // const [withdrawDetails, setWithdrawdetails] = useState([]);
@@ -359,19 +361,19 @@ function DashBoard({ userData }) {
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600">User ID : </p>
                                             </div>
-                                            <div className="col s3"><span>{userData?.userName}</span></div>
+                                            <div className="col s3"><span>{userDetail?.userId}</span></div>
                                         </div>
-                                        <div className="row">
+                                        {/* <div className="row">
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600">Name: </p>
                                             </div>
-                                            <div className="col s3"><span>{userData?.name}</span></div>
-                                        </div>
+                                            <div className="col s3"><span>{userDetail?.name}</span></div>
+                                        </div> */}
                                         <div className="row">
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600"> Sponsor ID: </p>
                                             </div>
-                                            <div className="col s3"><span>{userData?.createdAt.slice(0, 10)}
+                                            <div className="col s3"><span>{userDetail?.refferBy}
                                                 {/* <div className="col s3"><span>{dashboard?.createdAt.split('T')[0]} */}
                                             </span>
                                             </div>
