@@ -232,7 +232,7 @@ export const investment = async(obj)=>{
             let accesstoken = localStorage.getItem('authToken'); 
             let result = await axios.post(`${BASEURL}/users/investment`,obj,{headers: {
                 'x-access-token': `${accesstoken}`,
-                'Content-Type':'multipart/form-data'
+                'Content-Type':'application/json'
               },});
 
             if(result.status == 200 || result.status == 201){

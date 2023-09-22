@@ -159,7 +159,8 @@
                 addToast(data.message,{appearance: "success",autoDismiss: true})   
                 setWallet('');
                 setAmount('');
-            }catch(err){              
+            }catch(err){  
+                console.log(err ,'err')            
                 if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
                     addToast(err.message, {appearance: "error",autoDismiss: true});
                 }   
