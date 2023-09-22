@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import "../StyleFolder/stackManage.css";
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import Dialog from '@mui/material/Dialog';
@@ -9,11 +9,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button'; // Assuming you are using Material-UI for buttons
 
 import { TextField } from '@mui/material';
+import { useToasts } from 'react-toast-notifications';
+import { sendOtp, verifyOtp, withdrawRequest } from '../ApiHelpers';
+import { AuthContext } from '../Context/AuthContext';
 
 
 function SendRequest() {
-
+    const {addToast} = useToasts();
     const [amount, setAmount] = useState(0);
+    const {getUserDetails} = useContext(AuthContext);
     const [balance, setBalance] = useState(0);
     const [wallet, setWallet] = useState("");
     const [message, setMessage] = useState("Message");
@@ -55,6 +59,15 @@ function SendRequest() {
     }, []);
     const handleWithdraw = async (e) => {
         e.preventDefault();
+        setEmailError("");
+        if(!wallet) {
+            addToast("Please provide a Wallet Address", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        if(!amount || Number(amount)<=0) {
+            addToast("Please provide enter a valid amount", {appearance: "error",autoDismiss: true});
+            return;
+        }
         {
             !emailverify &&
                 setOpenDialog(true)
@@ -75,8 +88,7 @@ function SendRequest() {
         setUpperInputDisabled(false);
     };
 
-    const handleGetOtp = () => {
-
+    const handleGetOtp = async () => {
 
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (!email || !emailPattern.test(email)) {
@@ -84,11 +96,28 @@ function SendRequest() {
             return;
         }
 
-        setUpperInputDisabled(true);
+        try{
+            let result = await sendOtp({email});                        
+            let data = result;
+            setEmailError(data.message);              
+            // addToast(data.message, {appearance: "error",autoDismiss: true});
+            setUpperInputDisabled(true);
 
-        // Show the OTP input field
-        setShowOtpInput(true);
-        handleSendOtp();
+            // Show the OTP input field
+            setShowOtpInput(true);
+            handleSendOtp(); 
+        }catch(err){              
+            if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }                
+            else if(err.code == "ERR_BAD_REQUEST"){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
+            }  
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }
+        }
+
     };
 
     const handleSendOtp = async () => {
@@ -99,8 +128,56 @@ function SendRequest() {
     const handleVerifyOtp = async (event) => {
         event.preventDefault();
         // setStep(3)
+        setEmailError("");
+        try{
+            let result = await verifyOtp({email,otp});                        
+            let data = result;                      
+            withdrawRewardRequest();
+        }catch(err){     
+            console.log(err);         
+            if(err.code == "ERR_NETWORK"){
+                setEmailError(err.message);
+            }   
+            else if(err.code == "ERR_BAD_REQUEST"){
+                setEmailError(err.response.data.error);
+            }
+            else if(err.response.status){
+                setEmailError(err.response.data.error);
+            }
+        }        
+                
       
     };
+
+    const withdrawRewardRequest = async () => {
+        if(!wallet) {
+            addToast("Please provide a userId", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        if(!amount || Number(amount)<=0) {
+            addToast("Please provide enter a valid amount", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        handleCloseDialog();
+        try{
+            let result = await withdrawRequest({address:wallet,amount});                        
+            let data = result;    
+            addToast(data.message,{appearance: "success",autoDismiss: true});
+            getUserDetails();
+            setWallet('');
+            setAmount('');
+        }catch(err){              
+            if(err.code == "ERR_NETWORK" ){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }  
+            else if(err.code == "ERR_BAD_REQUEST"){                
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            } 
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }
+        }  
+    }    
 
     return (
         <>
@@ -196,10 +273,10 @@ function SendRequest() {
                                                                         margin='dense'
                                                                         label="Enter Email Address"
                                                                         value={email}
-                                                                        disabled
                                                                         fullWidth
                                                                         onChange={(e) => {
                                                                             setEmailError(""); // Clear the error message
+                                                                            setEmail(e.target.value)
                                                                         }}
                                                                         InputProps={{ sx: { height: '60px', padding: '15px' } }}
                                                                     />
