@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import {investmentHistory} from "../../ApiHelpers";
 
 function InvestmentHistory() {
     const [activeTab, setActiveTab] = useState('transfer');
@@ -48,6 +49,7 @@ function InvestmentHistory() {
         },
         // Add more data entries as needed
     ];
+    
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
