@@ -8,10 +8,13 @@
     import DialogContent from '@mui/material/DialogContent';
     import DialogContentText from '@mui/material/DialogContentText';
     import DialogTitle from '@mui/material/DialogTitle';
+    import { useToasts } from 'react-toast-notifications';
+    import {investment , sendOtp, verifyOtp } from '../../ApiHelpers';
     // import { baseURL } from '../token';
     // import { fetchamount } from '../Components/Header';
 
     function MyInvestments() {
+        const {addToast} = useToasts();
         const [balance, setBalance] = useState(0);
         const [wallet, setWallet] = useState("");   //username
         const [message, setMessage] = useState("");
@@ -46,13 +49,21 @@
             fetchData();
             fetchcurrentamount();
         }, []);
+
         const handleFundTransfer = async (e) => {
             setMessage("");
             e.preventDefault();
-            {
-                !emailverify &&
-                    setOpenDialog(true)
+
+            if(!wallet) {
+                addToast("Please provide a userId", {appearance: "error",autoDismiss: true});
+                return;
             }
+
+            if(!amount || Number(amount)<=0) {
+                addToast("Please provide enter a valid amount", {appearance: "error",autoDismiss: true});
+                return;
+            }
+
             if (!emailverify) {
                 setOpenDialog(true);
                 return;
@@ -71,8 +82,35 @@
             setUpperInputDisabled(false);
         };
 
-        const handleGetOtp = () => {
+        const handleGetOtp = async () => {
             setMessage("");
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!email || !emailPattern.test(email)) {
+                setEmailError("Please enter a valid email address.");
+                return;
+            }
+
+            try{
+                let result = await sendOtp({email});                        
+                let data = result;
+                setEmailError(data.message);              
+                // addToast(data.message, {appearance: "error",autoDismiss: true});
+                setUpperInputDisabled(true);
+
+                // Show the OTP input field
+                setShowOtpInput(true);
+                handleSendOtp(); 
+            }catch(err){              
+                if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                    addToast(err.message, {appearance: "error",autoDismiss: true});
+                }                
+                else if(err.code == "ERR_BAD_REQUEST"){
+                    addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
+                }  
+                else if(err.response.status){
+                    addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+                }
+            }
            
         };
 
@@ -84,12 +122,52 @@
 
         const handleVerifyOtp = async (event) => {
             event.preventDefault();
-            // setStep(3)
-            setMessage("");
+        // setStep(3)
+        setEmailError("");
+        try{
+            let result = await verifyOtp({email,otp});                        
+            let data = result;                      
+            invest();
+        }catch(err){     
+            console.log(err);         
+            if(err.code == "ERR_NETWORK"){
+                setEmailError(err.message);
+            }   
+            else if(err.code == "ERR_BAD_REQUEST"){
+                setEmailError(err.response.data.error);
+            }
+            else if(err.response.status){
+                setEmailError(err.response.data.error);
+            }
+        } 
          
         };
 
-
+        const invest= async () => {
+            if(!wallet) {
+                addToast("Please provide a userId", {appearance: "error",autoDismiss: true});
+                return;
+            }
+            if(!amount || Number(amount)<=0) {
+                addToast("Please provide enter a valid amount", {appearance: "error",autoDismiss: true});
+                return;
+            }
+            handleCloseDialog();
+            try{
+                let result = await investment({userId:wallet,amount});                        
+                let data = result;    
+                addToast(data.message,{appearance: "success",autoDismiss: true})   
+                setWallet('');
+                setAmount('');
+            }catch(err){              
+                if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                    addToast(err.message, {appearance: "error",autoDismiss: true});
+                }   
+                else if(err.response.status){
+                    addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+                }
+            }  
+        }
 
         const fetchcurrentamount = async () => {
             setMessage("");
@@ -110,7 +188,7 @@
                         <div className="container-fluid">
                             <div className="row mb-2">
                                 <div className="col-sm-6">
-                                    <h1 className="welcome_heading">Investment</h1>
+                                    <h1 className="welcome_heading">Investment New</h1>
                                 </div>
                                 <div className="col-sm-6">
                                     <ol className="breadcrumb float-sm-right">
@@ -206,14 +284,15 @@
                                                                         type="text"
                                                                         margin='dense'
                                                                         label="Enter Email Address"
-                                                                        value={email}
-                                                                       
+                                                                        value={email}   
+                                                                        disabled={upperInputDisabled}                                                                 
                                                                         fullWidth
                                                                         onChange={(e) => {
                                                                             setEmailError(""); // Clear the error message
+                                                                            setEmail(e.target.value);
                                                                         }}
                                                                         InputProps={{ sx: { height: '60px', padding: '15px' } }}
-                                                                    />
+                                                                />
                                                                 </DialogContent>
 
                                                                 {showOtpInput ? (
