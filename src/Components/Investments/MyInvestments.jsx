@@ -106,7 +106,7 @@ import { AuthContext } from '../../Context/AuthContext';
                 handleSendOtp(); 
             }catch(err){       
                 setSending(false);
-                if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
+                if(err.code == "ERR_NETWORK"){
                     addToast(err.message, {appearance: "error",autoDismiss: true});
                 }                
                 else if(err.code == "ERR_BAD_REQUEST"){

@@ -12,7 +12,7 @@ import {
     TextField,
 } from "@mui/material";
 import { useToasts } from "react-toast-notifications";
-import { register } from "../../ApiHelpers";
+import { getRefferalDetails, register } from "../../ApiHelpers";
 
 const Register = () => {
 
@@ -78,7 +78,27 @@ const Register = () => {
     }
 
 
+    const handleSponserId = async (e) => {
+        setSponsorId(e.target.value);       
+    }
 
+    const getRefferalUsername = async (e) => {
+        try{
+            let result = await getRefferalDetails({userId:e.target.value});
+            setSponsorName(result.result);
+        }catch(err){
+            setSponsorName("");
+            if(err.code == "ERR_NETWORK"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }                
+            else if(err.code == "ERR_BAD_REQUEST"){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
+            }  
+            else if(err.response.status){
+                addToast(err.response.data, {appearance: "error",autoDismiss: true});
+            }
+        }
+    }
     
     const handleOpenDialog = () => {
         setOpenDialog(true);
@@ -125,7 +145,7 @@ const Register = () => {
                                         <form method="post" onSubmit={handleSubmit}>
                                             <div className="row">
                                                 <div className="col-lg-6 col-md-12 col-sm-12">
-                                                    <input type="text" className="input_box" placeholder="Sponsor ID" name="refferalCode" required value={sponsorId} onChange={(e) => setSponsorId(e.target.value)}
+                                                    <input type="text" className="input_box" placeholder="Sponsor ID" name="refferalCode" required value={sponsorId} onBlur={(e) => getRefferalUsername(e)} onChange={(e) => handleSponserId(e)}
                                                     />
                                                 </div>
                                                 <div className="col-lg-6 col-md-12 col-sm-12">
@@ -136,7 +156,7 @@ const Register = () => {
                                                     <div style={{ position: "relative" }}>
                                                         <input type="text" className="input_box" placeholder="E-mail" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
                                                         <div className="col-lg-2 col-md-12 col-sm-12">
-                                                            <button style={{ alignItems: 'center', width: '100px', backgroundColor: "#c3a177", padding: "10px", position: "absolute", right: "0", top: "0", height: "40px" }} onClick={handleOpenDialog} className="btn">Verify</button>
+                                                            {/* <button style={{ alignItems: 'center', width: '100px', backgroundColor: "#c3a177", padding: "10px", position: "absolute", right: "0", top: "0", height: "40px" }} onClick={handleOpenDialog} className="btn">Verify</button> */}
                                                         </div>
                                                     </div>
 
