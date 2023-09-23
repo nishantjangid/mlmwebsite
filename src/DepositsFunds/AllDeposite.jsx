@@ -16,6 +16,7 @@ import {
     Tooltip,
 } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
+import { IMAGE_URL } from '../Constants';
 
 
 function AllDeposite() {
@@ -319,8 +320,8 @@ function AllDeposite() {
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
                                                                             <td style={{ cursor: "pointer" }} onClick={() => handlerenew(row?.id)}>{row?.amount}</td>
-                                                                            <td>{row?.image}</td>
-                                                                            <td>{row?.status}</td>
+                                                                            <td><img src={IMAGE_URL+row?.image} height={40} width={40}/></td>
+                                                                            <td>{row?.status == 0 && <p style={{color:"#932f08",fontWeight:"bold"}} >Pending</p> }{row?.status == 1 && <p style={{color:"green",fontWeight:"bold"}} >Approved</p> }{row?.status == 2 && <p style={{color:"red",fontWeight:"bold"}} >Rejected</p> }</td>
                                                                             <td>{row?.message}</td>
                                                                             <td>{formattedDate}</td>
                                                                             <td>{formattedTime}</td>

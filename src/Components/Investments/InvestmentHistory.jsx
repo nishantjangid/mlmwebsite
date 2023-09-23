@@ -12,7 +12,7 @@ function InvestmentHistory() {
     const [toDate, setToDate] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
-    const [investhistory,setinvestmenthistory] =([]);
+    const [investhistory,setinvestmenthistory] = useState([]);
 
     const transferHistoryData = [
         {
@@ -61,7 +61,7 @@ function InvestmentHistory() {
             setinvestmenthistory([]);
             let result = await investmentHistory();                        
             let data = result;
-            console.log(data.result ,data.result)
+            console.log(data.result ,data.result)            
             setinvestmenthistory(data.result);
         
         }catch(err){       
