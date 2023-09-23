@@ -221,6 +221,13 @@ function UserTransferHistory() {
   } transactions.`;
   const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
   const paginatorRight = <Button type="button" icon="pi pi-download" text />;
+  const typeTemplate = (row) => {
+    if(row.type == "Received"){
+      return <span style={{color:"green",fontWeight:"bold"}}>{row.type}</span>
+    }else{
+      return <span style={{color:"red",fontWeight:"bold"}}>{row.type}</span>
+    }
+  }
 
   useEffect(() => {
     if (load) return;
@@ -457,6 +464,7 @@ function UserTransferHistory() {
                                               <Column
                                                 field="type"
                                                 sortable
+                                                body={typeTemplate}
                                                 header="Type"
                                               ></Column>
                                               <Column
@@ -467,7 +475,24 @@ function UserTransferHistory() {
                                               ></Column>
                                             </DataTable>
                                           ) : (
-                                            ""
+                                            <DataTable
+                                              ref={dt}
+                                              paginator
+                                              rows={5}
+                                              rowsPerPageOptions={[
+                                                5, 10, 25, 50,
+                                              ]}
+                                              tableStyle={{ minWidth: "50rem" }}
+                                              paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                                              currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                                              paginatorLeft={paginatorLeft}
+                                              paginatorRight={paginatorRight}
+                                              value={transactions}
+                                              header={header}
+                                              footer={footer}
+                                            >
+
+                                            </DataTable>
                                           )}
                                         </div>
                                       </center>

@@ -171,7 +171,7 @@ const {addToast} = useToasts();
       </Button>
     </div>
   );
-  const footer = `In total there are ${data ? data.length : 0} History.`;
+  const footer = `In total there are ${data ? data.length : 0} All Users.`;
   const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
   const paginatorRight = <Button type="button" icon="pi pi-download" text />;
 

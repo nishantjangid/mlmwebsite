@@ -12,8 +12,11 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { AuthContext } from "../Context/AuthContext";
 import { APP_URL } from "../Constants";
+import { resetPassword } from "../ApiHelpers";
+import { useToasts } from "react-toast-notifications";
 
 const ProfilePage = ({ userDataa }) => {
+  const {addToast} = useToasts();
   const [activeTab, setActiveTab] = useState("personalData");
   const {userDetail} = useContext(AuthContext);
   const [userData, setUserData] = useState({
@@ -30,15 +33,49 @@ const ProfilePage = ({ userDataa }) => {
     setActiveTab(tab);
   };
 
-  const handleChangePassword = (e) => {
+  const handleChangePassword = async (e) => {
     e.preventDefault();
-    if (newPassword === confirmPassword) {
-      //write your logic here like dispatch
+    let oldpassword = e.target.oldpassword.value;
+    let newpassword = e.target.newpassword.value;
+    let confirmpassword = e.target.conpassword.value;
+
+    if(!oldpassword){
+      addToast("Please enter old password", {appearance: "error",autoDismiss: true});
+      return;
+    }
+    if(!newpassword){
+      addToast("Please enter new password", {appearance: "error",autoDismiss: true});
+      return;
+    }
+    if(!confirmpassword){
+      addToast("Please enter confirm password", {appearance: "error",autoDismiss: true});
+      return;
+    }
+
+    if(newpassword != confirmPassword){
+      addToast("New password must be same as confirm password", {appearance: "error",autoDismiss: true});
+      return;
+    }
+
+    try{
+      let result = await resetPassword({password:newpassword});
+      addToast(result.message, {appearance: "success",autoDismiss: true});
+      setOldPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    }catch(err){
+      if(err.code == "ERR_NETWORK"){
+          addToast(err.message, {appearance: "error",autoDismiss: true});
+      }   
+      else if(err.code == "ERR_BAD_REQUEST"){
+          addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+      }
+      else if(err.response.status){
+          addToast(err.response.data, {appearance: "error",autoDismiss: true});
+      }      
     }
   };
-  useEffect(() => {
-  }, []);
-
+  
 
   const openDialog = () => {
     setIsDialogOpen(true);
@@ -381,7 +418,7 @@ const ProfilePage = ({ userDataa }) => {
                                             <input
                                               className="input_box"
                                               type="password"
-                                              name="old_pass"
+                                              name="oldpassword"
                                               value={oldPassword}
                                               onChange={(e) =>
                                                 setOldPassword(e.target.value)
@@ -396,7 +433,7 @@ const ProfilePage = ({ userDataa }) => {
                                             <input
                                               className="input_box"
                                               type="password"
-                                              name="new_pass"
+                                              name="newpassword"
                                               value={newPassword}
                                               onChange={(e) =>
                                                 setNewPassword(e.target.value)
@@ -411,7 +448,7 @@ const ProfilePage = ({ userDataa }) => {
                                             <input
                                               className="input_box"
                                               type="password"
-                                              name="con_pass"
+                                              name="conpassword"
                                               value={confirmPassword}
                                               onChange={(e) =>
                                                 setConfirmPassword(

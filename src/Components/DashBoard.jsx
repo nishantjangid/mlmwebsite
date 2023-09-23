@@ -488,19 +488,19 @@ function DashBoard({ userData }) {
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600">Total Member: </p>
                                             </div>
-                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.memberDeatils.totalMembers.length}</span></div>
+                                            <div className="col s3"><span>{data?.memberDeatils?.totalMembers == 0 ? data.memberDeatils.totalMembers.length : 0}</span></div>
                                         </div>
                                         <div className="row">
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600">Active Member: </p>
                                             </div>
-                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.memberDeatils.activeMembers.length}</span></div>
+                                            <div className="col s3"><span>{data?.memberDeatils?.activeMembers == 0 ? data.memberDeatils.activeMembers.length : 0}</span></div>
                                         </div>
                                         <div className="row">
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600">In-Active Member: </p>
                                             </div>
-                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.memberDeatils.deactiveMembers.length}</span></div>
+                                            <div className="col s3"><span>{data?.memberDeatils?.deactiveMembers == 0 ? data.memberDeatils.deactiveMembers.length : 0 }</span></div>
                                         </div>
                                     </div>
 
@@ -554,7 +554,7 @@ function DashBoard({ userData }) {
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600"><strong>Total Income:-</strong></p>
                                             </div>
-                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.totalincome}</span></div>
+                                            <div className="col s3"><span>{data.length == 0 ? 0 : Number(data.totalRoI) + Number(data.todayROI) + Number(data.levelIncome)}</span></div>
                                         </div>
                                     </div>
 

@@ -41,6 +41,27 @@ export const register = async (obj) => {
     })    
 }
 
+// RESET PASSWORD
+export const resetPassword = async(obj)=>{
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let accesstoken = localStorage.getItem('authToken'); 
+            let result = await axios.post(`${BASEURL}/users/resetPassword`,obj,{headers: {
+                'x-access-token': `${accesstoken}`,
+                'Content-Type':'application/json'
+              },});
+
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    }) 
+}
+
 // FUND TRANSFER 
 export const fundTransfer = async (obj) => {
     return new Promise(async (resolve,reject)=>{
