@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import "../StyleFolder/ReferealPage.css";
 
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -10,10 +10,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { AuthContext } from "../Context/AuthContext";
+import { APP_URL } from "../Constants";
 
 const ProfilePage = ({ userDataa }) => {
   const [activeTab, setActiveTab] = useState("personalData");
-
+  const {userDetail} = useContext(AuthContext);
   const [userData, setUserData] = useState({
     name: "",
   });
@@ -195,6 +197,7 @@ const ProfilePage = ({ userDataa }) => {
                                                 placeholder={userData?.username}
                                                 required
                                                 disabled
+                                                value={userDetail.userId ? userDetail.userId : ""}
                                               />
                                               {/* // )} */}
                                             </div>
@@ -210,6 +213,7 @@ const ProfilePage = ({ userDataa }) => {
                                                 placeholder={
                                                   userData?.pack_expiry
                                                 }
+                                                
                                                 required
                                                 disabled
                                               />
@@ -218,21 +222,21 @@ const ProfilePage = ({ userDataa }) => {
                                             </div>
                                             <div className="form-group">
                                               <label htmlFor="validationCustom01">
-                                                Full Name
+                                                Username
                                               </label>
                                               {isEditing ? (
                                                 <input
                                                   type="text"
                                                   className="form-control input_box"
-                                                  value={userDataa?.name}
+                                                  value={userDetail.username ? userDetail.username : ""}
                                                   placeholder="Name"
                                                   required
                                                 />
                                               ) : (
                                                 <input
                                                   type="text"
-                                                  className="form-control input_box"
-                                                  value={userData?.name}
+                                                  className="form-control input_box"                                                  
+                                                  value={userDetail.username ? userDetail.username : ""}
                                                   onChange={(e) =>
                                                     setUserData({
                                                       ...userData,
@@ -256,6 +260,7 @@ const ProfilePage = ({ userDataa }) => {
                                                 className="form-control input_box"
                                                 required
                                                 disabled
+                                                value={userDetail.email ? userDetail.email : ""}
                                               />
                                               {/* )} */}
                                             </div>
@@ -265,10 +270,10 @@ const ProfilePage = ({ userDataa }) => {
                                               </label>
                                               <input
                                                 type="text"
-                                                className="form-control input_box"
-                                                value={userDataa?.phoneNo}
+                                                className="form-control input_box"                                                
                                                 required
                                                 disabled
+                                                value={userDetail.mobileNo ? userDetail.mobileNo : ""}
                                               />
                                             </div>
                                             {/* Edit Name button */}
@@ -318,7 +323,7 @@ const ProfilePage = ({ userDataa }) => {
                                           <p
                                             style={{ overflowWrap: "anywhere" }}
                                           >
-                                            https://deep.com/register?id=63be505e76bb22053eff15d7
+                                            {userDetail.userId ? `${APP_URL}/register?refferalCode=${userDetail.userId}` : ''}
                                           </p>
                                           <p>
                                             <Tooltip

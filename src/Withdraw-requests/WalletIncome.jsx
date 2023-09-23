@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 
 import { TablePagination } from '@mui/material';
@@ -6,6 +6,10 @@ import { compareDesc } from 'date-fns';
 import CircularProgress from '@mui/material/CircularProgress';
 import { withdrawHistory } from '../ApiHelpers';
 import { useToasts } from 'react-toast-notifications';
+import { Button } from 'primereact/button';
+import { Tooltip } from 'primereact/tooltip';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 
 function WalletHistory() {
@@ -16,6 +20,64 @@ function WalletHistory() {
     
     const [loadings, setLoadings] = useState(true);
     const [data,setData] = useState([]);
+    const dt = useRef(null);
+
+    const exportCSV = (selectionOnly) => {
+        dt.current.exportCSV({ selectionOnly });
+      };
+    
+      const cols = [    
+        { field: 'userId', header: 'User ID' },
+        { field: 'username', header: 'Username' },
+        { field: 'amount', header: 'Amount' },
+        { field: 'address', header: 'Address' },
+        { field: 'isAccpected', header: 'Status' },
+        { field: 'datetime', header: 'Datetime' }
+    ];
+    
+      const exportPdf = () => {
+        import("jspdf").then((jsPDF) => {
+          import("jspdf-autotable").then(() => {
+            const doc = new jsPDF.default(0, 0);
+            const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+            console.log(exportColumns);
+            doc.autoTable(exportColumns, data);
+            doc.save("fundTransfers.pdf");
+          });
+        });
+      };
+    
+      const exportExcel = () => {
+        import("xlsx").then((xlsx) => {
+          const worksheet = xlsx.utils.json_to_sheet(data);
+          const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
+          const excelBuffer = xlsx.write(workbook, {
+            bookType: "xlsx",
+            type: "array",
+          });
+    
+          saveAsExcelFile(excelBuffer, "fundTransfer");
+        });
+      };
+    
+      const saveAsExcelFile = (buffer, fileName) => {
+        import("file-saver").then((module) => {
+          if (module && module.default) {
+            let EXCEL_TYPE =
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+            let EXCEL_EXTENSION = ".xlsx";
+            const data = new Blob([buffer], {
+              type: EXCEL_TYPE,
+            });
+    
+            module.default.saveAs(
+              data,
+              fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+            );
+          }
+        });
+      };
+    
 
     const getAllRequests = async () => {
         let token = localStorage.getItem('authToken');
@@ -41,6 +103,44 @@ function WalletHistory() {
             }            
         }
     }
+
+
+    const header = (
+        <div className="flex align-items-center justify-content-end gap-2">
+          <Button
+            type="button"
+            value="CSV"
+            icon="pi pi-file"
+            rounded
+            onClick={() => exportCSV(false)}
+            data-pr-tooltip="CSV"
+          >CSV</Button>
+          <Button
+            type="button"
+            icon="pi pi-file-excel"
+            severity="success"
+            value="XLS"
+            rounded
+            onClick={exportExcel}
+            data-pr-tooltip="XLS"
+          >XLS</Button>
+          <Button
+            type="button"
+            icon="pi pi-file-pdf"
+            severity="warning"
+            value="PDF"
+            rounded
+            onClick={exportPdf}
+            data-pr-tooltip="PDF"
+          >PDF</Button>
+        </div>
+      );
+      const footer = `In total there are ${
+        data ? data.length : 0
+      } History.`;
+      const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
+      const paginatorRight = <Button type="button" icon="pi pi-download" text />;
+
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
@@ -133,20 +233,62 @@ function WalletHistory() {
 
 
                                                 </>) : (<>
-
-                                                    <table className="table text-center">
-                                                        <thead className="text-capitalize">
-                                                            <tr>
-                                                                <th>Sr.No.</th>
-                                                                <th>User Name</th>
-                                                                <th>User ID</th>
-                                                                <th>Details</th>
-                                                                <th>Amount</th>
-                                                                <th>Date</th>
-                                                                <th>Time</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
+                                                    <Tooltip
+                                            target=".export-buttons>button"
+                                            position="bottom"
+                                          />
+                                          {data.length > 0 ? (
+                                            <DataTable
+                                              ref={dt}
+                                              paginator
+                                              rows={5}
+                                              rowsPerPageOptions={[
+                                                5, 10, 25, 50,
+                                              ]}
+                                              tableStyle={{ minWidth: "50rem" }}
+                                              paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                                              currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                                              paginatorLeft={paginatorLeft}
+                                              paginatorRight={paginatorRight}
+                                              value={data}
+                                              header={header}
+                                              footer={footer}
+                                            >
+                                            <Column
+                                                field="id"
+                                                sortable
+                                                header="Sr.no"
+                                              ></Column>
+                                              <Column
+                                                field="userId"
+                                                sortable
+                                                header="UserId"
+                                              ></Column>
+                                              <Column
+                                                field="username"
+                                                sortable
+                                                header="Username"
+                                              ></Column>
+                                              <Column
+                                                field="amount"
+                                                sortable
+                                                header="Amount"
+                                              ></Column>
+                                              <Column
+                                                field="type"
+                                                sortable
+                                                header="Type"
+                                              ></Column>
+                                              <Column
+                                                dataType="date"
+                                                field="datetime"
+                                                sortable
+                                                header="Datetime"
+                                              ></Column>
+                                            </DataTable>
+                                          ) : (
+                                            ""
+                                          )}
                                                 </>)}
 
                                                 <br /><br />

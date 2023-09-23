@@ -170,7 +170,8 @@ function SendRequest() {
         handleCloseDialog();
         try{
             let result = await withdrawRequest({address:wallet,amount});                        
-            let data = result;    
+            let data = result;   
+            console.log(data); 
             addToast(data.message,{appearance: "success",autoDismiss: true});
             getUserDetails();
             setWallet('');
