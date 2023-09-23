@@ -4,112 +4,50 @@ import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import { TablePagination } from '@mui/material';
 import { compareDesc } from 'date-fns';
 import CircularProgress from '@mui/material/CircularProgress';
+import { withdrawHistory } from '../ApiHelpers';
+import { useToasts } from 'react-toast-notifications';
 
 
 function WalletHistory() {
-
-    const [loading, setLoading] = useState(true);
-    const [tableData, setTableData] = useState([]);
+    const {addToast} = useToasts();
+    const [loading, setLoading] = useState(true);    
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    
     const [loadings, setLoadings] = useState(true);
+    const [data,setData] = useState([]);
 
-
-
-
-    const handleSearch = (e) => {
-        console.log("nakdsj");
-        e.preventDefault();
-        const filteredData = tableData.filter((item) => {
-            const itemDate = new Date(item?.data?.createdAt);
-            console.log("date", itemDate);
-            const startDateObj = startDate ? new Date(startDate) : null;
-            const endDateObj = endDate ? new Date(endDate) : null;
-
-            // Check the date range
-            if (startDateObj && endDateObj) {
-                // Format the item date in the same format as your input (MM/DD/YYYY)
-                const formattedItemDate = `${itemDate.getMonth() + 1}/${itemDate.getDate()}/${itemDate.getFullYear()}`;
-                const start = `${startDateObj.getMonth() + 1}/${startDateObj.getDate()}/${startDateObj.getFullYear()}`;
-                const end = `${endDateObj.getMonth() + 1}/${endDateObj.getDate()}/${endDateObj.getFullYear()}`;
-                // console.log(start);
-                // console.log(formattedItemDate, start, end);
-                // console.log(formattedItemDate >= start);
-                if (
-                    formattedItemDate < start ||
-                    formattedItemDate > end
-                ) {
-                    return false;
-                }
-            }
-            if (startDateObj) {
-                const formattedItemDate = `${itemDate.getMonth() + 1}/${itemDate.getDate()}/${itemDate.getFullYear()}`;
-                const start = `${startDateObj.getMonth() + 1}/${startDateObj.getDate()}/${startDateObj.getFullYear()}`;
-                if (
-                    formattedItemDate < start
-                ) {
-                    return false;
-                }
-            }
-            if (endDateObj) {
-                const formattedItemDate = `${itemDate.getMonth() + 1}/${itemDate.getDate()}/${itemDate.getFullYear()}`;
-                const end = `${endDateObj.getMonth() + 1}/${endDateObj.getDate()}/${endDateObj.getFullYear()}`;
-                if (
-                    formattedItemDate > end
-                ) {
-                    return false;
-                }
-            }
-            // Check the user name
-            console.log(item?.data?.username);
-            console.log(searchQuery);
-            if (searchQuery && !item?.data?.username?.toLowerCase().includes(searchQuery.toLowerCase())) {
-                return false;
-            }
-
-            return true;
-        });
-
-        setTableData(filteredData);
-        console.log(tableData);
-        console.log(filteredData);
-    };
-
-    const getallusers = async () => {
-     
+    const getAllRequests = async () => {
+        let token = localStorage.getItem('authToken');
+        if(!token) return;
+        try{
+            setLoading(true);
+            let result = await withdrawHistory();
+            setData(result.result);
+            setLoading(false);
+        }catch(err){
+            setLoading(false);
+            if(err.code == "ERR_NETWORK" ){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }  
+            else if(err.code == "ERR_BAD_REQUEST"){                
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            } 
+            else if(err.response.status){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+            }            
+        }
     }
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
         }, 5); // Change the delay as needed
-        getallusers();
+        getAllRequests();
     }, []);
 
-    const handleReset = () => {
-        setStartDate("");
-        setEndDate("");
-        setSearchQuery("");
-        // setTableData(tableData);
-        getallusers();
+    const handleReset = () => {                
+        getAllRequests();
     };
-
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    const startIndex = page * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-
-    const displayedData = tableData.slice(startIndex, endIndex);
 
     return (
         <> <div className={`fade-in ${loading ? '' : 'active'}`}>
@@ -162,8 +100,7 @@ function WalletHistory() {
                                                 <div className="input-group">
                                                     <input type="text" className="form-control" placeholder="Name,User ID"
                                                         name="username"
-                                                        value={searchQuery}
-                                                        onChange={(e) => setSearchQuery(e.target.value)} />
+                                                        />
                                                 </div>
                                             </div>
                                             {/* <div className="col-md-6 mb-6" style={{ float: 'left', marginTop: 10 }}>
@@ -176,7 +113,7 @@ function WalletHistory() {
                                             <br />
                                             <div className="col-md-12 mb-12">
                                                 <center>
-                                                    <button style={{ color: 'black', backgroundColor: 'rgb(195 161 119)' }} className="btn btn-primary" onClick={(e) => handleSearch(e)} >Search Now</button>
+                                                    <button style={{ color: 'black', backgroundColor: 'rgb(195 161 119)' }} className="btn btn-primary"  >Search Now</button>
                                                     <button className="btn btn-info" style={{ marginLeft: '20px', background: 'black', color: '#d8af72', border: '1px solid #d8af72' }} type="button" onClick={handleReset}>Reset <span><RotateLeftIcon /></span> </button>
 
                                                 </center>
@@ -206,30 +143,6 @@ function WalletHistory() {
                                                                 <th>Time</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            {
-                                                                displayedData?.length === 0 ? (
-                                                                    <tr>
-                                                                        <td colSpan="12" style={{ color: 'black', textAlign: 'center' }}>
-                                                                            No results found
-                                                                        </td>
-                                                                    </tr>
-                                                                ) : displayedData?.map((item, index) => {
-                                                                    const createdAt = new Date(item?.data?.createdAt);
-                                                                    const formattedDate = createdAt.toLocaleDateString();
-                                                                    const formattedTime = createdAt.toLocaleTimeString();
-                                                                    return (<tr key={index}>
-                                                                        <td>{index + 1}</td>
-                                                                        <td>{item?.data?.name}</td>
-                                                                        <td>{item?.data?.username}</td>
-                                                                        <td>{item?.data?.userid}</td>
-                                                                        <td>{item?.data?.detail}</td>
-                                                                        <td>{item?.data?.amount}</td>
-                                                                        <td>{formattedDate}</td>
-                                                                        <td>{formattedTime}</td>
-                                                                    </tr>)
-                                                                })}
-                                                        </tbody>
                                                     </table>
                                                 </>)}
 
@@ -237,20 +150,7 @@ function WalletHistory() {
 
                                             </div>
                                         </div>
-                                    </div>
-                                    <center>
-                                        <div>
-                                            <TablePagination sx={{ color: 'orange' }}
-                                                rowsPerPageOptions={[10, 25, 50]}
-                                                component="div"
-                                                count={tableData.length}
-                                                rowsPerPage={rowsPerPage}
-                                                page={page}
-                                                onPageChange={handleChangePage}
-                                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                            />
-                                        </div>
-                                    </center>
+                                    </div>                                   
                                 </div>
                             </div>
                             {/* Primary table end */}

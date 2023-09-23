@@ -288,11 +288,11 @@ export const withdrawRequest = async(obj)=>{
 }
 
 //user witdraw request history
-export const withdrawHistory = async(obj)=>{
+export const withdrawHistory = async()=>{
     return new Promise(async (resolve,reject)=>{
         try{
             let accesstoken = localStorage.getItem('authToken'); 
-            let result = await axios.post(`${BASEURL}/users/withdrawHistory`,obj,{headers: {
+            let result = await axios.get(`${BASEURL}/users/withdrawHistory`,{headers: {
                 'x-access-token': `${accesstoken}`,
                 'Content-Type':'application/json'
               },});
