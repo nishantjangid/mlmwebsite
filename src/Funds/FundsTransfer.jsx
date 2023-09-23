@@ -34,7 +34,7 @@ function FundsTransfer() {
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState("");
     const [data, setData] = useState([]);
-
+    const [sending,setSending] = useState(false);
 
 
     const getUserNameByUserId = async (userId) => {
@@ -92,8 +92,10 @@ function FundsTransfer() {
         }
 
         try{
+            setSending(true)
             let result = await sendOtp({email});                        
             let data = result;
+            setSending(false);
             setEmailError(data.message);              
             // addToast(data.message, {appearance: "error",autoDismiss: true});
             setUpperInputDisabled(true);
@@ -101,7 +103,8 @@ function FundsTransfer() {
             // Show the OTP input field
             setShowOtpInput(true);
             handleSendOtp(); 
-        }catch(err){              
+        }catch(err){      
+            setSending(false)        
             if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
                 addToast(err.message, {appearance: "error",autoDismiss: true});
             }                
@@ -126,8 +129,10 @@ function FundsTransfer() {
         // setStep(3)
         setEmailError("");
         try{
+            setSending(true);
             let result = await verifyOtp({email,otp});                        
-            let data = result;                      
+            let data = result;
+            setSending(false);                      
             tranferFund();
         }catch(err){     
             console.log(err);         
@@ -317,9 +322,9 @@ function FundsTransfer() {
                                                                         />
                                                                     </DialogContent>
                                                                     <DialogActions>
-                                                                        <Button onClick={handleVerifyOtp} color="primary">
+                                                                        {sending ? <Button color='primary'>Verifying</Button> :<Button onClick={handleVerifyOtp} color="primary">
                                                                             Verify Email
-                                                                        </Button>
+                                                                        </Button>}
                                                                         <Button onClick={handleCloseDialog} color="primary">
                                                                             Cancel
                                                                         </Button>
@@ -327,9 +332,9 @@ function FundsTransfer() {
                                                                 </>
                                                             ) : (
                                                                 <DialogActions>
-                                                                    <Button onClick={handleGetOtp} color="primary">
+                                                                    {sending ? <Button color='primary'>Sending...</Button> :<Button onClick={handleGetOtp} color="primary">
                                                                         Get OTP
-                                                                    </Button>
+                                                                    </Button>}
                                                                     <Button onClick={handleCloseDialog} color="primary">
                                                                         Cancel
                                                                     </Button>

@@ -1,4 +1,4 @@
-    import React, { useState, useEffect } from 'react'
+    import React, { useState, useEffect, useContext } from 'react'
     import Button from '@mui/material/Button'; // Assuming you are using Material-UI for buttons
     import { TextField } from '@mui/material';
 
@@ -10,11 +10,13 @@
     import DialogTitle from '@mui/material/DialogTitle';
     import { useToasts } from 'react-toast-notifications';
     import {investment , sendOtp, verifyOtp } from '../../ApiHelpers';
+import { AuthContext } from '../../Context/AuthContext';
     // import { baseURL } from '../token';
     // import { fetchamount } from '../Components/Header';
 
     function MyInvestments() {
         const {addToast} = useToasts();
+        const {userDetail,getUserDetails} = useContext(AuthContext);
         const [balance, setBalance] = useState(0);
         const [wallet, setWallet] = useState("");   //username
         const [message, setMessage] = useState("");
@@ -33,7 +35,7 @@
         const [email, setEmail] = useState("");
         const [emailError, setEmailError] = useState("");
         const [data, setData] = useState([]);
-   
+        const [sending,setSending] = useState(false);
 
 
         const getUserNameByUserId = async (userId) => {
@@ -53,7 +55,7 @@
         const handleFundTransfer = async (e) => {
             setMessage("");
             e.preventDefault();
-
+            setSending(false);
             if(!wallet) {
                 addToast("Please provide a userId", {appearance: "error",autoDismiss: true});
                 return;
@@ -91,8 +93,10 @@
             }
 
             try{
+                setSending(true);
                 let result = await sendOtp({email});                        
                 let data = result;
+                setSending(false);
                 setEmailError(data.message);              
                 // addToast(data.message, {appearance: "error",autoDismiss: true});
                 setUpperInputDisabled(true);
@@ -100,7 +104,8 @@
                 // Show the OTP input field
                 setShowOtpInput(true);
                 handleSendOtp(); 
-            }catch(err){              
+            }catch(err){       
+                setSending(false);
                 if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
                     addToast(err.message, {appearance: "error",autoDismiss: true});
                 }                
@@ -108,7 +113,7 @@
                     addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
                 }  
                 else if(err.response.status){
-                    addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+                    addToast(err.response.data, {appearance: "error",autoDismiss: true});
                 }
             }
            
@@ -125,10 +130,12 @@
         // setStep(3)
         setEmailError("");
         try{
+            setSending(true);
             let result = await verifyOtp({email,otp});                        
             let data = result;                      
             invest();
         }catch(err){     
+            setSending(false);
             console.log(err);         
             if(err.code == "ERR_NETWORK"){
                 setEmailError(err.message);
@@ -137,7 +144,7 @@
                 setEmailError(err.response.data.error);
             }
             else if(err.response.status){
-                setEmailError(err.response.data.error);
+                setEmailError(err.response.data);
             }
         } 
          
@@ -159,6 +166,7 @@
                 addToast(data.message,{appearance: "success",autoDismiss: true})   
                 setWallet('');
                 setAmount('');
+                getUserDetails();
             }catch(err){  
                 console.log(err ,'err')            
                 if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
@@ -216,7 +224,7 @@
                                                     <div className="col-md-12 mb-3">
                                                         <label htmlFor="validationCustomUsername" className="text-white">Available Balance</label>
                                                         <div className="input-group">
-                                                            <input type="text" className="form-control input_box" value={balance} id="validationCustomUsername" placeholder="Available Balance" aria-describedby="inputGroupPrepend" required disabled />
+                                                            <input type="text" className="form-control input_box" value={userDetail ? userDetail.investmentWallet : 0} id="validationCustomUsername" placeholder="Available Balance" aria-describedby="inputGroupPrepend" required disabled />
                                                         </div>
                                                     </div>
                                                     <div style={{ clear: 'both' }} />
@@ -319,9 +327,9 @@
                                                                             />
                                                                         </DialogContent>
                                                                         <DialogActions>
-                                                                            <Button onClick={handleVerifyOtp} color="primary">
+                                                                            {sending ? <Button color='primary'>Verifying...</Button>:<Button onClick={handleVerifyOtp} color="primary">
                                                                                 Verify Email
-                                                                            </Button>
+                                                                            </Button>}
                                                                             <Button onClick={handleCloseDialog} color="primary">
                                                                                 Cancel
                                                                             </Button>
@@ -329,9 +337,9 @@
                                                                     </>
                                                                 ) : (
                                                                     <DialogActions>
-                                                                        <Button onClick={handleGetOtp} color="primary">
+                                                                        {sending ? <Button color='primary'>Sending...</Button> :<Button onClick={handleGetOtp} color="primary">
                                                                             Get OTP
-                                                                        </Button>
+                                                                        </Button>}
                                                                         <Button onClick={handleCloseDialog} color="primary">
                                                                             Cancel
                                                                         </Button>

@@ -34,6 +34,7 @@ function SendRequest() {
     // State for input field value and error message
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState("");
+    const [sending,setSending] = useState(false);
 
     const handleReset = () => {
         setAmount(0);
@@ -60,6 +61,7 @@ function SendRequest() {
     const handleWithdraw = async (e) => {
         e.preventDefault();
         setEmailError("");
+        setSending(false); 
         if(!wallet) {
             addToast("Please provide a Wallet Address", {appearance: "error",autoDismiss: true});
             return;
@@ -81,6 +83,7 @@ function SendRequest() {
         // Reset email and email error state values
         setEmail("");
         setEmailError("");
+        setSending(false); 
 
         // Reset OTP input and enable the upper input field
         setOtp("");
@@ -97,8 +100,10 @@ function SendRequest() {
         }
 
         try{
+            setSending(true);
             let result = await sendOtp({email});                        
             let data = result;
+            setSending(false);
             setEmailError(data.message);              
             // addToast(data.message, {appearance: "error",autoDismiss: true});
             setUpperInputDisabled(true);
@@ -106,7 +111,8 @@ function SendRequest() {
             // Show the OTP input field
             setShowOtpInput(true);
             handleSendOtp(); 
-        }catch(err){              
+        }catch(err){   
+            setSending(false);           
             if(err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST"){
                 addToast(err.message, {appearance: "error",autoDismiss: true});
             }                
@@ -114,7 +120,7 @@ function SendRequest() {
                 addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
             }  
             else if(err.response.status){
-                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+                addToast(err.response.data, {appearance: "error",autoDismiss: true});
             }
         }
 
@@ -130,10 +136,13 @@ function SendRequest() {
         // setStep(3)
         setEmailError("");
         try{
+            setSending(true);
             let result = await verifyOtp({email,otp});                        
             let data = result;                      
+            setSending(false);
             withdrawRewardRequest();
         }catch(err){     
+            setSending(false);
             console.log(err);         
             if(err.code == "ERR_NETWORK"){
                 setEmailError(err.message);
@@ -142,7 +151,7 @@ function SendRequest() {
                 setEmailError(err.response.data.error);
             }
             else if(err.response.status){
-                setEmailError(err.response.data.error);
+                setEmailError(err.response.data);
             }
         }        
                 
@@ -166,7 +175,8 @@ function SendRequest() {
             getUserDetails();
             setWallet('');
             setAmount('');
-        }catch(err){              
+        }catch(err){   
+            console.log(err)           ;
             if(err.code == "ERR_NETWORK" ){
                 addToast(err.message, {appearance: "error",autoDismiss: true});
             }  
@@ -174,7 +184,7 @@ function SendRequest() {
                 addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
             } 
             else if(err.response.status){
-                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});
+                addToast(err.response.data, {appearance: "error",autoDismiss: true});
             }
         }  
     }    
@@ -305,9 +315,9 @@ function SendRequest() {
                                                                             />
                                                                         </DialogContent>
                                                                         <DialogActions>
-                                                                            <Button onClick={handleVerifyOtp} color="primary">
+                                                                            {sending ? <Button>Verifing...</Button> : <Button onClick={handleVerifyOtp} color="primary">
                                                                                 Verify Email
-                                                                            </Button>
+                                                                            </Button>}
                                                                             <Button onClick={handleCloseDialog} color="primary">
                                                                                 Cancel
                                                                             </Button>
@@ -315,9 +325,9 @@ function SendRequest() {
                                                                     </>
                                                                 ) : (
                                                                     <DialogActions>
-                                                                        <Button onClick={handleGetOtp} color="primary">
+                                                                        {sending ? <Button  color="primary">Sending...</Button> : <Button onClick={handleGetOtp} color="primary">
                                                                             Get OTP
-                                                                        </Button>
+                                                                        </Button>}
                                                                         <Button onClick={handleCloseDialog} color="primary">
                                                                             Cancel
                                                                         </Button>

@@ -308,6 +308,27 @@ export const withdrawHistory = async()=>{
     }) 
 }
 
+// get dashboard data
+export const dashboardData = async()=>{
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let accesstoken = localStorage.getItem('authToken'); 
+            let result = await axios.get(`${BASEURL}/users/dashboard`,{headers: {
+                'x-access-token': `${accesstoken}`,
+                'Content-Type':'application/json'
+              },});
+
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    }) 
+}
+
 
 
 

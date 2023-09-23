@@ -410,54 +410,7 @@ function UserTransferHistory() {
                                   }`}
                                 >
                                   {activeTab === "transfer" && (
-                                    <>
-                                      <table className="table text-center">
-                                        <thead className="text-capitalize">
-                                          <tr>
-                                            <th>Sr No.</th>
-                                            <th>From</th>
-                                            <th>To User ID</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            <th>Date</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>                                      
-                                          {/* {transactions.length == 0 ? (
-                                            <tr style={{ textAlign: "center" }}>
-                                              <td colSpan={6}>
-                                                No Data Found!
-                                              </td>
-                                            </tr>
-                                          ) : (
-                                            transactions.map((ele, idx) => (
-                                              <tr key={idx}>
-                                                <td>{++idx}</td>
-                                                <td>{ele.fromUserId}</td>
-                                                <td>{ele.toUserId}</td>
-                                                <td>{ele.amount}</td>
-                                                <td>
-                                                  {ele.fromUserId ==
-                                                  userDetail?.userId ? (
-                                                    <p style={{ color: "red" }}>
-                                                      Send
-                                                    </p>
-                                                  ) : (
-                                                    <p
-                                                      style={{ color: "green" }}
-                                                    >
-                                                      Receive
-                                                    </p>
-                                                  )}
-                                                </td>
-                                                <td>{ele.createdAt}</td>
-                                              </tr>
-                                            ))
-                                          )} */}
-                                        </tbody>
-                                      </table>
-                                      <br />
-                                      <br />
+                                    <>                                                                            
                                       <center>
                                         <div>
                                           <Tooltip
@@ -468,7 +421,7 @@ function UserTransferHistory() {
                                             <DataTable
                                               ref={dt}
                                               paginator
-                                              rows={1}
+                                              rows={5}
                                               rowsPerPageOptions={[
                                                 5, 10, 25, 50,
                                               ]}
@@ -481,9 +434,10 @@ function UserTransferHistory() {
                                               header={header}
                                               footer={footer}
                                             >
-                                              <Column
-                                                headerStyle={{ width: "3rem" }}
-                                                header="Srno"
+                                            <Column
+                                                field="id"
+                                                sortable
+                                                header="Sr.no"
                                               ></Column>
                                               <Column
                                                 field="fromUserId"
@@ -497,11 +451,18 @@ function UserTransferHistory() {
                                               ></Column>
                                               <Column
                                                 field="amount"
+                                                sortable
                                                 header="Amount"
                                               ></Column>
                                               <Column
+                                                field="type"
+                                                sortable
+                                                header="Type"
+                                              ></Column>
+                                              <Column
                                                 dataType="date"
-                                                field="createdAt"
+                                                field="datetime"
+                                                sortable
                                                 header="Datetime"
                                               ></Column>
                                             </DataTable>

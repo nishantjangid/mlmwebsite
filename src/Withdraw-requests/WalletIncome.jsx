@@ -21,12 +21,15 @@ function WalletHistory() {
         let token = localStorage.getItem('authToken');
         if(!token) return;
         try{
+            setLoadings(true);
             setLoading(true);
             let result = await withdrawHistory();
             setData(result.result);
             setLoading(false);
+            setLoadings(false);
         }catch(err){
             setLoading(false);
+            setLoadings(false);
             if(err.code == "ERR_NETWORK" ){
                 addToast(err.message, {appearance: "error",autoDismiss: true});
             }  
@@ -123,7 +126,7 @@ function WalletHistory() {
                                         <div className="single-table">
                                             <div className="table-responsive">
 
-                                                {!loadings ? (<>
+                                                {loadings ? (<>
                                                     <div className="loader-container">
                                                         <CircularProgress sx={{ color: 'orange' }} />
                                                     </div>

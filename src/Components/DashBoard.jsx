@@ -20,10 +20,11 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { useToasts } from "react-toast-notifications";
-import {requestDesposit} from "../ApiHelpers";
+import {dashboardData, requestDesposit} from "../ApiHelpers";
 
 import { Try } from '@mui/icons-material';
 import { AuthContext } from '../Context/AuthContext';
+import { APP_URL } from '../Constants';
 
 function DashBoard({ userData }) {
     const { addToast } = useToasts();
@@ -45,6 +46,7 @@ function DashBoard({ userData }) {
     const [isLinkCopied, setLinkCopied] = useState(false);
     const [openQrCodeDialog, setOpenQrCodeDialog] = useState(false);
     const [message, setMessage] = useState("");
+    const [data,setData] = useState([]);
 
     // Function to show the QR code image
     const handleShowQrCodeImage = () => {
@@ -105,15 +107,6 @@ function DashBoard({ userData }) {
         }
         handleCloseDialog();
     };
-   
-
-    useEffect(() => {
-        // Simulate a delay to showcase the loading animation
-        setTimeout(() => {
-            setLoading(false);
-        }, 5); // Change the delay as needed
-        // You can also fetch data or perform other initialization here
-    }, []);
 
     const resetDialogState = () => {
         setAmount(""); // Reset amount
@@ -123,6 +116,36 @@ function DashBoard({ userData }) {
     };
     const totalAmount = 2051000.00;
 
+
+    const getDashboardDetail = async () => {
+        let token = localStorage.getItem('authToken');
+        if(!token) return;
+        try{
+            let result = await dashboardData();
+            setData(result.result);
+        }catch(err){            
+            if(err.code == "ERR_NETWORK"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }                
+            else if(err.code == "ERR_BAD_REQUEST"){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
+            }  
+            else if(err.response.status){
+                addToast(err.response.data, {appearance: "error",autoDismiss: true});
+            }            
+        }
+    }
+
+   
+
+    useEffect(() => {
+        // Simulate a delay to showcase the loading animation
+        setTimeout(() => {
+            setLoading(false);
+        }, 5); // Change the delay as needed
+        // You can also fetch data or perform other initialization here
+        getDashboardDetail();
+    }, []);
 
 
     const handleCopyLink = () => {
@@ -167,7 +190,7 @@ function DashBoard({ userData }) {
                             <Typography sx={{ display: 'flex', justifyContent: 'space-between', fontSize: '18px' }}>
                                 Your Investment
                                 <div>
-                                    <h3>$100</h3>
+                                    <h3>${userDetail.investmentWallet  > 0 ? userDetail.investmentWallet : 0}</h3>
                                 </div>
                             </Typography>
                             <CardContent>
@@ -194,7 +217,7 @@ function DashBoard({ userData }) {
                                 Total Investment
 
                                 <div>
-                                    <h3>$100</h3>
+                                    <h3>${userDetail.investmentWallet  > 0 ? userDetail.investmentWallet : 0}</h3>
                                 </div>
                             </Typography>
                             <CardMedia sx={{ height: 20 }} />
@@ -396,7 +419,7 @@ function DashBoard({ userData }) {
                                     <p className="box-header" style={{}}><i className="fa fa-rupee" /> Referal Link </p>
                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
 
-                                        <img style={{ maxWidth: '100%' }} width="250px" height="250px" src="QRCode.png" alt="QRCode" />
+                                        <img style={{ maxWidth: '100%' }} width="250px" height="250px" src={userDetail.userId ? `https://api.qrserver.com/v1/create-qr-code/?data=${userDetail.userId}` : ''} alt="QRCode" />
 
 
 
@@ -427,7 +450,7 @@ function DashBoard({ userData }) {
                                                                     <p
                                                                         style={{ fontSize: '9px', overflowWrap: "anywhere" }}
                                                                     >
-                                                                        https://deep.com/register?id=63be505e76bb22053eff15d7
+                                                                        {userDetail.userId ? `${APP_URL}/register?refferalCode=${userDetail.userId}` : ""}
                                                                     </p>
                                                                     <p>
                                                                         <Tooltip
@@ -465,19 +488,19 @@ function DashBoard({ userData }) {
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600">Total Member: </p>
                                             </div>
-                                            <div className="col s3"><span>NaN</span></div>
+                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.memberDeatils.totalMembers.length}</span></div>
                                         </div>
                                         <div className="row">
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600">Active Member: </p>
                                             </div>
-                                            <div className="col s3"><span>NaN</span></div>
+                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.memberDeatils.activeMembers.length}</span></div>
                                         </div>
                                         <div className="row">
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600">In-Active Member: </p>
                                             </div>
-                                            <div className="col s3"><span>{memberwithdrawDetails?.totalUsers - memberwithdrawDetails?.activeUsers}</span></div>
+                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.memberDeatils.deactiveMembers.length}</span></div>
                                         </div>
                                     </div>
 
@@ -492,7 +515,7 @@ function DashBoard({ userData }) {
                                                 <div className="col s8">
                                                     <p className="collections-title font-weight-600">Total Withdraw : </p>
                                                 </div>
-                                                <div className="col s3"><span>{walletamount}</span></div>
+                                                <div className="col s3"><span>{data.length == 0 ? 0 : data.withdrawDetail}</span></div>
                                             </div>
 
 
@@ -511,27 +534,27 @@ function DashBoard({ userData }) {
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600">Today ROI Income:- </p>
                                             </div>
-                                            <div className="col s3"><span>{incomeDetails?.levelincome}</span></div>
+                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.todayROI}</span></div>
                                         </div>
 
                                         <div className="row">
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600"> Total ROI Income:- </p>
                                             </div>
-                                            <div className="col s3"><span>{incomeDetails?.autopool1}</span></div>
+                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.totalRoI}</span></div>
                                         </div>
                                         <div className="row">
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600"> Level Income:- </p>
                                             </div>
-                                            <div className="col s3"><span>{incomeDetails?.autopool2}</span></div>
+                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.levelIncome}</span></div>
                                         </div>
 
                                         <div className="row">
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600"><strong>Total Income:-</strong></p>
                                             </div>
-                                            <div className="col s3"><span>{incomeDetails?.totalincome}</span></div>
+                                            <div className="col s3"><span>{data.length == 0 ? 0 : data.totalincome}</span></div>
                                         </div>
                                     </div>
 
