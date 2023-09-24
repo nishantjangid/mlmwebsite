@@ -14,6 +14,7 @@ import { AuthContext } from "../Context/AuthContext";
 import { APP_URL } from "../Constants";
 import { resetPassword } from "../ApiHelpers";
 import { useToasts } from "react-toast-notifications";
+import copy from "copy-to-clipboard";
 
 const ProfilePage = ({ userDataa }) => {
   const {addToast} = useToasts();
@@ -32,6 +33,11 @@ const ProfilePage = ({ userDataa }) => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  const copyToClipboard = (url) => {
+    copy(url);
+    alert(`Copied`);
+}
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
@@ -370,6 +376,7 @@ const ProfilePage = ({ userDataa }) => {
                                               <IconButton
                                                 variant="text"
                                                 color="blue-gray"
+                                                onClick={()=>copyToClipboard(userDetail.userId ? `${APP_URL}/register?refferalCode=${userDetail.userId}` : '')}
                                               >
                                                 <ContentCopyIcon className="h-5 w-5" />
                                               </IconButton>

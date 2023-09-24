@@ -25,6 +25,7 @@ import {dashboardData, requestDesposit} from "../ApiHelpers";
 import { Try } from '@mui/icons-material';
 import { AuthContext } from '../Context/AuthContext';
 import { APP_URL } from '../Constants';
+import copy from 'copy-to-clipboard';
 
 function DashBoard({ userData }) {
     const { addToast } = useToasts();
@@ -47,6 +48,12 @@ function DashBoard({ userData }) {
     const [openQrCodeDialog, setOpenQrCodeDialog] = useState(false);
     const [message, setMessage] = useState("");
     const [data,setData] = useState([]);
+ 
+ 
+    const copyToClipboard = (url) => {
+        copy(url);
+        alert(`Copied`);
+    }
 
     // Function to show the QR code image
     const handleShowQrCodeImage = () => {
@@ -457,12 +464,15 @@ function DashBoard({ userData }) {
                                                                             content="Copy"
                                                                             sx={{ color: "black" }}
                                                                         >
-                                                                            <IconButton
-                                                                                variant="text"
-                                                                                color="blue-gray"
-                                                                            >
-                                                                                <ContentCopyIcon sx={{ color: 'white' }} className="h-5 w-5" />
-                                                                            </IconButton>
+                                                                            
+
+                                                                                <IconButton
+                                                                                    variant="text"
+                                                                                    color="blue-gray"
+                                                                                    onClick={()=>copyToClipboard(`${APP_URL}/register?refferalCode=${userDetail.userId}`)}
+                                                                                >
+                                                                                    <ContentCopyIcon sx={{ color: 'white' }} className="h-5 w-5" />
+                                                                                </IconButton>                                                                            
                                                                         </Tooltip>
                                                                     </p>
                                                                 </p>

@@ -3,7 +3,7 @@ import "./Style.css";
 
 import { Snackbar, Button } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
     Dialog,
     DialogActions,
@@ -17,8 +17,9 @@ import { getRefferalDetails, register } from "../../ApiHelpers";
 const Register = () => {
 
     const navigate = useNavigate()
-
-    const [sponsorId, setSponsorId] = useState('');
+    const [searchParams] = useSearchParams();
+    
+    const [sponsorId, setSponsorId] = useState(searchParams.get('refferalCode') ? searchParams.get('refferalCode') : '');
     const [sponsorName, setSponsorName] = useState('');
     const [email, setEmail] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -84,7 +85,7 @@ const Register = () => {
 
     const getRefferalUsername = async (e) => {
         try{
-            let result = await getRefferalDetails({userId:e.target.value});
+            let result = await getRefferalDetails({userId:e});
             setSponsorName(result.result);
         }catch(err){
             setSponsorName("");
@@ -114,6 +115,12 @@ const Register = () => {
         }
         setOpenSnackbar(false);
     };
+
+    useEffect(()=>{
+        if(searchParams.get('refferalCode')){
+            getRefferalUsername(searchParams.get('refferalCode'));
+        }
+    },[searchParams])
     return (
         <>
             <div className="register_div">
@@ -145,7 +152,7 @@ const Register = () => {
                                         <form method="post" onSubmit={handleSubmit}>
                                             <div className="row">
                                                 <div className="col-lg-6 col-md-12 col-sm-12">
-                                                    <input type="text" className="input_box" placeholder="Sponsor ID" name="refferalCode" required value={sponsorId} onBlur={(e) => getRefferalUsername(e)} onChange={(e) => handleSponserId(e)}
+                                                    <input type="text" className="input_box" placeholder="Sponsor ID" name="refferalCode" required value={sponsorId} onBlur={(e) => getRefferalUsername(e.target.value)} onChange={(e) => handleSponserId(e)}
                                                     />
                                                 </div>
                                                 <div className="col-lg-6 col-md-12 col-sm-12">
