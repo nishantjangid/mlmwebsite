@@ -148,11 +148,24 @@ function WalletHistory() {
   const footer = `In total there are ${data ? data.length : 0} History.`;
   const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
   const paginatorRight = <Button type="button" icon="pi pi-download" text />;
+  const statusTemplate = (row) => (
+    <span>
+      {row?.type == "Pending" && (
+        <p style={{ color: "orange", fontWeight: "bold" }}>Pending</p>
+      )}
+      {row?.type == "Approved" && (
+        <p style={{ color: "green", fontWeight: "bold" }}>Approved</p>
+      )}
+      {row?.tpe == "Rejected" && (
+        <p style={{ color: "red", fontWeight: "bold" }}>Rejected</p>
+      )}
+    </span>
+  );
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 5); // Change the delay as needed
+    }, 1500); // Change the delay as needed
     getAllRequests();
   }, []);
 
@@ -353,6 +366,7 @@ function WalletHistory() {
                                   <Column
                                     field="type"
                                     sortable
+                                    body={statusTemplate}
                                     header="Type"
                                   ></Column>
                                   <Column
