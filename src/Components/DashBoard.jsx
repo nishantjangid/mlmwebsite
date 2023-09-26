@@ -408,12 +408,12 @@ function DashBoard({ userData }) {
                                             </span>
                                             </div>
                                         </div>
-                                        <div className="row">
+                                        {/* <div className="row">
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600">Sponsor Name: </p>
                                             </div>
                                             <div className="col s3"><span>Unlimited</span></div>
-                                        </div>
+                                        </div> */}
 
 
 

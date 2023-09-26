@@ -31,7 +31,7 @@ function FundsTransfer() {
     const [emailverify, setEmailverify] = useState(false);
 
     // State for input field value and error message
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(userDetail.email ? userDetail.email : "");
     const [emailError, setEmailError] = useState("");
     const [data, setData] = useState([]);
     const [sending,setSending] = useState(false);
@@ -285,7 +285,7 @@ function FundsTransfer() {
                                                                     type="text"
                                                                     margin='dense'
                                                                     label="Enter Email Address"
-                                                                    value={email}   
+                                                                    value={userDetail ? userDetail.email : email}   
                                                                     disabled={upperInputDisabled}                                                                 
                                                                     fullWidth
                                                                     onChange={(e) => {

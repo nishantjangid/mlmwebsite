@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import "../StyleFolder/style.css";
 
@@ -12,9 +12,11 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
+import { AuthContext } from "../Context/AuthContext";
 
 function AllDeposite() {
   const { addToast } = useToasts();
+  const {getUserDetails} = useContext(AuthContext);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -152,6 +154,7 @@ function AllDeposite() {
       let result = await getdepositedata();
       console.log(result.result, "result");
       setData(result.result);
+      getUserDetails();
     } catch (err) {
       console.log(err, "err");
       if (err.code == "ERR_NETWORK") {
@@ -400,7 +403,20 @@ function AllDeposite() {
                                 ></Column>
                               </DataTable>
                             ) : (
-                              ""
+                              <DataTable
+                              ref={dt}
+                              paginator
+                              rows={5}
+                              rowsPerPageOptions={[5, 10, 25, 50]}
+                              tableStyle={{ minWidth: "50rem" }}
+                              paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                              currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                              paginatorLeft={paginatorLeft}
+                              paginatorRight={paginatorRight}
+                              value={data}
+                              header={header}
+                              footer={footer}
+                            ></DataTable>
                             )}
                           </>
                         )}

@@ -17,7 +17,7 @@ import { AuthContext } from '../Context/AuthContext';
 function SendRequest() {
     const {addToast} = useToasts();
     const [amount, setAmount] = useState(0);
-    const {getUserDetails} = useContext(AuthContext);
+    const {userDetail,getUserDetails} = useContext(AuthContext);
     const [balance, setBalance] = useState(0);
     const [wallet, setWallet] = useState("");
     const [message, setMessage] = useState("Message");
@@ -32,7 +32,7 @@ function SendRequest() {
     const [emailverify, setEmailverify] = useState(false);
 
     // State for input field value and error message
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(userDetail.email ? userDetail.email : "");
     const [emailError, setEmailError] = useState("");
     const [sending,setSending] = useState(false);
 

@@ -10,7 +10,7 @@ import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
 
 function UserTransferHistory() {
-  const { userDetail } = useContext(AuthContext);
+  const { userDetail,getUserDetails } = useContext(AuthContext);  
   const { addToast } = useToasts();
   const [activeTab, setActiveTab] = useState("transfer");
   const [fromDate, setFromDate] = useState("");
@@ -26,6 +26,7 @@ function UserTransferHistory() {
   };
 
   const cols = [    
+    { field: 'username', header: 'From Username' },
     { field: 'fromUserId', header: 'From User ID' },
     { field: 'toUserId', header: 'To User ID' },
     { field: 'amount', header: 'Amount' }
@@ -123,6 +124,7 @@ function UserTransferHistory() {
       let result = await fundTransferHistory();
       let data = result;
       setTransactions(data.result);
+      getUserDetails();
       setLoad(false);
     } catch (err) {
       setLoad(false);
@@ -445,6 +447,11 @@ function UserTransferHistory() {
                                                 field="id"
                                                 sortable
                                                 header="Sr.no"
+                                              ></Column>
+                                              <Column
+                                                field="username"
+                                                sortable
+                                                header="From Username"
                                               ></Column>
                                               <Column
                                                 field="fromUserId"

@@ -47,6 +47,7 @@ const {addToast} = useToasts();
 
   const cols = [
     { field: "id", header: "Sr. No." },
+    { field: "email", header: "Email" },
     { field: "userId", header: "User ID" },
     { field: "username", header: "Username" },
     { field: "totalMembers", header: "Total Member" },
@@ -389,6 +390,11 @@ const {addToast} = useToasts();
                                   field="id"
                                   sortable
                                   header="Sr.no"
+                                ></Column>
+                                <Column
+                                  field="email"
+                                  sortable
+                                  header="Email"
                                 ></Column>
                                 <Column
                                   field="userId"

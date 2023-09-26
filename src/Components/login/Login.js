@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { login } from '../../ApiHelpers';
+import { AuthContext } from '../../Context/AuthContext';
 
 
 
 function Login() {
     const navigate = useNavigate();
     const { addToast } = useToasts();
-
+    const {getUserDetails} = useContext(AuthContext);
     const handleSubmit = async (e) => {
         e.preventDefault();
         let email = e.target.email.value;
@@ -28,6 +29,7 @@ function Login() {
                 localStorage.setItem('user',JSON.stringify(data.user));
                 localStorage.setItem('authToken',data.token);
                 addToast("You are logged in", {appearance: "success",autoDismiss: true}); 
+                getUserDetails();
                 navigate("/");            
         }catch(err){  
             console.log(err);

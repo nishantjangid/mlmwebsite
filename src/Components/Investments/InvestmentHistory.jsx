@@ -324,7 +324,7 @@ function InvestmentHistory() {
                                   >
                                     <i className="icon-user" />{" "}
                                     <span className="hidden-xs text-white">
-                                      Transfer History
+                                      Investment History
                                     </span>
                                   </span>
                                 </li>
