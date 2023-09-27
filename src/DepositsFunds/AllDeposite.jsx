@@ -132,7 +132,7 @@ function AllDeposite() {
   const statusTemplate = (row) => (
     <span>
       {row?.status == 0 && (
-        <p style={{ color: "orange", fontWeight: "bold" }}>Pending</p>
+        <p style={{ color: "#d34f1d", fontWeight: "bold" }}>Pending</p>
       )}
       {row?.status == 1 && (
         <p style={{ color: "green", fontWeight: "bold" }}>Approved</p>

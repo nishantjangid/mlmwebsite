@@ -392,6 +392,27 @@ export const getAllUsers = async () => {
     })     
 }
 
+// get user level data
+export const getLevelData = async () => {    
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let accesstoken = localStorage.getItem('authToken'); 
+            let result = await axios.get(`${BASEURL}/users/level-Income`,{headers: {
+                'x-access-token': `${accesstoken}`,
+                'Content-Type':'application/json'
+              },});
+
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    })      
+}
+
 
 
 

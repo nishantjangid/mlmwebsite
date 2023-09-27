@@ -8,6 +8,7 @@ export const AuthProvider = ({children}) => {
     const token = localStorage.getItem('authToken');
 
     const getUserDetails = async () => {
+        let token = localStorage.getItem('authToken');
         if(!token) return;
         try{
             let result = await getuserDetail();

@@ -1,118 +1,183 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 
 import { TablePagination } from '@mui/material';
 import { compareDesc } from 'date-fns';
 import CircularProgress from '@mui/material/CircularProgress';
+import { getLevelData } from '../ApiHelpers';
+import { Button } from 'primereact/button';
+import { useToasts } from 'react-toast-notifications';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Tooltip } from 'primereact/tooltip';
 
 
 function LevelIncome() {
-
-    const [loading, setLoading] = useState(true);
-    const [tableData, setTableData] = useState([]);
+    
+    const {addToast}   = useToasts();
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [searchQuery, setSearchQuery] = useState("");        
     const [loadings, setLoadings] = useState(true);
-
-
-
-
-    const handleSearch = (e) => {
-        console.log("nakdsj");
-        e.preventDefault();
-        const filteredData = tableData.filter((item) => {
-            const itemDate = new Date(item?.data?.createdAt);
-            console.log("date", itemDate);
-            const startDateObj = startDate ? new Date(startDate) : null;
-            const endDateObj = endDate ? new Date(endDate) : null;
-
-            // Check the date range
-            if (startDateObj && endDateObj) {
-                // Format the item date in the same format as your input (MM/DD/YYYY)
-                const formattedItemDate = `${itemDate.getMonth() + 1}/${itemDate.getDate()}/${itemDate.getFullYear()}`;
-                const start = `${startDateObj.getMonth() + 1}/${startDateObj.getDate()}/${startDateObj.getFullYear()}`;
-                const end = `${endDateObj.getMonth() + 1}/${endDateObj.getDate()}/${endDateObj.getFullYear()}`;
-                // console.log(start);
-                // console.log(formattedItemDate, start, end);
-                // console.log(formattedItemDate >= start);
-                if (
-                    formattedItemDate < start ||
-                    formattedItemDate > end
-                ) {
-                    return false;
-                }
-            }
-            if (startDateObj) {
-                const formattedItemDate = `${itemDate.getMonth() + 1}/${itemDate.getDate()}/${itemDate.getFullYear()}`;
-                const start = `${startDateObj.getMonth() + 1}/${startDateObj.getDate()}/${startDateObj.getFullYear()}`;
-                if (
-                    formattedItemDate < start
-                ) {
-                    return false;
-                }
-            }
-            if (endDateObj) {
-                const formattedItemDate = `${itemDate.getMonth() + 1}/${itemDate.getDate()}/${itemDate.getFullYear()}`;
-                const end = `${endDateObj.getMonth() + 1}/${endDateObj.getDate()}/${endDateObj.getFullYear()}`;
-                if (
-                    formattedItemDate > end
-                ) {
-                    return false;
-                }
-            }
-            // Check the user name
-            console.log(item?.data?.username);
-            console.log(searchQuery);
-            if (searchQuery && !item?.data?.username?.toLowerCase().includes(searchQuery.toLowerCase())) {
-                return false;
-            }
-
-            return true;
-        });
-
-        setTableData(filteredData);
-        console.log(tableData);
-        console.log(filteredData);
+    const [data, setData] = useState([]);
+    const dt = useRef(null);
+  
+    const exportCSV = (selectionOnly) => {
+      dt.current.exportCSV({ selectionOnly });
     };
-
+  
+    const cols = [
+      { field: "userId", header: "User ID" },
+      { field: "username", header: "Username" },
+      { field: "amount", header: "Amount" },
+      { field: "address", header: "Address" },
+      { field: "isAccpected", header: "Status" },
+      { field: "datetime", header: "Datetime" },
+    ];
+  
+    const exportPdf = () => {
+      import("jspdf").then((jsPDF) => {
+        import("jspdf-autotable").then(() => {
+          const doc = new jsPDF.default(0, 0);
+          const exportColumns = cols.map((col) => ({
+            title: col.header,
+            dataKey: col.field,
+          }));
+          console.log(exportColumns);
+          doc.autoTable(exportColumns, data);
+          doc.save("fundTransfers.pdf");
+        });
+      });
+    };
+  
+    const exportExcel = () => {
+      import("xlsx").then((xlsx) => {
+        const worksheet = xlsx.utils.json_to_sheet(data);
+        const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
+        const excelBuffer = xlsx.write(workbook, {
+          bookType: "xlsx",
+          type: "array",
+        });
+  
+        saveAsExcelFile(excelBuffer, "fundTransfer");
+      });
+    };
+  
+    const saveAsExcelFile = (buffer, fileName) => {
+      import("file-saver").then((module) => {
+        if (module && module.default) {
+          let EXCEL_TYPE =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+          let EXCEL_EXTENSION = ".xlsx";
+          const data = new Blob([buffer], {
+            type: EXCEL_TYPE,
+          });
+  
+          module.default.saveAs(
+            data,
+            fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+          );
+        }
+      });
+    };
+  
     const getallusers = async () => {
-      
+      let token = localStorage.getItem("authToken");
+      if (!token) return;
+      try {
+        setLoadings(true);        
+        let result = await getLevelData();
+        setLoadings(false);        
+        setData(result.result);
+      } catch (err) {
+        
+        setLoadings(false);
+        if (err.code == "ERR_NETWORK") {
+          addToast(err.message, { appearance: "error", autoDismiss: true });
+        } else if (err.code == "ERR_BAD_REQUEST") {
+          addToast(err.response.data.error, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        } else if (err.response.status) {
+          addToast(err.response.data.error, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      }
+    };
+  
+    const header = (
+      <div className="flex align-items-center justify-content-end gap-2">
+        <Button
+          type="button"
+          value="CSV"
+          icon="pi pi-file"
+          rounded
+          onClick={() => exportCSV(false)}
+          data-pr-tooltip="CSV"
+        >
+          CSV
+        </Button>
+        <Button
+          type="button"
+          icon="pi pi-file-excel"
+          severity="success"
+          value="XLS"
+          rounded
+          onClick={exportExcel}
+          data-pr-tooltip="XLS"
+        >
+          XLS
+        </Button>
+        <Button
+          type="button"
+          icon="pi pi-file-pdf"
+          severity="warning"
+          value="PDF"
+          rounded
+          onClick={exportPdf}
+          data-pr-tooltip="PDF"
+        >
+          PDF
+        </Button>
+      </div>
+    );
+    const footer = `In total there are ${data ? data.length : 0} History.`;
+    const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
+    const paginatorRight = <Button type="button" icon="pi pi-download" text />;
+    const statusTemplate = (row) => (
+      <span>
+        {row?.type == "Pending" && (
+          <p style={{ color: "orange", fontWeight: "bold" }}>Pending</p>
+        )}
+        {row?.type == "Approved" && (
+          <p style={{ color: "green", fontWeight: "bold" }}>Approved</p>
+        )}
+        {row?.tpe == "Rejected" && (
+          <p style={{ color: "red", fontWeight: "bold" }}>Rejected</p>
+        )}
+      </span>
+    );
+  
+    const handleSearch = () => {
+        
+    }
+    const handleReset = () => {
+        getallusers();
     }
     useEffect(() => {
         setTimeout(() => {
-            setLoading(false);
-        }, 5); // Change the delay as needed
+            setLoadings(false);
+        }, 1500); // Change the delay as needed
         getallusers();
     }, []);
 
-    const handleReset = () => {
-        setStartDate("");
-        setEndDate("");
-        setSearchQuery("");
-        // setTableData(tableData);
-        getallusers();
-    };
 
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    const startIndex = page * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-
-    const displayedData = tableData.slice(startIndex, endIndex);
 
     return (
-        <> <div className={`fade-in ${loading ? '' : 'active'}`}>
+        <> <div className={`fade-in ${loadings ? '' : 'active'}`}>
             <div className="content-wrapper" style={{ minHeight: '512px' }}>
                 {/* Content Header (Page header) */}
                 <div className="content-header">
@@ -182,74 +247,92 @@ function LevelIncome() {
                                                 </center>
                                             </div>
                                             <br />
-                                        </form>
-                                        <div className="single-table">
-                                            <div className="table-responsive">
-
-                                                {!loadings ? (<>
-                                                    <div className="loader-container">
-                                                        <CircularProgress sx={{ color: 'orange' }} />
-                                                    </div>
-
-
-                                                </>) : (<>
-
-                                                    <table className="table text-center">
-                                                        <thead className="text-capitalize">
-                                                            <tr>
-                                                                <th>Sr.No.</th>
-                                                                <th>User Name</th>
-                                                                <th>User ID</th>
-                                                                <th>Receive From</th>
-                                                                <th> Level</th>
-                                                                <th> Amount </th>
-                                                                <th>Date</th>
-                                                                <th>Time</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {
-                                                                displayedData?.length === 0 ? (
-                                                                    <tr>
-                                                                        <td colSpan="12" style={{ color: 'black', textAlign: 'center' }}>
-                                                                            No results found
-                                                                        </td>
-                                                                    </tr>
-                                                                ) : displayedData?.map((item, index) => {
-                                                                    const createdAt = new Date(item?.data?.createdAt);
-                                                                    const formattedDate = createdAt.toLocaleDateString();
-                                                                    const formattedTime = createdAt.toLocaleTimeString();
-                                                                    return (<tr key={index}>
-                                                                        <td>{index + 1}</td>
-                                                                        <td>{item?.data?.name}</td>
-                                                                        <td>{item?.data?.username}</td>
-                                                                        <td>{item?.data?.userid}</td>
-                                                                        <td>{item?.data?.amount}</td>
-                                                                        <td>{formattedDate}</td>
-                                                                        <td>{formattedTime}</td>
-                                                                    </tr>)
-                                                                })}
-                                                        </tbody>
-                                                    </table>
-                                                </>)}
-
-                                                <br /><br />
-
-                                            </div>
-                                        </div>
+                                        </form>                                        
                                     </div>
                                     <center>
-                                        <div>
-                                            <TablePagination sx={{ color: 'orange' }}
-                                                rowsPerPageOptions={[10, 25, 50]}
-                                                component="div"
-                                                count={tableData.length}
-                                                rowsPerPage={rowsPerPage}
-                                                page={page}
-                                                onPageChange={handleChangePage}
-                                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                            />
-                                        </div>
+                                    {loadings ? (
+                            <>
+                              <div className="loader-container">
+                                <CircularProgress sx={{ color: "orange" }} />
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <Tooltip
+                                target=".export-buttons>button"
+                                position="bottom"
+                              />
+                              {data.length > 0 ? (
+                                <DataTable
+                                  ref={dt}
+                                  paginator
+                                  rows={5}
+                                  rowsPerPageOptions={[5, 10, 25, 50]}
+                                  tableStyle={{ minWidth: "50rem" }}
+                                  paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                                  currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                                  paginatorLeft={paginatorLeft}
+                                  paginatorRight={paginatorRight}
+                                  value={data}
+                                  header={header}
+                                  footer={footer}
+                                >
+                                  <Column
+                                    field="id"
+                                    sortable
+                                    header="Sr.no"
+                                  ></Column>
+                                  <Column
+                                    field="userId"
+                                    sortable
+                                    header="UserId"
+                                  ></Column>
+                                  <Column
+                                    field="username"
+                                    sortable
+                                    header="Username"
+                                  ></Column>
+                                  <Column
+                                    field="receiveFrom"
+                                    sortable
+                                    header="Receive From"
+                                  ></Column>
+                                  <Column
+                                    field="Level"
+                                    sortable
+                                    header="Level"
+                                  ></Column>
+                                  <Column
+                                    field="amount"
+                                    sortable
+                                    header="Amount"
+                                  ></Column>
+                                  <Column
+                                    dataType="date"
+                                    field="datetime"
+                                    sortable
+                                    header="Datetime"
+                                  ></Column>
+                                </DataTable>
+                              ) : (
+                                <DataTable
+                                  ref={dt}
+                                  paginator
+                                  rows={5}
+                                  rowsPerPageOptions={[5, 10, 25, 50]}
+                                  tableStyle={{ minWidth: "50rem" }}
+                                  paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                                  currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                                  paginatorLeft={paginatorLeft}
+                                  paginatorRight={paginatorRight}
+                                  value={data}
+                                  header={header}
+                                  footer={footer}
+                                  
+                                ></DataTable>
+                              )}
+                            </>
+                          )}                                       
                                     </center>
                                 </div>
                             </div>
