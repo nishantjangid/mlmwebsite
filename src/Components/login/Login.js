@@ -74,7 +74,7 @@ function Login() {
                                                 <input   name="password" id="password" type="password" placeholder="Enter Password" required style={{ borderRadius: 15, paddingLeft: 15, fontWeight: 'bold' }} />
                                             </div>
 
-                                            <p style={{ color: 'rgb(195 161 119)', cursor: 'pointer', textAlign: 'left', background: 'none', marginBottom: "9px" }}  >Forget Password</p>
+                                            <p style={{ color: 'rgb(195 161 119)', cursor: 'pointer', textAlign: 'left', background: 'none', marginBottom: "9px" }} onClick={() => navigate("/forget")} >Forget Password</p>
                                            
                                             <div className=" wow flipInX" style={{ visibility: 'visible', animationName: 'flipInX' }}>
                                                 <input style={{ marginTop: '30px !important', backgroundColor: 'rgb(195 161 119)', border: 'none' }} type="submit" name="submit" id className="btn-default btn-block form_submit_btn" />

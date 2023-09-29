@@ -83,11 +83,11 @@ export const fundTransfer = async (obj) => {
 }
 
 // FUND TRANSACTIONS
-export const fundTransferHistory = async () => {
+export const fundTransferHistory = async (obj) => {
     return new Promise(async (resolve,reject)=>{
         try{
             let accesstoken = localStorage.getItem('authToken');
-            let result = await axios.get(`${BASEURL}/users/fundTrnasferHistory`,{headers:{
+            let result = await axios.post(`${BASEURL}/users/fundTrnasferHistory`,obj,{headers:{
                 'Content-Type':"application/json",
                 'x-access-token': `${accesstoken}`,
             }});
@@ -167,11 +167,11 @@ export const requestDesposit = async(obj)=>{
 }
 
 //Get all deposite data
-export const getdepositedata = async () => {
+export const getdepositedata = async (obj) => {
     return new Promise(async (resolve,reject)=>{
         try{
             let accesstoken = localStorage.getItem('authToken');
-            let result = await axios.get(`${BASEURL}/users/all`,{headers:{
+            let result = await axios.post(`${BASEURL}/users/all`,obj,{headers:{
                 'x-access-token': `${accesstoken}`,
                 'Content-Type':"application/json"
             }});
@@ -268,11 +268,11 @@ export const investment = async(obj)=>{
 }
 
 //investment history 
-export const investmentHistory = async () => {
+export const investmentHistory = async (obj) => {
     return new Promise(async (resolve,reject)=>{
         try{
             let accesstoken = localStorage.getItem('authToken');
-            let result = await axios.get(`${BASEURL}/users/investmentHistory`,{headers:{
+            let result = await axios.post(`${BASEURL}/users/investmentHistory`,obj,{headers:{
                 'x-access-token': `${accesstoken}`,
                 'Content-Type':"application/json"
             }});
@@ -309,11 +309,11 @@ export const withdrawRequest = async(obj)=>{
 }
 
 //user witdraw request history
-export const withdrawHistory = async()=>{
+export const withdrawHistory = async(obj)=>{
     return new Promise(async (resolve,reject)=>{
         try{
             let accesstoken = localStorage.getItem('authToken'); 
-            let result = await axios.get(`${BASEURL}/users/withdrawHistory`,{headers: {
+            let result = await axios.post(`${BASEURL}/users/withdrawHistory`,obj,{headers: {
                 'x-access-token': `${accesstoken}`,
                 'Content-Type':'application/json'
               },});
@@ -393,11 +393,11 @@ export const getAllUsers = async () => {
 }
 
 // get user level data
-export const getLevelData = async () => {    
+export const getLevelData = async (obj) => {    
     return new Promise(async (resolve,reject)=>{
         try{
             let accesstoken = localStorage.getItem('authToken'); 
-            let result = await axios.get(`${BASEURL}/users/level-Income`,{headers: {
+            let result = await axios.post(`${BASEURL}/users/level-Income`,obj,{headers: {
                 'x-access-token': `${accesstoken}`,
                 'Content-Type':'application/json'
               },});
@@ -412,6 +412,86 @@ export const getLevelData = async () => {
         }
     })      
 }
+
+// send otp of mail
+export const sendMailOtp = async (obj) => {
+    return new Promise(async (resolve,reject)=>{
+        try{            
+            let result = await axios.post(`${BASEURL}/users/sendOtpMail`,obj,{headers: {                
+                'Content-Type':'application/json'
+              },});
+
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    })     
+}
+
+// verify email otp
+export const verifyMailOtp = async (obj) => {
+    return new Promise(async (resolve,reject)=>{
+        try{            
+            let result = await axios.post(`${BASEURL}/users/verifyMailOtp`,obj,{headers: {                
+                'Content-Type':'application/json'
+              },});
+
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    })    
+}
+
+// forgot password
+export const forgotPassword = async (obj) => {
+    return new Promise(async (resolve,reject)=>{
+        try{            
+            let result = await axios.post(`${BASEURL}/users/forgot`,obj,{headers: {                
+                'Content-Type':'application/json'
+              },});
+
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    })     
+}
+
+
+// get user level data
+export const getTransactions = async (obj) => {    
+    return new Promise(async (resolve,reject)=>{
+        try{
+            let accesstoken = localStorage.getItem('authToken'); 
+            let result = await axios.post(`${BASEURL}/users/trnasactions`,obj,{headers: {
+                'x-access-token': `${accesstoken}`,
+                'Content-Type':'application/json'
+              },});
+
+            if(result.status == 200 || result.status == 201){
+                resolve(result.data);
+            }else{
+                reject(result.data);
+            }
+        }catch(err){
+            reject(err);
+        }
+    })      
+}
+
 
 
 

@@ -15,7 +15,7 @@ function WalletHistory() {
   const { addToast } = useToasts();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
+  const [searchQuery,setSearchQuery]=useState('');
   const [loading, setLoading] = useState(true);
   const [loadings, setLoadings] = useState(true);
   const [data, setData] = useState([]);
@@ -80,13 +80,42 @@ function WalletHistory() {
     });
   };
 
+  const handleSearch = async () => {
+    let token = localStorage.getItem("authToken");
+    if (!token) return;
+    try {
+      setLoadings(true);
+      setLoading(true);
+      let result = await withdrawHistory({startDate:new Date(startDate),endDate:new Date(endDate),keywords:searchQuery});
+      setData(result.result);
+      setLoading(false);
+      setLoadings(false);
+    } catch (err) {
+      setLoading(false);
+      setLoadings(false);
+      if (err.code == "ERR_NETWORK") {
+        addToast(err.message, { appearance: "error", autoDismiss: true });
+      } else if (err.code == "ERR_BAD_REQUEST") {
+        addToast(err.response.data.error, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      } else if (err.response.status) {
+        addToast(err.response.data.error, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    }
+  };
+
   const getAllRequests = async () => {
     let token = localStorage.getItem("authToken");
     if (!token) return;
     try {
       setLoadings(true);
       setLoading(true);
-      let result = await withdrawHistory();
+      let result = await withdrawHistory({startDate:"",endDate:"",keywords:""});
       setData(result.result);
       setLoading(false);
       setLoadings(false);
@@ -170,6 +199,9 @@ function WalletHistory() {
   }, []);
 
   const handleReset = () => {
+    setStartDate('')
+    setEndDate('')
+    setSearchQuery('');
     getAllRequests();
   };
 
@@ -252,6 +284,7 @@ function WalletHistory() {
                                 className="form-control "
                                 placeholder="yyyy-mm-dd"
                                 name="end_date"
+                                min={startDate && startDate}
                                 onChange={(e) => setEndDate(e.target.value)}
                                 value={endDate}
                               />
@@ -272,6 +305,8 @@ function WalletHistory() {
                               className="form-control"
                               placeholder="Name,User ID"
                               name="username"
+                              value={searchQuery}
+                              onChange={(e)=>setSearchQuery(e.target.value)}
                             />
                           </div>
                         </div>
@@ -286,11 +321,13 @@ function WalletHistory() {
                         <div className="col-md-12 mb-12">
                           <center>
                             <button
+                            type="button"
                               style={{
                                 color: "black",
                                 backgroundColor: "rgb(195 161 119)",
                               }}
                               className="btn btn-primary"
+                              onClick={handleSearch}
                             >
                               Search Now
                             </button>

@@ -34,6 +34,7 @@ import AdminTransferFunds from './Funds/AdminTransferFunds';
 import RewardIncome from './IncomeReports/RewardIncome';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 import Header from './Components/Header';
+import Forget from './Components/login/Forget';
 
 
 const App = () => {
@@ -74,6 +75,7 @@ const isAuthenticated = false;
         </Route>      
           <Route exact path='register' element={<Register /> } />
           <Route exact path='login' element={ <Login />} />
+          <Route exact path='forget' element={ <Forget />} />
               
       </Routes>
     </Router>

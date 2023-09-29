@@ -16,12 +16,40 @@ function InvestmentHistory() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [loadings, setLoadings] = useState(true);
   const [data, setData] = useState([]);
   const dt = useRef(null);
+
+  const handleSearch = async () => {      
+    try {
+      setData([]);
+      setLoadings(true);
+      let result = await investmentHistory({startDate:new Date(fromDate),endDate:new Date(toDate),keywords:searchQuery});
+      setLoadings(false);
+      let data = result;
+      console.log(data.result, data.result);
+      setData(data.result);
+    } catch (err) {
+      setLoadings(false);
+      if (err.code == "ERR_NETWORK") {
+        addToast(err.message, { appearance: "error", autoDismiss: true });
+        return;
+      } else if (err.code == "ERR_BAD_REQUEST") {
+        addToast(err.response.data.error, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+        return;
+      } else if (err.response.status) {
+        addToast(err.response.data.error, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    }    
+  }
 
   const exportCSV = (selectionOnly) => {
     dt.current.exportCSV({ selectionOnly });
@@ -133,7 +161,7 @@ function InvestmentHistory() {
     try {
       setData([]);
       setLoadings(true);
-      let result = await investmentHistory();
+      let result = await investmentHistory({startDate:"",endDate:"",keywords:""});
       setLoadings(false);
       let data = result;
       console.log(data.result, data.result);
@@ -142,11 +170,13 @@ function InvestmentHistory() {
       setLoadings(false);
       if (err.code == "ERR_NETWORK") {
         addToast(err.message, { appearance: "error", autoDismiss: true });
+        return;
       } else if (err.code == "ERR_BAD_REQUEST") {
         addToast(err.response.data.error, {
           appearance: "error",
           autoDismiss: true,
         });
+        return;
       } else if (err.response.status) {
         addToast(err.response.data.error, {
           appearance: "error",
@@ -155,6 +185,9 @@ function InvestmentHistory() {
       }
     }
   };
+  
+
+
 
   const handleReset = () => {
     investmenthistory();
@@ -202,6 +235,8 @@ function InvestmentHistory() {
                       >
                         <input
                           type="date"
+                          value={fromDate}
+                          onChange={(e)=>setFromDate(e.target.value)}
                           className="form-control t"
                           placeholder="yyyy-mm-dd"
                           name="start_date"
@@ -221,7 +256,18 @@ function InvestmentHistory() {
                         data-target-input="nearest"
                       >
                         <input
+                          min={fromDate && fromDate}
                           type="date"
+                          value={toDate}
+                          onChange={(e)=>{
+                            if(!fromDate){ addToast("Please select start date", {
+                              appearance: "error",
+                              autoDismiss: true,
+                            });
+                            return;
+                          }
+                          setToDate(e.target.value);
+                          }}
                           className="form-control "
                           placeholder="yyyy-mm-dd"
                           name="end_date"
@@ -242,8 +288,10 @@ function InvestmentHistory() {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Name, User ID , Mobile No."
+                        placeholder="Name, User ID"
                         name="userid"
+                        value={searchQuery}
+                        onChange={(e)=>setSearchQuery(e.target.value)}
                       />
                     </div>
                   </div>
@@ -276,6 +324,7 @@ function InvestmentHistory() {
                           }}
                           className="btn btn-primary"
                           value="Search"
+                          onClick={handleSearch}
                         >
                           Search Now
                         </button>

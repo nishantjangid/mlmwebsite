@@ -12,7 +12,7 @@ import {
     TextField,
 } from "@mui/material";
 import { useToasts } from "react-toast-notifications";
-import { getRefferalDetails, register } from "../../ApiHelpers";
+import { getRefferalDetails, register, sendMailOtp, verifyMailOtp } from "../../ApiHelpers";
 
 const Register = () => {
 
@@ -24,10 +24,13 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
-
+    const [message,setMessage] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
     const [otp, setOtp] = useState("");
     const { addToast } = useToasts();
+    const [verified,setVerified] = useState(false);
+    const [verifying,setVerifying] = useState(false);
+    const [loading,setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -60,6 +63,11 @@ const Register = () => {
         }
         if(!refferalCode){
             addToast("Please provide a sponsor id", {appearance: "error",autoDismiss: true});
+            return; 
+        }
+
+        if(!verified){
+            addToast("Please verify your email", {appearance: "error",autoDismiss: true});
             return; 
         }
 
@@ -103,13 +111,60 @@ const Register = () => {
         }
     }
     
-    const handleOpenDialog = () => {
-        setOpenDialog(true);
+    const handleOpenDialog = async  () => {
+        try{
+            setVerifying(true);
+            let result = await sendMailOtp({email});
+            setMessage(result.message);
+            setVerifying(false);
+            setOpenDialog(true);
+            
+        }catch(err){
+            setVerified(false);
+            setVerifying(false);
+            if(err.code == "ERR_NETWORK"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }                
+            else if(err.code == "ERR_BAD_REQUEST"){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
+            }  
+            else if(err.response.status){
+                addToast(err.response.data, {appearance: "error",autoDismiss: true});
+            }
+        }
     };
 
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
-    };
+    const handleCloseDialog = async () => {
+        if(!otp){
+            addToast("Please enter otp", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        if(!email){
+            addToast("Please enter Email", {appearance: "error",autoDismiss: true});
+            return;
+        }
+        try{
+            setLoading(true);
+            let result = await verifyMailOtp({otp,email});
+            setVerified(true);
+            setLoading(false);
+            setOpenDialog(false);
+            setOtp('');
+        }catch(err){
+            setLoading(false);
+            setVerified(false);
+            setMessage('')            
+            if(err.code == "ERR_NETWORK"){
+                addToast(err.message, {appearance: "error",autoDismiss: true});
+            }                
+            else if(err.code == "ERR_BAD_REQUEST"){
+                addToast(err.response.data.error, {appearance: "error",autoDismiss: true});                
+            }  
+            else if(err.response.status){
+                addToast(err.response.data, {appearance: "error",autoDismiss: true});
+            }
+        }
+    }
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === "clickaway") {
@@ -163,37 +218,70 @@ const Register = () => {
 
                                                 <div className="col-lg-12 col-md-12 col-sm-12">
                                                     <div style={{ position: "relative" }}>
-                                                        <input type="text" className="input_box" placeholder="E-mail" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                                                        <input type="text" className="input_box" placeholder="E-mail" name="email" value={email} onChange={(e) => {
+                                                            setEmail(e.target.value)
+                                                            setVerified(false);
+                                                            setVerifying(false);
+                                                            }} required/>
                                                         <div className="col-lg-2 col-md-12 col-sm-12">
-                                                            {/* <button style={{ alignItems: 'center', width: '100px', backgroundColor: "#c3a177", padding: "10px", position: "absolute", right: "0", top: "0", height: "40px" }} onClick={handleOpenDialog} className="btn">Verify</button> */}
+                                                            {verifying ? 
+                                                            <button  type="button" style={{ alignItems: 'center', width: '100px', backgroundColor: "#c3a177", padding: "10px", position: "absolute", right: "0", top: "0", height: "40px" }}  className="btn">Verifying...</button>
+                                                             : verified ?  <button  type="button" style={{ alignItems: 'center', width: '100px', backgroundColor: "#c3a177", padding: "10px", position: "absolute", right: "0", top: "0", height: "40px" }}  className="btn">Verified</button> : <button  type="button" style={{ alignItems: 'center', width: '100px', backgroundColor: "#c3a177", padding: "10px", position: "absolute", right: "0", top: "0", height: "40px" }} onClick={() => {
+                                                                 var validRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+                                                                 if(!validRegex.test(email) || !email){
+                                                                     addToast("Please provide a valid email", {appearance: "error",autoDismiss: true});
+                                                                     return;
+                                                                 }
+                                                                handleOpenDialog()
+                                                                }} className="btn">Verify</button>}
                                                         </div>
                                                     </div>
 
                                                 </div>
 
 
-                                                <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth={false}>
+                                                <Dialog open={openDialog} onClose={()=>{
+                                                    setOpenDialog(false)
+                                                    setVerifying(false);
+                                                    }} maxWidth="xs" fullWidth={false}>
                                                     <DialogTitle>Enter OTP</DialogTitle>
                                                     <DialogContent>
+                                                        <p style={{color:"green",fontWeight:"bold",padding:"10px"}}>
+                                                        {message}
+                                                            </p>
                                                         <TextField
                                                             autoFocus
                                                             // margin="dense"
                                                             id="otp"
                                                             label="OTP"
                                                             type="text"
+                                                            name="otp"
                                                             value={otp}
-                                                            onChange={(e) => setOtp(e.target.value)}
+                                                            onChange={(e) => {
+                                                                setMessage('')
+                                                                setOtp(e.target.value)
+                                                            }}
                                                         />
                                                     </DialogContent>
                                                     <DialogActions>
-                                                        <Button onClick={handleCloseDialog} color="primary">
+                                                        <Button onClick={()=>{
+                                                            setOpenDialog(false)
+                                                            setVerifying(false);
+                                                            }} color="primary">
                                                             Cancel
                                                         </Button>
-                                                        <Button
+                                                        {loading ? <Button
                                                             color="primary"
+                                                            type="submit"                                                            
+                                                        >
+                                                            Loading...
+                                                        </Button> : <Button
+                                                            color="primary"
+                                                            type="submit"
+                                                            onClick={handleCloseDialog}
                                                         >
                                                             Submit
-                                                        </Button>
+                                                        </Button>}
                                                     </DialogActions>
                                                     <div className="dialog-container">
                                                         <Snackbar

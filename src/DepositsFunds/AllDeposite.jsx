@@ -17,8 +17,8 @@ import { AuthContext } from "../Context/AuthContext";
 function AllDeposite() {
   const { addToast } = useToasts();
   const {getUserDetails} = useContext(AuthContext);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");  
   const [selectedStatus, setSelectedStatus] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10); // Set the initial rowsPerPage to 5
@@ -149,9 +149,30 @@ function AllDeposite() {
     return formattedDate + " " + formattedTime;
   };
 
+  const handleSearch = async () => {
+    try {
+      let result = await getdepositedata({startDate:new Date(fromDate),endDate:new Date(toDate),status:selectedStatus});
+      console.log(result.result, "result");
+      setData(result.result);
+      getUserDetails();
+    } catch (err) {
+      console.log(err, "err");
+      if (err.code == "ERR_NETWORK") {
+        addToast(err.message, { appearance: "error", autoDismiss: true });
+      } else if (err.code == "ERR_BAD_REQUEST") {
+        addToast(err.response.data.error, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      } else if (err.response.status) {
+        addToast(err.response.data, { appearance: "error", autoDismiss: true });
+      }
+    }
+  };
+
   const handlegetdata = async () => {
     try {
-      let result = await getdepositedata();
+      let result = await getdepositedata({startDate:"",endDate:"",status:""});
       console.log(result.result, "result");
       setData(result.result);
       getUserDetails();
@@ -171,6 +192,9 @@ function AllDeposite() {
   };
 
   const handleReset = (e) => {
+    setFromDate("");
+    setToDate("")
+    setSelectedStatus("");
     handlegetdata();
   }
 
@@ -236,8 +260,8 @@ function AllDeposite() {
                               className="form-control t"
                               placeholder="yyyy-mm-dd"
                               name="start_date"
-                              onChange={(e) => setStartDate(e.target.value)}
-                              value={startDate}
+                              onChange={(e) => setFromDate(e.target.value)}
+                              value={fromDate}
                             />
                           </div>
                         </div>
@@ -258,8 +282,9 @@ function AllDeposite() {
                               className="form-control "
                               placeholder="yyyy-mm-dd"
                               name="end_date"
-                              onChange={(e) => setEndDate(e.target.value)}
-                              value={endDate}
+                              min={fromDate && fromDate}
+                              onChange={(e) => setToDate(e.target.value)}
+                              value={toDate}
                             />
                           </div>
                         </div>
@@ -297,10 +322,10 @@ function AllDeposite() {
                           value={selectedStatus}
                           onChange={(e) => setSelectedStatus(e.target.value)}
                         >
-                          <option value> ----Select---- </option>
-                          <option> Pending </option>
-                          <option>Reject</option>
-                          <option>Approve</option>
+                          <option value=""> ----Select---- </option>
+                          <option value="0"> Pending </option>
+                          <option value="1">Approve</option>
+                          <option value="2">Reject</option>
                         </select>
                       </div>
 
@@ -315,6 +340,8 @@ function AllDeposite() {
                                 backgroundColor: "rgb(195 161 119)",
                               }}
                               className="btn btn-primary"
+                              type="button"
+                              onClick={handleSearch}
                             >
                               Search Now
                             </button>

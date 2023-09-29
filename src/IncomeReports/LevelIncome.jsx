@@ -80,13 +80,40 @@ function LevelIncome() {
         }
       });
     };
-  
+
+    const handleSearch = async () => {
+      let token = localStorage.getItem("authToken");
+      if (!token) return;
+      try {
+        setLoadings(true);        
+        let result = await getLevelData({startDate:new Date(startDate),endDate:new Date(endDate),keywords:searchQuery});
+        setLoadings(false);        
+        setData(result.result);
+      } catch (err) {
+        
+        setLoadings(false);
+        if (err.code == "ERR_NETWORK") {
+          addToast(err.message, { appearance: "error", autoDismiss: true });
+        } else if (err.code == "ERR_BAD_REQUEST") {
+          addToast(err.response.data.error, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        } else if (err.response.status) {
+          addToast(err.response.data.error, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      }
+    };
+    
     const getallusers = async () => {
       let token = localStorage.getItem("authToken");
       if (!token) return;
       try {
         setLoadings(true);        
-        let result = await getLevelData();
+        let result = await getLevelData({startDate:"",endDate:"",keywords:""});
         setLoadings(false);        
         setData(result.result);
       } catch (err) {
@@ -161,11 +188,11 @@ function LevelIncome() {
       </span>
     );
   
-    const handleSearch = () => {
-        
-    }
     const handleReset = () => {
-        getallusers();
+      setStartDate("")
+      setEndDate("");
+      setSearchQuery("");
+      getallusers();
     }
     useEffect(() => {
         setTimeout(() => {
@@ -241,7 +268,7 @@ function LevelIncome() {
                                             <br />
                                             <div className="col-md-12 mb-12">
                                                 <center>
-                                                    <button style={{ color: 'black', backgroundColor: 'rgb(195 161 119)' }} className="btn btn-primary" onClick={(e) => handleSearch(e)} >Search Now</button>
+                                                    <button type='button' style={{ color: 'black', backgroundColor: 'rgb(195 161 119)' }} className="btn btn-primary" onClick={(e) => handleSearch(e)} >Search Now</button>
                                                     <button className="btn btn-info" style={{ marginLeft: '20px', background: 'black', color: '#d8af72', border: '1px solid #d8af72' }} type="button" onClick={handleReset}>Reset <span><RotateLeftIcon /></span> </button>
 
                                                 </center>

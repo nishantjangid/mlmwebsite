@@ -75,45 +75,34 @@ function UserTransferHistory() {
     });
   };
 
-  const transferHistoryData = [
-    {
-      id: 1,
-      from: "htxtradex",
-      toUserName: "",
-      toUserID: "",
-      amount: "2500.00 TRX",
-      date: "2023-02-22 12:52 pm",
-    },
-    {
-      id: 2,
-      from: "htxtradex",
-      toUserName: "HTX2653",
-      toUserID: "Krishna",
-      amount: "10000.00 TRX",
-      date: "2023-02-24 04:46 pm",
-    },
-    // Add more data entries as needed
-  ];
-
-  const requestHistoryData = [
-    {
-      id: 1,
-      from: "User A",
-      toUser: "User B",
-      toUserID: "UserID123",
-      amount: "500.00 TRX",
-      date: "2023-02-20 10:30 am",
-    },
-    {
-      id: 2,
-      from: "User B",
-      toUser: "User C",
-      toUserID: "UserID456",
-      amount: "1000.00 TRX",
-      date: "2023-02-25 03:45 pm",
-    },
-    // Add more data entries as needed
-  ];
+  const handleSearch = async () => {
+    let token = localStorage.getItem("authToken");
+    if (!token) return;
+    setLoad(true);
+    try {
+      setTransactions([]);
+      let result = await fundTransferHistory({startDate:new Date(fromDate),endDate:new Date(toDate),keywords:searchQuery});
+      let data = result;
+      setTransactions(data.result);
+      getUserDetails();
+      setLoad(false);
+    } catch (err) {
+      setLoad(false);
+      if (err.code == "ERR_NETWORK" || err.code == "ERR_BAD_REQUEST") {
+        addToast(err.message, { appearance: "error", autoDismiss: true });
+      } else if (err.code == "ERR_BAD_REQUEST") {
+        addToast(err.response.data.error, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      } else if (err.response.status) {
+        addToast(err.response.data.error, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    }
+  };
 
   const getFundHistory = async () => {
     let token = localStorage.getItem("authToken");
@@ -121,7 +110,7 @@ function UserTransferHistory() {
     setLoad(true);
     try {
       setTransactions([]);
-      let result = await fundTransferHistory();
+      let result = await fundTransferHistory({startDate:"",endDate:"",keywords:""});
       let data = result;
       setTransactions(data.result);
       getUserDetails();
@@ -156,38 +145,13 @@ function UserTransferHistory() {
     setToDate(event.target.value);
   };
 
-  const handleSearchClick = () => {
-    const dataToFilter =
-      activeTab === "transfer" ? transferHistoryData : requestHistoryData;
 
-    const filtered = filterData(dataToFilter);
-    setFilteredData(filtered);
-  };
   const handleReset = () => {
     setFromDate("");
     setToDate("");
     setSearchQuery("");
-    setFilteredData([]);
+    getFundHistory();
   };
-  const filterData = (data) => {
-    const startDate = new Date(fromDate);
-    const endDate = new Date(toDate);
-
-    const filtered = data.filter((item) => {
-      const itemDate = new Date(item.date);
-
-      return (
-        (!fromDate || itemDate >= startDate) &&
-        (!toDate || itemDate <= endDate) &&
-        (!searchQuery ||
-          item.from.includes(searchQuery) ||
-          item.toUserName.includes(searchQuery))
-      );
-    });
-
-    return filtered;
-  };
-
   const header = (
     <div className="flex align-items-center justify-content-end gap-2">
       <Button
@@ -296,6 +260,7 @@ function UserTransferHistory() {
                           className="form-control "
                           placeholder="yyyy-mm-dd"
                           name="end_date"
+                          min={fromDate && fromDate}
                           onChange={handleToDateChange}
                           value={toDate}
                         />
@@ -315,7 +280,7 @@ function UserTransferHistory() {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Name, User ID , Mobile No."
+                        placeholder="Name, User ID"
                         name="userid"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -350,8 +315,8 @@ function UserTransferHistory() {
                             backgroundColor: "rgb(195 161 119)",
                           }}
                           className="btn btn-primary"
-                          value="Search"
-                          onClick={handleSearchClick}
+                          value="Search"                          
+                          onClick={handleSearch}
                         >
                           Search Now
                         </button>
