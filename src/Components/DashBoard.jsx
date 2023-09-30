@@ -197,16 +197,16 @@ function DashBoard({ userData }) {
                             <Typography sx={{ display: 'flex', justifyContent: 'space-between', fontSize: '18px' }}>
                                 Your Investment
                                 <div>
-                                    <h3>${userDetail.investmentWallet  > 0 ? userDetail.investmentWallet : 0}</h3>
+                                    <h3>${data.totalinvestment  > 0 ? data.totalinvestment : 0}</h3>
                                 </div>
                             </Typography>
                             <CardContent>
                                 <Typography sx={{ color: 'rgb(240 207 102 / 87 %)' }} variant="body2" color="text.secondary">
-                                    <h4 className='fs-4'>$ {incomeDetails?.totalincome ? incomeDetails?.totalincome : "0"} earned of $ 200</h4>
+                                    <h4 className='fs-4'>$ {data?.totalIncome ? Number(data?.totalIncome).toFixed(4) : "0"} earned of $ {data.totalinvestment  > 0 ? Number(data.totalinvestment)*2 : 0}</h4>
                                 </Typography>
                                 <LinearProgress
                                     variant="determinate"
-                                    value={(incomeDetails?.totalincome / totalAmount) * 1000000}
+                                    value={(data?.totalIncome / (Number(data.totalinvestment)*2)) * 100}
                                     sx={{ borderRadius: '40px', padding: '3px', marginTop: '14px', color: '', background: 'orange' }}
                                 />
                             </CardContent>
@@ -224,17 +224,17 @@ function DashBoard({ userData }) {
                                 Total Investment
 
                                 <div>
-                                    <h3>${userDetail.investmentWallet  > 0 ? userDetail.investmentWallet : 0}</h3>
+                                    <h3>${data.totalinvestment  > 0 ? data.totalinvestment : 0}</h3>
                                 </div>
                             </Typography>
                             <CardMedia sx={{ height: 20 }} />
                             <CardContent>
                                 <Typography sx={{ color: 'rgb(240 207 102 / 87 %)' }} variant="body2" color="text.secondary">
-                                    <h4 className='fs-4'>$ {incomeDetails?.totalincome ? incomeDetails?.totalincome : "0"} earned of $ 6000</h4>
+                                    <h4 className='fs-4'>$ {data?.rewardIncome ? Number(data?.rewardIncome) : "0"} earned of $ 6000</h4>
                                 </Typography>
                                 <LinearProgress
                                     variant="determinate"
-                                    value={(incomeDetails?.totalincome / totalAmount) * 1000000}
+                                    value={(data?.rewardIncome / 6000) * 100}
                                     sx={{ borderRadius: '40px', padding: '3px', marginTop: '14px', color: '#d8af72', background: '#d8af72' }}
                                 />
                             </CardContent>
@@ -564,7 +564,7 @@ function DashBoard({ userData }) {
                                             <div className="col s8">
                                                 <p className="collections-title font-weight-600"><strong>Total Income:-</strong></p>
                                             </div>
-                                            <div className="col s3"><span>{data.length == 0 ? 0 : Number(data.totalRoI) + Number(data.todayROI) + Number(data.levelIncome)}</span></div>
+                                            <div className="col s3"><span>{data.length == 0 ? 0 : Number(data.totalIncome)}</span></div>
                                         </div>
                                     </div>
 

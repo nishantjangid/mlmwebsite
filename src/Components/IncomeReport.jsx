@@ -36,7 +36,7 @@ export default function IncomeReport() {
                 <ListItemText primary="Income Report" />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            {/* <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItemButton onClick={() => navigate('TotalIncome')} sx={{ pl: 4 }}>
                         <ListItemIcon>
@@ -45,8 +45,8 @@ export default function IncomeReport() {
                         <ListItemText primary="Total Income" />
                     </ListItemButton>
                 </List>
-            </Collapse>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            </Collapse> */}
+            {/* <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItemButton onClick={() => navigate('ROIIncome')} sx={{ pl: 4 }}>
                         <ListItemIcon>
@@ -55,7 +55,7 @@ export default function IncomeReport() {
                         <ListItemText primary=" ROI Income" />
                     </ListItemButton>
                 </List>
-            </Collapse>
+            </Collapse> */}
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItemButton onClick={() => navigate('LevelIncome')} sx={{ pl: 4 }}>
@@ -66,7 +66,7 @@ export default function IncomeReport() {
                     </ListItemButton>
                 </List>
             </Collapse>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            {/* <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItemButton onClick={() => navigate('RewardIncome')} sx={{ pl: 4 }}>
                         <ListItemIcon>
@@ -75,7 +75,7 @@ export default function IncomeReport() {
                         <ListItemText primary="  Reward Income" />
                     </ListItemButton>
                 </List>
-            </Collapse>
+            </Collapse> */}
         </List>
     );
 }
